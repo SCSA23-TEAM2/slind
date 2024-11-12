@@ -1,0 +1,41 @@
+.Nav-wrapper {
+  position: fixed;
+  top: 120px;
+  left: 0;
+
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 20px;
+  background-color: white;
+  border-right: 4px solid #f6f6f6;
+  width: 180px;
+  height: 100%;
+}
+.Nav-board {
+  height: 450px;
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  /* overflow-x: hidden; */
+}
+.Nav-board-list {
+  list-style: none;
+  padding-left: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Nav-board-item {
+  height: 45px;
+
+  line-height: 45px;
+  text-decoration: none;
+  color: black;
+}
+
+.Nav-board-item li {
+  white-space: nowrap; /* 한 줄로 표시 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.Nav-board-item:hover {
+  color: #00b890;
+}
