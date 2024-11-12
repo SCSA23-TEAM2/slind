@@ -1,12 +1,14 @@
 import Header from "./components/Header";
+import Login from "./components/Login";
 import Nav from "./components/Nav";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <Header />
-      <Nav />
+      <Login />
+      {/* <Header />
+      <Nav /> */}
     </>
   );
 }
