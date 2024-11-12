@@ -9,4 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+    
 }
