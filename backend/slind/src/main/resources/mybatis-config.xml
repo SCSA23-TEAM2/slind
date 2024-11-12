@@ -9,6 +9,7 @@
     </settings>
     <typeAliases>
         <typeAlias type="com.team2.slind.article.vo.Article" alias="Article"/>
+        <typeAlias type="com.team2.slind.board.vo.Board" alias="Board"/>
 
     </typeAliases>
 
