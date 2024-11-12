@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.slind.board.mapper.BoardMapper">
+<!--    <resultMap id="boardResultMap" type="TblBoard">-->
+<!--        <id property="boardPk" column="board_pk" />-->
+<!--        <result property="memberPk" column="member_pk" />-->
+<!--        <result property="title" column="title" />-->
+<!--        <result property="createdDttm" column="created_dttm" />-->
+<!--        <result property="deletedDttm" column="deleted_dttm" />-->
+<!--        <result property="isDeleted" column="is_deleted" />-->
+<!--    </resultMap>-->
+
+    <insert id="addBoard" parameterType="Board">
+        INSERT INTO tbl_board (board_pk, member_pk, title)
+        VALUES (seq_board_pk.NEXTVAL, #{memberPk}, #{title})
+    </insert>
+    <select id="findByBoardTitle" parameterType="string" resultType="Board">
+        SELECT * FROM tbl_board WHERE title = #{title}
+    </select>
+
+    <update id="deleteByBoardPk" parameterType="Long">
+        UPDATE tbl_board
+        SET is_deleted = 1, deleted_dttm = SYSDATE
+        WHERE board_pk = #{boardPk}
+    </update>
+</mapper>
