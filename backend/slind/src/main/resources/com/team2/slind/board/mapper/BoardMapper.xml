@@ -11,6 +11,10 @@
         SELECT * FROM tbl_board WHERE title = #{title}
     </select>
 
+    <select id="findByBoardPk" parameterType="Long" resultType="Board">
+        SELECT * FROM tbl_board WHERE board_pk = #{boardPk}
+    </select>
+
     <update id="deleteByBoardPk" parameterType="Long">
         UPDATE tbl_board
         SET is_deleted = 1, deleted_dttm = SYSDATE

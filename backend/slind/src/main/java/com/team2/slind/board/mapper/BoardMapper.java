@@ -9,4 +9,5 @@ public interface BoardMapper {
     void addBoard(Board board);
     Optional<Board> findByBoardTitle(String boardTitle);
     Long deleteByBoardPk(Long boardPk);
+    Optional<Board> findByBoardPk(Long boardPk);
 }

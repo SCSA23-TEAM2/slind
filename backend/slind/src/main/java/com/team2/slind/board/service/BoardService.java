@@ -5,6 +5,7 @@ import com.team2.slind.board.mapper.BoardMapper;
 import com.team2.slind.board.vo.Board;
 import com.team2.slind.common.exception.BoardNotFoundException;
 import com.team2.slind.common.exception.DuplicateTitleException;
+import com.team2.slind.common.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,11 @@ public class BoardService {
     }
 
     public ResponseEntity deleteBoard(Long boardPk) {
+        Board board = boardMapper.findByBoardPk(boardPk).orElseThrow(()->
+                new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND));
+        if (board.getMemberPk()!=memberPk){
+            throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_DELETE_BOARD);
+        }
         Long result = boardMapper.deleteByBoardPk(boardPk);
         if (result == 0L){
             throw new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND);
