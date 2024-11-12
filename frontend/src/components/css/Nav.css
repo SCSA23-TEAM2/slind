@@ -11,6 +11,13 @@
   width: 180px;
   height: 100%;
 }
+.Nav-search input {
+  width: 160px;
+  padding: 10px;
+  background-color: #f6f6f6;
+  border: 1px solid #f6f6f6;
+  border-radius: 5px;
+}
 .Nav-board {
   height: 450px;
   overflow-y: auto; /* 세로 스크롤 활성화 */
