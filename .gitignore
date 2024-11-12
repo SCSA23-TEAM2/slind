@@ -277,4 +277,4 @@ $RECYCLE.BIN/
 .gitmessage.txt
 
 # Frontend React
-/node_modules
+/frontend/node_modules
