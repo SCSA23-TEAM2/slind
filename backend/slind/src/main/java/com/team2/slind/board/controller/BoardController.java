@@ -1,10 +1,13 @@
 package com.team2.slind.board.controller;
 
 import com.team2.slind.board.dto.request.BoardCreateRequest;
+import com.team2.slind.board.dto.response.BoardResponse;
 import com.team2.slind.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/board")
@@ -19,7 +22,7 @@ public class BoardController {
 
     }
 
-    @GetMapping
+    @GetMapping("/check")
     public ResponseEntity checkDuplicateTitle(@RequestParam("title") String title) {
         return boardService.checkDuplicateBoard(title);
     }
@@ -28,6 +31,12 @@ public class BoardController {
     public ResponseEntity deleteBoard(@PathVariable("boardPk") Long boardPk) {
         return boardService.deleteBoard(boardPk);
     }
+
+    @GetMapping
+    public ResponseEntity<List<BoardResponse>> getBoardList() {
+        return boardService.getBoardList();
+    }
+
 
 
 

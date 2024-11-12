@@ -20,4 +20,8 @@
         SET is_deleted = 1, deleted_dttm = SYSDATE
         WHERE board_pk = #{boardPk}
     </update>
+
+    <select id="findAllBoards" resultType="Board">
+        SELECT * FROM tbl_board
+    </select>
 </mapper>

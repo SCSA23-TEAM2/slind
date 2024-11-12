@@ -1,6 +1,7 @@
 package com.team2.slind.board.service;
 
 import com.team2.slind.board.dto.request.BoardCreateRequest;
+import com.team2.slind.board.dto.response.BoardResponse;
 import com.team2.slind.board.mapper.BoardMapper;
 import com.team2.slind.board.vo.Board;
 import com.team2.slind.common.exception.BoardNotFoundException;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,5 +55,13 @@ public class BoardService {
         }
         return ResponseEntity.ok().build();
 
+    }
+
+    public ResponseEntity<List<BoardResponse>> getBoardList(){
+        List<BoardResponse> responseList = boardMapper.findAllBoards().stream().map(board ->
+                BoardResponse.builder().boardPk(board.getBoardPk()).boardTitle(board.getTitle()).build())
+                .toList();
+
+        return ResponseEntity.ok().body(responseList);
     }
 }
