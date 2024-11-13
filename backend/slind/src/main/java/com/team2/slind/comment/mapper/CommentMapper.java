@@ -11,4 +11,5 @@ public interface CommentMapper {
     Integer createComment(Long memberPk, Long articlePk, String commentContent);
     Integer updateComment(Long memberPk, Long commentPk, String commentContent);
     Integer deleteComment(Long memberPk, Long commentPk, String deleteMessage);
+    Integer createRecomment(Long memberPk, Long originateComment, String commentContent);
 }

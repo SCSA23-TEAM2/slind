@@ -7,6 +7,10 @@
         INSERT INTO tbl_comment (comment_pk, article_pk, member_pk, comment_content)
         VALUES (seq_comment_pk.NEXTVAL, #{articlePk}, #{memberPk}, #{commentContent})
     </insert>
+    <insert id="createRecomment">
+        INSERT INTO tbl_comment (comment_pk, member_pk, comment_content, originate_comment)
+        VALUES (seq_comment_pk.NEXTVAL, #{memberPk}, #{commentContent}, #{originateComment})
+    </insert>
     <update id="updateComment">
         UPDATE tbl_comment
         SET comment_content = #{commentContent}
