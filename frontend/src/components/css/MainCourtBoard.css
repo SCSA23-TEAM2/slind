@@ -1,21 +1,9 @@
-.generalBoard-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  /* background-color: aqua; */
-}
-.generalBoard-wrapper {
-  width: 1000px;
-  height: 600px;
+.mainCourtBoard-wrapper {
   position: relative;
   top: 120px;
   left: 280px;
-  /* overflow-y: auto; */
-  /* background-color: white; */
-  /* border: 3px solid #00b890; */
+  width: 800px;
+  border-top: 1px solid #f6f6f6;
 }
 .board-header {
   display: flex;
@@ -23,24 +11,6 @@
   justify-content: space-between;
   border-bottom: 3px solid #f6f6f6;
 }
-.board-name {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.boardButton {
-  display: flex;
-  gap: 20px;
-}
-.boardButton button {
-  cursor: pointer;
-  padding: 15px;
-  color: white;
-  background-color: #00b890;
-  border: none;
-  border-radius: 5px;
-}
-
 .board-item-wrapper ul {
   list-style: none;
   padding-left: 0px;
@@ -60,6 +30,15 @@
   white-space: nowrap; /* 한 줄로 표시 */
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 11px;
+}
+.item-board-name a {
+  text-decoration: none;
+  color: black;
+}
+.item-board-name a:hover {
+  color: #00b890;
+  text-decoration: underline;
 }
 .item-title a {
   text-decoration: none;
@@ -90,19 +69,4 @@
 }
 .item-imoji-count {
   color: #a7a9ad;
-}
-.board-bottom-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.board-pagenation {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.sort {
-  display: flex;
-  align-items: center;
-  gap: 20px;
 }

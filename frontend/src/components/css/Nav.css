@@ -10,6 +10,12 @@
   border-right: 4px solid #f6f6f6;
   width: 180px;
   height: 100%;
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+}
+.Nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 .Nav-search input {
   width: 160px;
@@ -18,11 +24,10 @@
   border: 1px solid #f6f6f6;
   border-radius: 5px;
 }
-.Nav-board {
-  height: 450px;
-  overflow-y: auto; /* 세로 스크롤 활성화 */
-  /* overflow-x: hidden; */
-}
+/* .Nav-board { */
+/* height: 450px; */
+/* overflow-x: hidden; */
+/* } */
 .Nav-board-list {
   list-style: none;
   padding-left: 0px;

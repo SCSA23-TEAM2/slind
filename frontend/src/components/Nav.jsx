@@ -1,5 +1,6 @@
 import "./css/Nav.css";
 import { useState } from "react";
+import BookMark from "./icon/BookMark";
 const Nav = () => {
   const mockitem1 = {
     boardPk: 1,
@@ -20,6 +21,14 @@ const Nav = () => {
   wholeMock.push(mockitem1);
   wholeMock.push(mockitem2);
   wholeMock.push(mockitem3);
+  wholeMock.push(mockitem3);
+  wholeMock.push(mockitem3);
+  wholeMock.push(mockitem3);
+  wholeMock.push(mockitem3);
+  wholeMock.push(mockitem3);
+  wholeMock.push(mockitem3);
+  wholeMock.push(mockitem3);
+  wholeMock.push(mockitem3);
   const [boardList, setBoardList] = useState(wholeMock);
   // const [inputBoard, setInputBoard] = useState("");
   const onChange = (e) => {
@@ -36,6 +45,21 @@ const Nav = () => {
   // }, [inputBoard]);
   return (
     <div className="Nav-wrapper">
+      <div className="Nav-header">
+        <div className="Bookmark-icon">
+          <BookMark />
+        </div>
+        <h2>즐겨찾기</h2>
+      </div>
+      <div className="Nav-board">
+        <ul className="Nav-board-list">
+          {boardList.map((item) => (
+            <a key={item.boardPk} className="Nav-board-item" href="">
+              <li>{item.boardTitle}</li>
+            </a>
+          ))}
+        </ul>
+      </div>
       <div className="Nav-header">
         <h2>게시판</h2>
       </div>
@@ -54,159 +78,6 @@ const Nav = () => {
               <li>{item.boardTitle}</li>
             </a>
           ))}
-          {/* <a className="Nav-board-item" href="">
-            <li>도레미</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도레미파솔라시도</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>
-              도레미파솔라시도도레미파솔라시도도레미파솔라시도도레미파솔라시
-            </li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도레미</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도레미파솔라시도</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>
-              도레미파솔라시도도레미파솔라시도도레미파솔라시도도레미파솔라시
-            </li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도레미</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도레미파솔라시도</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>
-              도레미파솔라시도도레미파솔라시도도레미파솔라시도도레미파솔라시
-            </li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도레미</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>도레미파솔라시도</li>
-          </a>
-          <a className="Nav-board-item" href="">
-            <li>
-              도레미파솔라시도도레미파솔라시도도레미파솔라시도도레미파솔라시
-            </li>
-          </a> */}
-          {/* <li className="Nav-board-item">
-            <a href="">도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">
-              도레미파솔라시도도레미파솔라시도도레미파솔라시도도레미파솔라시도
-            </a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">
-              도레미파솔라시도도레미파솔라시도도레미파솔라시도도레미파솔라시도
-            </a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">
-              도레미파솔라시도도레미파솔라시도도레미파솔라시도도레미파솔라시도
-            </a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">
-              도레미파솔라시도도레미파솔라시도도레미파솔라시도도레미파솔라시도
-            </a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도레미파솔라시도도레미파솔라시도</a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">
-              도레미파솔라시도도레미파솔라시도도레미파솔라시도도레미파솔라시도
-            </a>
-          </li>
-          <li className="Nav-board-item">
-            <a href="">도</a>
-          </li> */}
         </ul>
       </div>
     </div>

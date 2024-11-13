@@ -1,12 +1,18 @@
 import "./css/GeneralBoard.css";
+
+import { useState } from "react";
 import BoardIcon from "./icon/BoardIcon";
 import Like from "./icon/Like";
 import DisLike from "./icon/DisLike";
 import Comment from "./icon/Comment";
 import View from "./icon/View";
 import Pagenation from "./Pagenation";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 const GeneralBoard = () => {
+  const options = { 최신순: 0, 조회순: 1, 좋아요순: 2 };
+  const [curOption, setCurOption] = useState("정렬기준");
   const Mock = {
     articlePk: 1,
     boardPk: 1,
@@ -23,7 +29,7 @@ const GeneralBoard = () => {
         <div className="board-header">
           <div className="board-name">
             <div className="boardIcon">
-              <BoardIcon />
+              <BoardIcon prop={40} />
             </div>
             <h1>{Mock.boardName}</h1>
           </div>
@@ -31,7 +37,17 @@ const GeneralBoard = () => {
           <div className="boardButton">
             {/* 회원이 아니면 안보일 것 */}
             <div className="sort">
-              <div className="sort-option"></div>
+              <div className="sort-option">
+                <Dropdown
+                  options={Object.keys(options)}
+                  onChange={(e) => {
+                    console.log(options[e.value]);
+                    setCurOption(e.value);
+                  }}
+                  value={curOption}
+                  placeholder="정렬 기준"
+                />
+              </div>
               <div className="sort-button">
                 <button>정렬</button>
               </div>
