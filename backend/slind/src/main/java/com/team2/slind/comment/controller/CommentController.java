@@ -59,4 +59,10 @@ public class CommentController {
         return commentService.updateComment(memberPk, commentPk, content);
     }
 
+    @DeleteMapping("/auth/{commentPk}")
+    public ResponseEntity<Void> deleteComment(
+            @PathVariable Long commentPk
+            ) {
+        return commentService.deleteComment(memberPk, commentPk);
+    }
 }

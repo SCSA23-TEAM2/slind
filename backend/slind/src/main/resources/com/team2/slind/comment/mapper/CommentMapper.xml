@@ -12,6 +12,13 @@
         SET comment_content = #{commentContent}
         WHERE comment_pk = #{commentPk}
     </update>
+    <delete id="deleteComment">
+        UPDATE tbl_comment
+        SET is_deleted = 1,
+        deleted_dttm = SYSDATE,
+        comment_content = #{deleteMessage}
+        WHERE comment_pk = #{commentPk}
+    </delete>
     <select id="findByPk" resultType="Comment" parameterType="Long">
         SELECT * FROM tbl_comment WHERE comment_pk=#{pk}
     </select>
