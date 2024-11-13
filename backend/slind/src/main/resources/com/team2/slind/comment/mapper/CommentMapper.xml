@@ -24,4 +24,22 @@
         )
         WHERE ROWNUM <![CDATA[<=]]> #{fetchCount} + 1
     </select>
+    <select id="getBestCommentList" resultType="com.team2.slind.comment.dto.response.CommentResponse">
+        SELECT * FROM (
+            SELECT
+                c.comment_pk,
+                c.member_pk,
+                m.nickname,
+                c.comment_content,
+                c.like_count,
+                c.dislike_count,
+                c.is_deleted
+            FROM tbl_comment c
+            JOIN tbl_member m ON c.member_pk = m.member_pk
+            WHERE c.article_pk = #{articlePk}
+            AND c.like_count > 0
+            ORDER BY c.like_count DESC
+        )
+        WHERE ROWNUM <![CDATA[<=]]> #{fetchCount}
+    </select>
 </mapper>
