@@ -4,12 +4,18 @@ import com.team2.slind.comment.dto.response.CommentListResponse;
 import com.team2.slind.comment.dto.response.CommentResponse;
 import com.team2.slind.comment.mapper.CommentMapper;
 import com.team2.slind.comment.mapper.CommentReactionMapper;
+import com.team2.slind.comment.vo.Comment;
+import com.team2.slind.common.exception.AlreadyDeletedException;
+import com.team2.slind.common.exception.CommentNotFoundException;
+import com.team2.slind.common.exception.ContentException;
+import com.team2.slind.common.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -100,5 +106,26 @@ public class CommentService {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @Transactional
+    public ResponseEntity<Void> updateRecomment(Long memberPk, Long commentPk, String content) {
+        Comment comment = commentMapper.findByPk(commentPk).orElseThrow(
+                () -> new CommentNotFoundException(CommentNotFoundException.COMMENT_NOT_FOUND)
+        );
+        if (!Objects.equals(comment.getMemberPk(), memberPk)) {
+            throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_UPDATE_COMMENT);
+        } else if (content == null || content.trim().isEmpty()) {
+            throw new ContentException(ContentException.EMPTY_CONTENT);
+        } else if (content.length() > 1000) {
+            throw new ContentException(ContentException.CONTENT_TOO_LONG);
+        } else if (comment.getIsDeleted().equals(1)) {
+            throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_COMMENT);
+        }
+        Long result = commentMapper.updateRecomment(memberPk, commentPk, content);
+        if (result == 0L) {
+            throw new CommentNotFoundException(CommentNotFoundException.COMMENT_NOT_FOUND);
+        }
+        return ResponseEntity.ok().build();
     }
 }

@@ -3,6 +3,7 @@ package com.team2.slind.comment.controller;
 import com.team2.slind.comment.dto.request.CommentCreateRequest;
 import com.team2.slind.comment.dto.request.CommentUpdateRequest;
 import com.team2.slind.comment.dto.request.RecommentCreateRequest;
+import com.team2.slind.comment.dto.request.RecommentUpdateRequest;
 import com.team2.slind.comment.dto.response.CommentListResponse;
 import com.team2.slind.comment.dto.response.CommentResponse;
 import com.team2.slind.comment.service.CommentService;
@@ -67,6 +68,15 @@ public class CommentController {
         Long commentPk = request.getCommentPk();
         String content = request.getContent();
         return commentService.updateComment(memberPk, commentPk, content);
+    }
+
+    @PutMapping("/auth/re")
+    public ResponseEntity<Void> updateRecomment(
+            @RequestBody RecommentUpdateRequest request
+            ) {
+        Long commentPk = request.getCommentPk();
+        String content = request.getContent();
+        return commentService.updateRecomment(memberPk, commentPk, content);
     }
 
     @DeleteMapping("/auth/{commentPk}")
