@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentCreateRequest {
-    Long articlePk;
-    String comment;
+public class CommentUpdateRequest {
+    Long commentPk;
+    String content;
 }
