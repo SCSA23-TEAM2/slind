@@ -29,4 +29,15 @@ public class CommentService {
         }
         return ResponseEntity.ok(response);
     }
+
+    public ResponseEntity<List<CommentResponse>> getBestCommentList(Long articlePk, int fetchCount) {
+        List<CommentResponse> comment = commentMapper.getBestCommentList(articlePk, fetchCount);
+        System.out.println(comment);
+        for (CommentResponse commentResponse : comment) {
+            commentResponse.setIsLike(false);
+            commentResponse.setIsDislike(false);
+            commentResponse.setIsMine(false);
+        }
+        return ResponseEntity.ok(comment);
+    }
 }
