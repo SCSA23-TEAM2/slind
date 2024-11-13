@@ -10,7 +10,7 @@
             <id property="boardPk" column="board_pk"/>
             <result property="title" column="board_title"/>
         </association>
-        <collection property="comments" javaType="List" ofType="Commnet">
+        <collection property="comments" javaType="List" ofType="Comment">
             <id property="commentPk" column="comment_pk"/>
         </collection>
     </resultMap>
