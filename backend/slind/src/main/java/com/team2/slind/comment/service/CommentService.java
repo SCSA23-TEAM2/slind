@@ -72,4 +72,14 @@ public class CommentService {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    public ResponseEntity<Void> updateComment(Long memberPk, Long commentPk, String content) {
+        try {
+            commentMapper.updateComment(memberPk, commentPk, content);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
