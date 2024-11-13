@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleCreateRequest {
-    private Long boardPk;
-    private String title;
-    private String articleContent;
+public class ArticleUpdateRequest {
+    Long articlePk;
+    String title;
+    String articleContent;
+
 }

@@ -17,8 +17,16 @@
 
     <insert id="saveArticle" parameterType="Article" >
         INSERT INTO tbl_article (article_pk, board_pk, member_pk, title, article_content)
-        VALUES (seq_article_pk.NEXTVAL, #{boardPk}, #{memberPk}, #{title}, #{articleContent})
+        VALUES (seq_article_pk.NEXTVAL, #{articleBoard.boardPk}, #{memberPk}, #{title}, #{articleContent})
     </insert>
+    <update id="updateArticle" parameterType="Article">
+        UPDATE tbl_article
+        SET
+        title = #{title},
+        article_content = #{articleContent}
+        WHERE
+        article_pk = #{articlePk}
+    </update>
     <select id="findCreatedArticlePk" resultType="Long">
         SELECT seq_article_pk.CURRVAL FROM DUAL
     </select>
@@ -38,5 +46,6 @@
         ORDER BY created_dttm DESC
         FETCH FIRST 10 ROWS ONLY
         )
+        ORDER BY a.created_dttm DESC
     </select>
 </mapper>
