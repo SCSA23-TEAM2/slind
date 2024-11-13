@@ -7,6 +7,7 @@ import com.team2.slind.comment.mapper.CommentReactionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -60,5 +61,15 @@ public class CommentService {
         response.setList(comments);
         // TODO: Implement user part
         return ResponseEntity.ok(response);
+    }
+
+    @Transactional
+    public ResponseEntity<Void> createComment(Long memberPk, Long articlePk, String content) {
+        try {
+            commentMapper.createComment(memberPk, articlePk, content);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

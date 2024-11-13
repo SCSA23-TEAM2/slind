@@ -1,5 +1,6 @@
 package com.team2.slind.comment.controller;
 
+import com.team2.slind.comment.dto.request.CommentCreateRequest;
 import com.team2.slind.comment.dto.response.CommentListResponse;
 import com.team2.slind.comment.dto.response.CommentResponse;
 import com.team2.slind.comment.service.CommentService;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
+    private static final Long memberPk = 1L;
 
     @GetMapping("/{articlePk}")
     public ResponseEntity<CommentListResponse> getCommentList(
@@ -36,5 +38,14 @@ public class CommentController {
             @RequestParam(value = "lastCommentPk") Long lastCommentPk
             ) {
         return commentService.getRecomment(commentPk, lastCommentPk, 1);
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<Void> createComment(
+            @RequestBody CommentCreateRequest request
+            ) {
+        Long articlePk = request.getArticlePk();
+        String content = request.getContent();
+        return commentService.createComment(memberPk, articlePk, content);
     }
 }
