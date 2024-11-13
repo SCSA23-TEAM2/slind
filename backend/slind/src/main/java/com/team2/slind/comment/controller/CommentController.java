@@ -2,6 +2,7 @@ package com.team2.slind.comment.controller;
 
 import com.team2.slind.comment.dto.request.CommentCreateRequest;
 import com.team2.slind.comment.dto.request.CommentUpdateRequest;
+import com.team2.slind.comment.dto.request.RecommentCreateRequest;
 import com.team2.slind.comment.dto.response.CommentListResponse;
 import com.team2.slind.comment.dto.response.CommentResponse;
 import com.team2.slind.comment.service.CommentService;
@@ -48,6 +49,15 @@ public class CommentController {
         Long articlePk = request.getArticlePk();
         String content = request.getComment();
         return commentService.createComment(memberPk, articlePk, content);
+    }
+
+    @PostMapping("/auth/re")
+    public ResponseEntity<Void> createRecomment(
+            @RequestBody RecommentCreateRequest request
+            ) {
+        Long commentPk = request.getOriginateComment();
+        String content = request.getContent();
+        return commentService.createRecomment(memberPk, commentPk, content);
     }
 
     @PutMapping("/auth")

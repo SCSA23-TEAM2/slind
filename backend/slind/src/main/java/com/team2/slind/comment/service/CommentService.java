@@ -92,4 +92,13 @@ public class CommentService {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    public ResponseEntity<Void> createRecomment(Long memberPk, Long commentPk, String content) {
+        try {
+            commentMapper.createRecomment(memberPk, commentPk, content);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
