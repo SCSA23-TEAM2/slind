@@ -13,6 +13,73 @@
   top: 150px;
   left: 280px;
   background-color: white;
-  border-radius: 10px;
   border: 3px solid #00b890;
+}
+.board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid #f6f6f6;
+}
+.board-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.boardButton {
+  display: flex;
+  gap: 20px;
+}
+.boardButton button {
+  cursor: pointer;
+  padding: 15px;
+  color: white;
+  background-color: #00b890;
+  border: none;
+  border-radius: 5px;
+}
+
+.board-item-wrapper ul {
+  list-style: none;
+  padding-left: 0px;
+}
+.board-item-content {
+  flex: 1;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #f6f6f6;
+}
+.item-board-name {
+  flex: 0.2;
+  text-align: left;
+  margin-left: 10px;
+  color: gray;
+}
+.item-title a {
+  text-decoration: none;
+  color: black;
+}
+.item-title {
+  flex: 0.5;
+}
+.item-title a:hover {
+  color: #00b890;
+  text-decoration: underline;
+}
+.item-imoji-wrapper {
+  flex: 0.3;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.item-imoji-wrapper .item-imoji-content {
+  /* flex: 0.25; */
+  width: 70px;
+  gap: 5px;
+  display: flex;
+  align-items: center;
+}
+.item-imoji-count {
+  color: #a7a9ad;
 }
