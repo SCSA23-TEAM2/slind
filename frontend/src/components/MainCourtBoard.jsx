@@ -24,6 +24,11 @@ const MainCourtBoard = () => {
           </div>
           <h3>인민 재판소</h3>
         </div>
+        <div className="board-detail">
+          <div>
+            <a href="">더보기</a>
+          </div>
+        </div>
       </div>
       <div className="board-item-wrapper">
         <ul>
