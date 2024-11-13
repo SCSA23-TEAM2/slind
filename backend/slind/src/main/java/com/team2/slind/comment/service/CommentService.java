@@ -128,4 +128,20 @@ public class CommentService {
         }
         return ResponseEntity.ok().build();
     }
+
+    public ResponseEntity<Void> deleteRecomment(Long memberPk, Long commentPk) {
+        Comment comment = commentMapper.findByPk(commentPk).orElseThrow(
+                () -> new CommentNotFoundException(CommentNotFoundException.COMMENT_NOT_FOUND)
+        );
+        if (!Objects.equals(comment.getMemberPk(), memberPk)) {
+            throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_DELETE_COMMENT);
+        } else if (comment.getIsDeleted().equals(1)) {
+            throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_COMMENT);
+        }
+        Long result = commentMapper.deleteComment(memberPk, commentPk, "삭제된 댓글입니다.");
+        if (result == 0L) {
+            throw new CommentNotFoundException(CommentNotFoundException.COMMENT_NOT_FOUND);
+        }
+        return ResponseEntity.ok().build();
+    }
 }
