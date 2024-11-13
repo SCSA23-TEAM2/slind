@@ -82,4 +82,14 @@ public class CommentService {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    public ResponseEntity<Void> deleteComment(Long memberPk, Long commentPk) {
+        try {
+            commentMapper.deleteComment(memberPk, commentPk, "삭제된 댓글입니다.");
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

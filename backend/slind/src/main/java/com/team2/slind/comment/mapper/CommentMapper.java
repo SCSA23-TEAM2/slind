@@ -10,4 +10,5 @@ public interface CommentMapper {
     List<CommentResponse> getRecommentList(Long originateComment, Long lastCommentPk, int fetchCount);
     Integer createComment(Long memberPk, Long articlePk, String commentContent);
     Integer updateComment(Long memberPk, Long commentPk, String commentContent);
+    Integer deleteComment(Long memberPk, Long commentPk, String deleteMessage);
 }
