@@ -30,6 +30,12 @@ const GeneralBoard = () => {
 
           <div className="boardButton">
             {/* 회원이 아니면 안보일 것 */}
+            <div className="sort">
+              <div className="sort-option"></div>
+              <div className="sort-button">
+                <button>정렬</button>
+              </div>
+            </div>
             <button>소송하기</button>
             <button>글쓰기</button>
           </div>
@@ -351,11 +357,7 @@ const GeneralBoard = () => {
           </ul>
         </div>
         <div className="board-bottom-wrapper">
-          <div className="sort">
-            <div className="sort-option"></div>
-            <div className="sort-button"></div>
-          </div>
-          <div className="board-paganation">
+          <div className="board-pagenation">
             <Pagenation />
           </div>
         </div>
