@@ -1,17 +1,14 @@
 package com.team2.slind.board.vo;
 
 import com.team2.slind.common.basevo.BaseVO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
+@Getter @ToString
 public class Board extends BaseVO {
     private Long boardPk;
     private Long memberPk;
