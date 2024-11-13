@@ -26,4 +26,8 @@ public class Article extends BaseVO {
     private Integer viewCount;
     private List<Comment> comments;
 
+    public void update(String title, String articleContent) {
+        this.title = title;
+        this.articleContent = articleContent;
+    }
 }
