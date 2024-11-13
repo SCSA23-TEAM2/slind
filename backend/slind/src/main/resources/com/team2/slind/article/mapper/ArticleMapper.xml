@@ -27,6 +27,12 @@
         WHERE
         article_pk = #{articlePk}
     </update>
+    <update id="deleteArticle" parameterType="Long">
+        UPDATE tbl_article
+        SET is_deleted = 1, deleted_dttm = SYSDATE
+        WHERE article_pk = #{articlePk}
+
+    </update>
     <select id="findCreatedArticlePk" resultType="Long">
         SELECT seq_article_pk.CURRVAL FROM DUAL
     </select>
@@ -43,6 +49,7 @@
         WHERE a.article_pk IN (
         SELECT article_pk
         FROM tbl_article
+        WHERE is_deleted =0
         ORDER BY created_dttm DESC
         FETCH FIRST 10 ROWS ONLY
         )

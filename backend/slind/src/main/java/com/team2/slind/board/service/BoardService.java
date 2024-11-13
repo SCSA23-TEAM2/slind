@@ -4,6 +4,7 @@ import com.team2.slind.board.dto.request.BoardCreateRequest;
 import com.team2.slind.board.dto.response.BoardResponse;
 import com.team2.slind.board.mapper.BoardMapper;
 import com.team2.slind.board.vo.Board;
+import com.team2.slind.common.exception.AlreadyDeletedException;
 import com.team2.slind.common.exception.BoardNotFoundException;
 import com.team2.slind.common.exception.DuplicateTitleException;
 import com.team2.slind.common.exception.UnauthorizedException;
@@ -21,7 +22,7 @@ public class BoardService {
     private final BoardMapper boardMapper;
     static Long memberPk = 1L;
 
-    public ResponseEntity createBoard(BoardCreateRequest boardCreateRequest) {
+    public ResponseEntity<Void> createBoard(BoardCreateRequest boardCreateRequest) {
         String title = boardCreateRequest.getTitle();
         if (checkDuplicate(title)){
             throw new DuplicateTitleException(DuplicateTitleException.DUPLICATE_BOARD_TITLE);
@@ -31,7 +32,7 @@ public class BoardService {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity checkDuplicateBoard(String title) {
+    public ResponseEntity<Void> checkDuplicateBoard(String title) {
         if (checkDuplicate(title)){
             throw new DuplicateTitleException(DuplicateTitleException.DUPLICATE_BOARD_TITLE);
         }
@@ -43,15 +44,15 @@ public class BoardService {
         return board.isPresent();
     }
 
-    public ResponseEntity deleteBoard(Long boardPk) {
+    public ResponseEntity<Void> deleteBoard(Long boardPk) {
         Board board = boardMapper.findByBoardPk(boardPk).orElseThrow(()->
                 new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND));
-        if (board.getMemberPk()!=memberPk){
+        if (!board.getMemberPk().equals(memberPk)){
             throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_DELETE_BOARD);
         }
         Long result = boardMapper.deleteByBoardPk(boardPk);
         if (result == 0L){
-            throw new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND);
+            throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_BOARD);
         }
         return ResponseEntity.ok().build();
 

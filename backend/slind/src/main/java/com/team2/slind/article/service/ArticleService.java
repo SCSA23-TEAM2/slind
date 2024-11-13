@@ -8,10 +8,7 @@ import com.team2.slind.article.mapper.ArticleMapper;
 import com.team2.slind.article.vo.Article;
 import com.team2.slind.board.mapper.BoardMapper;
 import com.team2.slind.board.vo.Board;
-import com.team2.slind.common.exception.ArticleNotFoundException;
-import com.team2.slind.common.exception.ArticleNullException;
-import com.team2.slind.common.exception.BoardNotFoundException;
-import com.team2.slind.common.exception.UnauthorizedException;
+import com.team2.slind.common.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -86,11 +83,26 @@ public class ArticleService {
                 new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND)
         );
 
-        if (article.getMemberPk() != memberPk) {
-            throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_UPDATE_ARTICE);
+        if (!article.getMemberPk().equals(memberPk)) {
+            throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_UPDATE_ARTICLE);
         }
         article.update(articleUpdateRequest.getTitle(), articleUpdateRequest.getArticleContent());
         articleMapper.updateArticle(article);
         return ResponseEntity.ok().body(new ArticlePkResponse(articlePk));
+    }
+    @Transactional
+    public ResponseEntity<Void> deleteArticle(Long articlePk, Long memberPk) {
+        Article article = articleMapper.findByPk(articlePk).orElseThrow(()->
+        new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
+
+        if (!article.getMemberPk().equals(memberPk)) {
+            throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_DELETE_ARTICLE);
+        }
+        Long result = articleMapper.deleteArticle(articlePk);
+        if (result==0L){
+            throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_ARTICLE);
+        }
+        return ResponseEntity.ok().build();
+
     }
 }

@@ -18,7 +18,7 @@
     <update id="deleteByBoardPk" parameterType="Long">
         UPDATE tbl_board
         SET is_deleted = 1, deleted_dttm = SYSDATE
-        WHERE board_pk = #{boardPk}
+        WHERE board_pk = #{boardPk} and is_deleted = 0
     </update>
 
     <select id="findAllBoards" resultType="Board">

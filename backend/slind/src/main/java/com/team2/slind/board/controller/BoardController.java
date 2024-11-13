@@ -17,18 +17,18 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public ResponseEntity createBoard(@RequestBody BoardCreateRequest boardCreateRequest) {
+    public ResponseEntity<Void> createBoard(@RequestBody BoardCreateRequest boardCreateRequest) {
         return boardService.createBoard(boardCreateRequest);
 
     }
 
     @GetMapping("/check")
-    public ResponseEntity checkDuplicateTitle(@RequestParam("title") String title) {
+    public ResponseEntity<Void> checkDuplicateTitle(@RequestParam("title") String title) {
         return boardService.checkDuplicateBoard(title);
     }
 
     @DeleteMapping("/{boardPk}")
-    public ResponseEntity deleteBoard(@PathVariable("boardPk") Long boardPk) {
+    public ResponseEntity<Void> deleteBoard(@PathVariable("boardPk") Long boardPk) {
         return boardService.deleteBoard(boardPk);
     }
 
