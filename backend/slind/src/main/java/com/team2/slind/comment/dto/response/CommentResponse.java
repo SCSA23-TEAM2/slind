@@ -11,9 +11,9 @@ public class CommentResponse {
     private Integer commentPk;
     private Integer memberPk;
     private String nickname;
-    private String content;
-    private Integer like;
-    private Integer dislike;
+    private String commentContent;
+    private Integer likeCount;
+    private Integer dislikeCount;
     private Boolean isDeleted;
     private Boolean isLike;
     private Boolean isDislike;

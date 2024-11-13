@@ -16,8 +16,8 @@ public class CommentController {
     @GetMapping("/{articlePk}")
     public ResponseEntity<CommentListResponse> getCommentList(
             @PathVariable Long articlePk,
-            @RequestParam(value = "lastCommentPk", required = true) Long lastCommentPk
+            @RequestParam(value = "lastCommentPk") Long lastCommentPk
             ) {
-        return commentService.getCommentList(articlePk, lastCommentPk);
+        return commentService.getCommentList(articlePk, lastCommentPk, 10);
     }
 }
