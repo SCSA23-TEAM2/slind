@@ -29,10 +29,17 @@ public class ArticleController {
         return articleService.updateArticle(articleUpdateRequest, memberPk);
     }
 
+    @DeleteMapping("/auth/{articlePk}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable("articlePk") Long articlePk){
+        return articleService.deleteArticle(articlePk, memberPk);
+    }
+
     @GetMapping("/main")
     public ResponseEntity<List<ArticleMainResponse>> getMainArticles() {
         return articleService.findMainArticles();
     }
+
+
 
 
 }

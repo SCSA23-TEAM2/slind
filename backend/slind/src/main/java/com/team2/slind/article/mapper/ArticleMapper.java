@@ -12,4 +12,6 @@ public interface ArticleMapper {
     Long findCreatedArticlePk();
     List<Article> findRecentArticles();
     void updateArticle(Article article);
+
+    Long deleteArticle(Long articlePk);
 }
