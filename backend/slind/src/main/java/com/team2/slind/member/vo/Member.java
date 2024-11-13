@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Getter
 public class Member extends BaseVO {
     private Long memberPk;
-    private String questionPk;
+    private Long questionPk;
     private String memberId;
     private String memberPassword;
     private String nickname;
