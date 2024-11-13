@@ -20,6 +20,9 @@ public class CommentService {
         CommentListResponse response = new CommentListResponse();
         List<CommentResponse> comments = commentMapper.getCommentList(articlePk, lastCommentPk, fetchCount);
         response.setHasNext(comments.size() > fetchCount);
+        if (comments.size() > fetchCount) {
+            comments.remove(comments.size() - 1);
+        }
         response.setList(comments);
         // TODO: Implement user part
         for (CommentResponse commentResponse : comments) {
@@ -38,6 +41,24 @@ public class CommentService {
             commentResponse.setIsDislike(false);
             commentResponse.setIsMine(false);
         }
+        // TODO: Implement user part
         return ResponseEntity.ok(comment);
+    }
+
+    public ResponseEntity<CommentListResponse> getRecomment(Long commentPk, Long lastCommentPk, int fetchCount) {
+        CommentListResponse response = new CommentListResponse();
+        List<CommentResponse> comments = commentMapper.getRecommentList(commentPk, lastCommentPk, fetchCount);
+        response.setHasNext(comments.size() > fetchCount);
+        if (comments.size() > fetchCount) {
+            comments.remove(comments.size() - 1);
+        }
+        for (CommentResponse commentResponse : comments) {
+            commentResponse.setIsLike(false);
+            commentResponse.setIsDislike(false);
+            commentResponse.setIsMine(false);
+        }
+        response.setList(comments);
+        // TODO: Implement user part
+        return ResponseEntity.ok(response);
     }
 }

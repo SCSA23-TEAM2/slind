@@ -29,4 +29,12 @@ public class CommentController {
             ) {
         return commentService.getBestCommentList(articlePk, 3);
     }
+
+    @GetMapping("/re/{commentPk}")
+    public ResponseEntity<CommentListResponse> getComment(
+            @PathVariable Long commentPk,
+            @RequestParam(value = "lastCommentPk") Long lastCommentPk
+            ) {
+        return commentService.getRecomment(commentPk, lastCommentPk, 1);
+    }
 }
