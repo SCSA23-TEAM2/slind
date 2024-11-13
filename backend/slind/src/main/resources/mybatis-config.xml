@@ -18,8 +18,8 @@
         <typeAlias type="com.team2.slind.board.vo.Bookmark" alias="Bookmark"/>
 
         <!-- comment VO -->
-        <typeAlias type="com.team2.slind.comment.vo.Comment" alias="Commnet"/>
-        <typeAlias type="com.team2.slind.comment.vo.CommentReaction" alias="CommnetReaction"/>
+        <typeAlias type="com.team2.slind.comment.vo.Comment" alias="Comment"/>
+        <typeAlias type="com.team2.slind.comment.vo.CommentReaction" alias="CommentReaction"/>
 
         <!-- judgement VO -->
         <typeAlias type="com.team2.slind.judgement.vo.Judgement" alias="Judgement"/>

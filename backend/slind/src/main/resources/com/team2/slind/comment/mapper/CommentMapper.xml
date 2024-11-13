@@ -3,5 +3,25 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team2.slind.comment.mapper.CommentMapper">
-
+    <select id="findByPk" resultType="Comment" parameterType="Long">
+        SELECT * FROM tbl_comment WHERE comment_pk=#{pk}
+    </select>
+    <select id="getCommentList" resultType="com.team2.slind.comment.dto.response.CommentResponse">
+        SELECT * FROM (
+            SELECT
+                c.comment_pk,
+                c.member_pk,
+                m.nickname,
+                c.comment_content,
+                c.like_count,
+                c.dislike_count,
+                c.is_deleted
+            FROM tbl_comment c
+            JOIN tbl_member m ON c.member_pk = m.member_pk
+            WHERE c.article_pk = #{articlePk}
+            AND c.comment_pk > #{lastCommentPk}
+            ORDER BY c.created_dttm
+        )
+        WHERE ROWNUM <![CDATA[<=]]> #{fetchCount} + 1
+    </select>
 </mapper>
