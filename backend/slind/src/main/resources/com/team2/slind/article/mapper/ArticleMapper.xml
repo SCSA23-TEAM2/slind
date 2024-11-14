@@ -48,7 +48,7 @@
     </select>
 
     <select id="findByPk" resultType="Article" parameterType="Long">
-        SELECT * FROM tbl_article WHERE article_pk=#{pk}
+        SELECT * FROM tbl_article WHERE article_pk=#{pk} and is_deleted = 0
     </select>
     <select id="findRecentArticles" resultMap="ArticleMap">
         SELECT a.article_pk, a.board_pk, a.title, a.view_count, a.like_count, a.dislike_count,

@@ -30,7 +30,10 @@
     <select id="findJudgementByPk" parameterType="Long" resultMap="judgementMap">
         SELECT * FROM tbl_judgement j
         LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
-        WHERE j.judgement_pk = #{judgementPk}
+        WHERE j.judgement_pk = #{judgementPk} AND j.is_deleted = 0
+    </select>
 
+    <select id="countByJudgementPk" parameterType="Long" resultType="int">
+        SELECT COUNT(*) FROM tbl_judgement WHERE judgement_pk = #{judgementPk} and is_deleted = 0
     </select>
 </mapper>

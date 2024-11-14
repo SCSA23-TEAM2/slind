@@ -6,10 +6,8 @@ import com.team2.slind.board.mapper.BoardMapper;
 import com.team2.slind.board.vo.Board;
 import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
 import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
-import com.team2.slind.common.exception.ArticleNotFoundException;
-import com.team2.slind.common.exception.BoardNotFoundException;
-import com.team2.slind.common.exception.JudgementNotFoundException;
-import com.team2.slind.common.exception.UnauthorizedException;
+import com.team2.slind.common.exception.*;
+import com.team2.slind.judgement.dto.request.JudgementReactionRequest;
 import com.team2.slind.judgement.dto.response.JudgementDetailResponse;
 import com.team2.slind.judgement.dto.response.JudgementPkResponse;
 import com.team2.slind.judgement.mapper.JudgementMapper;
@@ -18,6 +16,9 @@ import com.team2.slind.judgement.vo.Judgement;
 import com.team2.slind.judgement.vo.JudgementReaction;
 import com.team2.slind.member.vo.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +27,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class JudgementService {
 
     private final ArticleMapper articleMapper;
     private final BoardMapper boardMapper;
     private final JudgementMapper judgementMapper;
     private final JudgementReactionMapper judgementReactionMapper;
-
+    private final Logger logger = LoggerFactory.getLogger(JudgementService.class);
     @Transactional
     public ResponseEntity<JudgementPkResponse> addJudgementArticle(
             ArticlePkCreateUpdateRequest articlePkCreateUpdateRequest, Long memberPk) {
@@ -79,6 +81,7 @@ public class JudgementService {
         return ResponseEntity.ok().body(new JudgementPkResponse(judgementPk));
     }
 
+    @Transactional
     public ResponseEntity<JudgementDetailResponse> getJudgementDetail(Long judgementPk, Long memberPk) {
         Judgement judgement = judgementMapper.findJudgementByPk(judgementPk).orElseThrow(() ->
                 new JudgementNotFoundException(JudgementNotFoundException.NOT_EXIST_JUDGEMENT));
@@ -96,10 +99,26 @@ public class JudgementService {
                         .viewCount(judgement.getViewCount())
                         .createdDttm(judgement.getCreatedDttm()).isLike(isLike)
                         .isDislike(isDislike).isMine(isMine).build();
+        judgementMapper.updateViewCount(judgementPk);
         return ResponseEntity.ok().body(response);
     }
+
     @Transactional
-    public void updateViewCount(Long judgementPk){
-        judgementMapper.updateViewCount(judgementPk);
+    public ResponseEntity<Void> createJudgementReaction(JudgementReactionRequest judgementReactionRequest, Long memberPk) {
+        Long judgementPk = judgementReactionRequest.getJudgementPk();
+        logger.info("judgementPk:{}", judgementPk);
+
+        if(judgementMapper.countByJudgementPk(judgementPk)==0){
+            throw new JudgementNotFoundException(JudgementNotFoundException.NOT_EXIST_JUDGEMENT);
+        }
+
+        if(judgementReactionMapper.countByJudgementAndMember(judgementPk, memberPk)!=0){
+            throw new AlreadyReactedException(AlreadyReactedException.ALREADY_REACTED_JUDGEMENT);
+        }
+        JudgementReaction judgementReaction = JudgementReaction.builder().memberPk(memberPk)
+                .judgementPk(judgementPk).isLike(judgementReactionRequest.getIsLike()).build();
+        judgementReactionMapper.addJudgementReaction(judgementReaction);
+        return ResponseEntity.ok().build();
+
     }
 }

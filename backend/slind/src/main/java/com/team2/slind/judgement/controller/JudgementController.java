@@ -2,6 +2,7 @@ package com.team2.slind.judgement.controller;
 
 import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
 import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
+import com.team2.slind.judgement.dto.request.JudgementReactionRequest;
 import com.team2.slind.judgement.dto.response.JudgementDetailResponse;
 import com.team2.slind.judgement.dto.response.JudgementPkResponse;
 import com.team2.slind.judgement.service.JudgementService;
@@ -37,5 +38,11 @@ public class JudgementController {
             @PathVariable("judgementPk") Long judgementPk) {
         return judgementService.getJudgementDetail(judgementPk, memberPk);
 
+    }
+
+    @PostMapping("/auth/reaction")
+    public ResponseEntity<Void> createJudgementReaction(
+            @RequestBody JudgementReactionRequest judgementReactionRequest){
+        return judgementService.createJudgementReaction(judgementReactionRequest, memberPk);
     }
 }

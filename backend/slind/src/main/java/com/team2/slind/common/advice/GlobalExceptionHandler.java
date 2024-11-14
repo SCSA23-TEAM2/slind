@@ -33,7 +33,8 @@ public class GlobalExceptionHandler {
             ContentException.class,
             NoReactionExcetpion.class,
             AlreadyReactedException.class,
-            NoReactionExcetpion.class
+            NoReactionExcetpion.class,
+            JudgementNotFoundException.class
     })
     public ResponseEntity<String> handleDuplicateTitleException(Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());
