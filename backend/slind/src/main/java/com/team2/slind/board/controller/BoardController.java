@@ -15,10 +15,10 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-
+    static Long memberPk = 1L;
     @PostMapping
     public ResponseEntity<Void> createBoard(@RequestBody BoardCreateRequest boardCreateRequest) {
-        return boardService.createBoard(boardCreateRequest);
+        return boardService.createBoard(boardCreateRequest, memberPk);
 
     }
 
@@ -29,7 +29,7 @@ public class BoardController {
 
     @DeleteMapping("/{boardPk}")
     public ResponseEntity<Void> deleteBoard(@PathVariable("boardPk") Long boardPk) {
-        return boardService.deleteBoard(boardPk);
+        return boardService.deleteBoard(boardPk, memberPk);
     }
 
     @GetMapping

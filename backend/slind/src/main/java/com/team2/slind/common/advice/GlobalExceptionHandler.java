@@ -47,7 +47,8 @@ public class GlobalExceptionHandler {
     }
 
     //401 Error
-    @ExceptionHandler({UnauthorizedException.class})
+    @ExceptionHandler({UnauthorizedException.class,
+            LastMonthCreationException.class})
     public ResponseEntity<String> handleUnauthorizedException(Exception e) {
         return ResponseEntity.status(401).body(e.getMessage());
     }

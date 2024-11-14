@@ -7,12 +7,12 @@
         INSERT INTO tbl_board (board_pk, member_pk, title)
         VALUES (seq_board_pk.NEXTVAL, #{memberPk}, #{title})
     </insert>
-    <select id="findByBoardTitle" parameterType="string" resultType="Board">
-        SELECT * FROM tbl_board WHERE title = #{title}
+    <select id="findCountByBoardTitle" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM tbl_board WHERE title = #{title} and is_deleted = 0
     </select>
 
     <select id="findByBoardPk" parameterType="Long" resultType="Board">
-        SELECT * FROM tbl_board WHERE board_pk = #{boardPk}
+        SELECT * FROM tbl_board WHERE board_pk = #{boardPk} and is_deleted = 0
     </select>
 
     <update id="deleteByBoardPk" parameterType="Long">
@@ -22,6 +22,19 @@
     </update>
 
     <select id="findAllBoards" resultType="Board">
-        SELECT * FROM tbl_board
+        SELECT * FROM tbl_board WHERE is_deleted = 0
+    </select>
+    <select id="findRecentCreatedDate" resultType="LocalDateTime">
+        SELECT created_dttm
+        FROM (
+        SELECT created_dttm
+        FROM tbl_board
+        WHERE member_pk = #{memberPk}
+        ORDER BY created_dttm DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+    <select id="findCountByBoardPk" resultType="int">
+        SELECT COUNT(*) FROM tbl_board WHERE is_deleted =0 AND board_pk=#{boardPk}
     </select>
 </mapper>
