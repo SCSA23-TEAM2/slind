@@ -1,8 +1,8 @@
 package com.team2.slind.article.controller;
 
-import com.team2.slind.article.dto.request.ArticleCreateRequest;
+import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.article.dto.request.ArticleReactionRequest;
-import com.team2.slind.article.dto.request.ArticleUpdateRequest;
+import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
 import com.team2.slind.article.dto.response.ArticlePkResponse;
 import com.team2.slind.article.dto.response.ArticleMainResponse;
 import com.team2.slind.article.service.ArticleService;
@@ -20,14 +20,14 @@ public class ArticleController {
     static Long memberPk = 1L;
 
     @PostMapping("/auth")
-    public ResponseEntity<ArticlePkResponse> createArticle(@RequestBody ArticleCreateRequest articleCreateRequest) {
-        return articleService.createArticle(articleCreateRequest, memberPk);
+    public ResponseEntity<ArticlePkResponse> createArticle(@RequestBody BoardPkCreateUpdateRequest boardPkCreateUpdateRequest) {
+        return articleService.createArticle(boardPkCreateUpdateRequest, memberPk);
 
     }
 
     @PutMapping("/auth")
-    public ResponseEntity<ArticlePkResponse> updateArticle(@RequestBody ArticleUpdateRequest articleUpdateRequest) {
-        return articleService.updateArticle(articleUpdateRequest, memberPk);
+    public ResponseEntity<ArticlePkResponse> updateArticle(@RequestBody ArticlePkCreateUpdateRequest articlePkCreateUpdateRequest) {
+        return articleService.updateArticle(articlePkCreateUpdateRequest, memberPk);
     }
 
     @DeleteMapping("/auth/{articlePk}")

@@ -1,8 +1,8 @@
 package com.team2.slind.article.service;
 
-import com.team2.slind.article.dto.request.ArticleCreateRequest;
+import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.article.dto.request.ArticleReactionRequest;
-import com.team2.slind.article.dto.request.ArticleUpdateRequest;
+import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
 import com.team2.slind.article.dto.response.ArticlePkResponse;
 import com.team2.slind.article.dto.response.ArticleMainResponse;
 import com.team2.slind.article.mapper.ArticleMapper;
@@ -33,17 +33,17 @@ public class ArticleService {
     private Logger logger = LoggerFactory.getLogger(ArticleService.class);
 
     @Transactional
-    public ResponseEntity<ArticlePkResponse> createArticle(ArticleCreateRequest articleCreateRequest, Long memberPk) {
-        Long boardPk = articleCreateRequest.getBoardPk();
+    public ResponseEntity<ArticlePkResponse> createArticle(BoardPkCreateUpdateRequest boardPkCreateUpdateRequest, Long memberPk) {
+        Long boardPk = boardPkCreateUpdateRequest.getBoardPk();
         boardMapper.findByBoardPk(boardPk).orElseThrow(()-> new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND));
-        String title = articleCreateRequest.getTitle();
+        String title = boardPkCreateUpdateRequest.getTitle();
         if (title == null || title.trim().isEmpty() ){
-            throw new ArticleNullException(ArticleNullException.NULL_TITLE);
+            throw new ContentException(ContentException.EMPTY_TITLE);
         }
 
-        String articleContent = articleCreateRequest.getArticleContent();
+        String articleContent = boardPkCreateUpdateRequest.getContent();
         if (articleContent == null || articleContent.trim().isEmpty() ){
-            throw new ArticleNullException(ArticleNullException.NULL_CONTENT);
+            throw new ContentException(ContentException.EMPTY_CONTENT);
         }
 
         Article article = Article.builder().title(title).
@@ -81,8 +81,8 @@ public class ArticleService {
 
     @Transactional
     public ResponseEntity<ArticlePkResponse> updateArticle
-            (ArticleUpdateRequest articleUpdateRequest, Long memberPk) {
-        Long articlePk = articleUpdateRequest.getArticlePk();
+            (ArticlePkCreateUpdateRequest articlePkCreateUpdateRequest, Long memberPk) {
+        Long articlePk = articlePkCreateUpdateRequest.getArticlePk();
         Article article = articleMapper.findByPk(articlePk).orElseThrow(()->
                 new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND)
         );
@@ -90,7 +90,7 @@ public class ArticleService {
         if (!article.getMemberPk().equals(memberPk)) {
             throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_UPDATE_ARTICLE);
         }
-        article.update(articleUpdateRequest.getTitle(), articleUpdateRequest.getArticleContent());
+        article.update(articlePkCreateUpdateRequest.getTitle(), articlePkCreateUpdateRequest.getContent());
         articleMapper.updateArticle(article);
         return ResponseEntity.ok().body(new ArticlePkResponse(articlePk));
     }
@@ -114,15 +114,15 @@ public class ArticleService {
     public ResponseEntity<Void> createReaction(
             ArticleReactionRequest articleReactionRequest, Long memberPk) {
         Long articlePk = articleReactionRequest.getArticlePk();
-        log.info("=========createReaction=============");
-        log.info("articlePk:{}", articlePk);
+        logger.info("=========createReaction=============");
+        logger.info("articlePk:{}", articlePk);
         Boolean requestIsLike = articleReactionRequest.getIsLike();
         Boolean isUp = articleReactionRequest.getIsUp();
         //memberPk의 게시글 반응이 있다면 가져오기
         Optional<ArticleReaction> reactionOpt = articleReactionMapper.findByArticlePkAndMemberPk(articlePk, memberPk);
         //up일 때
         if (isUp){
-            log.info("=====================반응 +1 API =======================");
+            logger.info("=====================반응 +1 API =======================");
             if (reactionOpt.isPresent()) {
                 ArticleReaction reaction = reactionOpt.get();
                 // 가져온 반응 데이터가 null이 아니면서 requestIsLike와 isLike가 같다면
@@ -130,36 +130,36 @@ public class ArticleService {
                     // 이미 좋아한/싫어한 게시글입니다 Exception 반환
                     throw new AlreadyReactedException(AlreadyReactedException.ALREADY_REACTED_ARTICLE);
                 } else {
-                    log.info("기존 반응이 존재합니다. 다른 반응으로 교체합니다.");
+                    logger.info("기존 반응이 존재합니다. 다른 반응으로 교체합니다.");
                     // 기존 반응이 있고, requestIsLike와 isLike가 다르면 반응 바꾸기
                     articleReactionMapper.updateReaction(requestIsLike, memberPk, articlePk);
-                    log.info("Finished Reaction Table Update");
+                    logger.info("Finished Reaction Table Update");
                     // 게시글 count 변경 :  기존 반응 count -1
                     changeArticleReactionCount(reaction.getIsLike(), false, articlePk);
-                    log.info("Finished Article Table Count Value Update");
+                    logger.info("Finished Article Table Count Value Update");
 
                 }
             } else {
                 // null이면 새로운 반응 save
-                log.info("기존 반응이 없으므로 INSERT 로직을 수행합니다.");
-                log.info("articlePk:{}", articlePk);
-                log.info("memberPk:{}", memberPk);
-                log.info("requestIsLike:{}", requestIsLike);
+                logger.info("기존 반응이 없으므로 INSERT 로직을 수행합니다.");
+                logger.info("articlePk:{}", articlePk);
+                logger.info("memberPk:{}", memberPk);
+                logger.info("requestIsLike:{}", requestIsLike);
                 ArticleReaction newReaction = ArticleReaction.builder()
                         .articlePk(articlePk)
                         .memberPk(memberPk)
                         .isLike(requestIsLike)
                         .build();
                 articleReactionMapper.saveReaction(newReaction);
-                log.info("FINISHED INSERT NEW REACTION");
+                logger.info("FINISHED INSERT NEW REACTION");
             }
             //새로운 반응 +1
             changeArticleReactionCount(requestIsLike, true, articlePk);
-            log.info("FINISHED UPDATE TABLE REACTION VALUE");
+            logger.info("FINISHED UPDATE TABLE REACTION VALUE");
 
 
         }else{
-            log.info("=====================반응 -1 API =======================");
+            logger.info("=====================반응 -1 API =======================");
 
             //down 일때
             //null이면 nullException 반환 (취소할 반응이 없었던 것)
@@ -170,9 +170,9 @@ public class ArticleService {
                 throw new NoReactionExcetpion(NoReactionExcetpion.NO_REACTION_FOR_DOWN_IN_ARTICLE);
             }
             articleReactionMapper.deleteReactionByArticlePk(reaction.getArticleReactionPk());
-            log.info("기존 반응 삭제 완료");
+            logger.info("기존 반응 삭제 완료");
             changeArticleReactionCount(requestIsLike, false, articlePk);
-            log.info("기존 값 -1 완료");
+            logger.info("기존 값 -1 완료");
         }
         return ResponseEntity.ok().build();
     }
@@ -180,8 +180,8 @@ public class ArticleService {
     public void changeArticleReactionCount(Boolean isLike, Boolean isUp, Long articlePk){
         Integer upCount = isUp ? 1 : -1;
         Integer result = null;
-        log.info("upCount:{}", upCount);
-        log.info("articlePk:{}", articlePk);
+        logger.info("upCount:{}", upCount);
+        logger.info("articlePk:{}", articlePk);
         if(isLike){
             result = articleMapper.updateLikeCount(upCount, articlePk);
         }else{
