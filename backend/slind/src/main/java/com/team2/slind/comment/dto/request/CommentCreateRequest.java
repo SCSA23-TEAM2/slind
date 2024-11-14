@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CommentCreateRequest {
     Long articlePk;
-    String comment;
+    String content;
 }
