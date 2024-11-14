@@ -65,4 +65,40 @@
         )
         ORDER BY a.created_dttm DESC
     </select>
+    <select id="findTotalRecords" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM tbl_article
+        WHERE
+            is_deleted = 0 AND
+            board_pk = #{boardPk}
+    </select>
+    <select id="findByBoardPk" resultMap="ArticleMap">
+        SELECT *
+        FROM
+        (
+            SELECT
+                a.article_pk, a.title, a.view_count, a.like_count, a.dislike_count, a.created_dttm,
+                b.board_pk AS board_pk, b.title AS board_title, c.comment_pk
+            FROM tbl_article a
+            LEFT JOIN tbl_board b ON a.board_pk = b.board_pk
+            LEFT JOIN tbl_comment c ON a.article_pk = c.article_pk
+            WHERE a.article_pk IN
+            (
+                SELECT article_pk FROM
+                (
+                    SELECT article_pk, ROWNUM AS rnum
+                    FROM
+                    (
+                        SELECT article_pk
+                        FROM tbl_article
+                        WHERE is_deleted = 0 AND board_pk = #{boardPk}
+                        ORDER BY created_dttm DESC, article_pk DESC
+                    )
+                    WHERE ROWNUM <![CDATA[<=]]> #{offset} + #{articleListSize}
+                )
+                WHERE rnum > #{offset}
+            )
+        )
+        ORDER BY created_dttm DESC, article_pk DESC
+    </select>
 </mapper>

@@ -8,7 +8,6 @@ import com.team2.slind.comment.dto.response.CommentListResponse;
 import com.team2.slind.comment.dto.response.CommentResponse;
 import com.team2.slind.comment.service.CommentService;
 import com.team2.slind.common.exception.ContentException;
-import com.team2.slind.common.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +49,7 @@ public class CommentController {
             @RequestBody CommentCreateRequest request
             ) {
         Long articlePk = request.getArticlePk();
-        String content = request.getComment();
+        String content = request.getContent();
         if (articlePk == null || content == null) {
             return ResponseEntity.badRequest().build();
         } else if (content.length() > 1000) {

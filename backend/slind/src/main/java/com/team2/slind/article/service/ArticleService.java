@@ -3,6 +3,7 @@ package com.team2.slind.article.service;
 import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.article.dto.request.ArticleReactionRequest;
 import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
+import com.team2.slind.article.dto.response.ArticleListResponse;
 import com.team2.slind.article.dto.response.ArticlePkResponse;
 import com.team2.slind.article.dto.response.ArticleMainResponse;
 import com.team2.slind.article.mapper.ArticleMapper;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +33,9 @@ public class ArticleService {
     private final BoardMapper boardMapper;
     private final ArticleReactionMapper articleReactionMapper;
     private Logger logger = LoggerFactory.getLogger(ArticleService.class);
+    private static final int PAGE_LIST_SIZE = 10;
+    private static final int ARTICLE_LIST_SIZE = 12;
+
 
     @Transactional
     public ResponseEntity<ArticlePkResponse> createArticle(BoardPkCreateUpdateRequest boardPkCreateUpdateRequest, Long memberPk) {
@@ -191,5 +196,51 @@ public class ArticleService {
             throw new FailedReactionException(FailedReactionException.FAILED_REACTION);
         }
 
+    }
+
+    public ResponseEntity<ArticleListResponse> getArticleList(Long boardPk, Integer sort, Integer page) {
+        List<Article> articleList = new ArrayList<>();
+        Long totalRecords = articleMapper.findTotalRecords(boardPk);
+        logger.info("totalRecords:{}", totalRecords);
+        Long totalPages = (totalRecords/ARTICLE_LIST_SIZE);
+        if (totalRecords % ARTICLE_LIST_SIZE != 0) {
+            totalPages++;
+        }
+        if (page < 1 || page > totalPages) {
+            return ResponseEntity.badRequest().build();
+        }
+        logger.info("totalPages:{}", totalPages);
+        Integer startPage = (page - 1) / PAGE_LIST_SIZE * PAGE_LIST_SIZE + 1;
+        Integer endPage = Math.min(startPage + PAGE_LIST_SIZE - 1, totalPages.intValue());
+        Boolean hasPrevious = startPage > 1;
+        Boolean hasNext = endPage < totalPages.intValue();
+        Integer start = (page - 1) * ARTICLE_LIST_SIZE;
+
+        if (sort == 0) {
+            articleList = articleMapper.findByBoardPk(boardPk, start, ARTICLE_LIST_SIZE);
+        }
+
+        List<ArticleMainResponse> list = articleList.stream().map(article ->
+                ArticleMainResponse.builder()
+                        .articlePk(article.getArticlePk())
+                        .boardPk(article.getArticleBoard().getBoardPk())
+                        .boardTitle(article.getArticleBoard().getTitle())
+                        .articleTitle(article.getTitle())
+                        .viewCount(article.getViewCount())
+                        .likeCount(article.getLikeCount())
+                        .dislikeCount(article.getDislikeCount())
+                        .commentCount(article.getComments().size())
+                        .build()
+        ).toList();
+
+        return ResponseEntity.ok().body(ArticleListResponse.builder()
+                .list(list)
+                .currentPage(page)
+                .totalPages(totalPages.intValue())
+                .startPage(startPage)
+                .endPage(endPage)
+                .hasPrevious(hasPrevious)
+                .hasNext(hasNext)
+                .build());
     }
 }
