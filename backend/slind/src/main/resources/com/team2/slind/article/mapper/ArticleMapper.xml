@@ -33,6 +33,16 @@
         WHERE article_pk = #{articlePk}
 
     </update>
+    <update id="updateLikeCount">
+        UPDATE tbl_article
+        SET like_count = like_count + #{upCount}
+        WHERE article_pk = #{articlePk}
+    </update>
+    <update id="updateDislikeCount">
+        UPDATE tbl_article
+        SET dislike_count = dislike_count + #{upCount}
+        WHERE article_pk = #{articlePk}
+    </update>
     <select id="findCreatedArticlePk" resultType="Long">
         SELECT seq_article_pk.CURRVAL FROM DUAL
     </select>

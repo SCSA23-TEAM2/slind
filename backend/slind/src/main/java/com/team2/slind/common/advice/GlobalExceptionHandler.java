@@ -14,7 +14,10 @@ public class GlobalExceptionHandler {
             DuplicateTitleException.class,
             ArticleNullException.class,
             AlreadyDeletedException.class,
-            ContentException.class
+            ContentException.class,
+            NoReactionExcetpion.class,
+            AlreadyReactedException.class,
+            NoReactionExcetpion.class
     })
     public ResponseEntity handleDuplicateTitleException(Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());

@@ -3,4 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team2.slind.article.mapper.ArticleReactionMapper">
+    <insert id="saveReaction" parameterType="ArticleReaction">
+        INSERT INTO tbl_article_reaction (article_reaction_pk, article_pk, member_pk, is_like)
+        VALUES (seq_article_reaction_pk.NEXTVAL, #{articlePk}, #{memberPk}, #{isLike})
+    </insert>
+    <update id="updateReaction">
+        UPDATE tbl_article_reaction
+        SET
+        is_like = #{isLike}
+        WHERE
+        member_pk = #{memberPk} AND article_pk = #{articlePk}
+    </update>
+    <delete id="deleteReactionByArticlePk">
+        DELETE FROM tbl_article_reaction
+        WHERE article_reaction_pk = #{articleReactionPk}
+    </delete>
+    <select id="findByArticlePkAndMemberPk" parameterType="Long" resultType="ArticleReaction">
+        SELECT * FROM tbl_article_reaction
+        WHERE article_pk = #{articlePk} AND member_pk = #{memberPk}
+    </select>
 </mapper>
