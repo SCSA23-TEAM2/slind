@@ -8,4 +8,6 @@ public interface MemberMapper {
     Optional<Member> findByMemberId(String memberId);
 
     void addMember(Member member);
+
+    Optional<Member> findByNickname(String nickname);
 }

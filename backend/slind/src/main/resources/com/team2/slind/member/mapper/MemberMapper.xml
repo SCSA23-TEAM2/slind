@@ -3,7 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team2.slind.member.mapper.MemberMapper">
-    <insert id="addMember"></insert>
+    <insert id="addMember" parameterType="Member">
+        INSERT INTO tbl_member (member_pk, question_pk, member_id, member_password, nickname, answer) VALUES (seq_member_pk.NEXTVAL, #{questionPk}, #{memberId}, #{memberPassword}, #{nickname}, #{answer})
+    </insert>
 
-    <select id="findByMemberId" resultType="com.team2.slind.member.vo.Member"></select>
+    <select id="findByMemberId" parameterType="string" resultType="Member">
+        SELECT * FROM tbl_member WHERE member_id = #{memberId}
+    </select>
+    <select id="findByNickname" parameterType="string" resultType="Member">
+        SELECT * FROM tbl_member WHERE nickname = #{nickname}
+    </select>
 </mapper>

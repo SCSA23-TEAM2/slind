@@ -2,6 +2,8 @@ package com.team2.slind.member.service;
 
 
 import com.team2.slind.common.exception.DuplicateMemberIdException;
+import com.team2.slind.common.exception.DuplicateNicknameException;
+import com.team2.slind.common.exception.InvalidNicknameLengthException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.response.ValidNicknameResponse;
 import com.team2.slind.member.mapper.MemberMapper;
@@ -17,48 +19,53 @@ import java.util.Optional;
 public class MemberService {
     private final MemberMapper memberMapper;
 
-    public ResponseEntity signupMember(MemberSignupRequest memberSignupRequest) {
+    public ResponseEntity<Void> signup(MemberSignupRequest memberSignupRequest) {
         String memberId = memberSignupRequest.getMemberId();
         String nickname = memberSignupRequest.getNickname();
-        String memberPassword = memberSignupRequest.getMemberPassword();
-        Long questionPk = memberSignupRequest.getQuestionPk();
-        String answer = memberSignupRequest.getAnswer();
 
-        if (checkDuplicate(memberId)) {
-            throw new DuplicateMemberIdException(
-                    DuplicateMemberIdException.DUPLEICATE_MEMBERID
-            );
+        if (isMemberIdDuplicated(memberId)) {
+            throw new DuplicateMemberIdException(DuplicateMemberIdException.DUPLICATE_MEMBERID);
+        }
+
+        if (isNicknameDuplicated(nickname)) {
+            throw new DuplicateNicknameException(DuplicateNicknameException.DUPLICATE_NICKNAME);
         }
 
         Member member = Member.builder()
                 .memberId(memberId)
                 .nickname(nickname)
-                .memberPassword(memberPassword)
-                .questionPk(questionPk)
-                .answer(answer).build();
+                .memberPassword(memberSignupRequest.getMemberPassword())
+                .questionPk(memberSignupRequest.getQuestionPk())
+                .answer(memberSignupRequest.getAnswer())
+                .build();
         memberMapper.addMember(member);
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity checkDuplicateMemberID(String memberId) {
-        if (checkDuplicate(memberId)) {
-            throw new DuplicateMemberIdException(DuplicateMemberIdException.DUPLEICATE_MEMBERID);
+    public ResponseEntity<Void> checkDuplicateMemberId(String memberId){
+        if (isMemberIdDuplicated(memberId)) {
+            throw new DuplicateMemberIdException(DuplicateMemberIdException.DUPLICATE_MEMBERID);
         }
         return ResponseEntity.ok().build();
     }
 
-    public boolean checkDuplicate(String memberId) {
-        Optional<Member> member = memberMapper.findByMemberId(memberId);
+    public ResponseEntity<Void> checkDuplicateNickname(String nickname) {
+
+        if (isNicknameDuplicated(nickname)) {
+            throw new DuplicateNicknameException(DuplicateNicknameException.DUPLICATE_NICKNAME);
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    private boolean isNicknameDuplicated(String nickname) {
+        Optional<Member> member = memberMapper.findByNickname(nickname);
         return member.isPresent();
     }
 
-//    public ValidNicknameResponse isValidNickname(String nickname) {
-//        if (!checkNicknameLength(nickname)) {
-//            return
-//        }
-//    }
-//
-//    private boolean checkNicknameLength(String nickname) {
-//        return nickname != null && nickname.length() >= 1 && nickname.length() <= 16;
-//    }
+    private boolean isMemberIdDuplicated(String memberId) {
+        Optional<Member> member = memberMapper.findByMemberId(memberId);
+        return member.isPresent();
+    }
 }
