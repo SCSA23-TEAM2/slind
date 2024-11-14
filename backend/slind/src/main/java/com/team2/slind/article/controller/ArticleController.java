@@ -3,6 +3,8 @@ package com.team2.slind.article.controller;
 import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.article.dto.request.ArticleReactionRequest;
 import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
+import com.team2.slind.article.dto.request.ArticleUpdateRequest;
+import com.team2.slind.article.dto.response.ArticleListResponse;
 import com.team2.slind.article.dto.response.ArticlePkResponse;
 import com.team2.slind.article.dto.response.ArticleMainResponse;
 import com.team2.slind.article.service.ArticleService;
@@ -45,7 +47,18 @@ public class ArticleController {
         return articleService.createReaction(articleReactionRequest, memberPk);
     }
 
-
-
-
+    @GetMapping("/{boardPk}/{sort}/{page}")
+    public ResponseEntity<ArticleListResponse> getArticles(
+            @PathVariable("boardPk") Long boardPk,
+            @PathVariable("sort") Integer sort,
+            @PathVariable("page") Integer page) {
+        if (sort == null || page == null || boardPk == null) {
+            return ResponseEntity.badRequest().build();
+        } else if (sort < 0 || sort > 2) {
+            return ResponseEntity.badRequest().build();
+        } else if (page < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        return articleService.getArticleList(boardPk, sort, page);
+    }
 }
