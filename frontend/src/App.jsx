@@ -5,6 +5,9 @@ import GeneralBoard from "./components/GeneralBoard";
 import MainLatestBoard from "./components/MainLatestBoard";
 import MainCourtBoard from "./components/MainCourtBoard";
 import AsideRealTimeBoard from "./components/AsideRealTimeBoard";
+import MyPageNav from "./components/MyPageNav";
+import MyPage from "./components/MyPage";
+
 import "./App.css";
 
 function App() {
@@ -12,7 +15,7 @@ function App() {
     <div className="Body">
       {/*고정 컴포넌트  */}
       <Header />
-      <Nav />
+      {/* <Nav /> */}
 
       {/* 로그인 페이지 */}
       {/* <Login /> */}
@@ -21,9 +24,13 @@ function App() {
       {/* <GeneralBoard /> */}
 
       {/* 메인 페이지 */}
-      <MainCourtBoard />
+      {/* <MainCourtBoard />
       <MainLatestBoard />
-      <AsideRealTimeBoard />
+      <AsideRealTimeBoard /> */}
+
+      {/* 마이페이지 */}
+      <MyPageNav />
+      {/* <MyPage /> */}
     </div>
   );
 }

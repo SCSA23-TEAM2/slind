@@ -1,7 +1,8 @@
 import "./css/Nav.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import BookMark from "./icon/BookMark";
 const Nav = () => {
+  const idRef = useRef(1);
   const mockitem1 = {
     boardPk: 1,
     boardTitle: "상처치료해줄사람어디없나가만히놔두다간끊임없이덧나",
@@ -49,7 +50,7 @@ const Nav = () => {
         <div className="Bookmark-icon">
           <BookMark />
         </div>
-        <h2>즐겨찾기</h2>
+        <h2 className="Bookmark-title">즐겨찾기</h2>
       </div>
       <div className="Nav-board">
         <ul className="Nav-board-list">

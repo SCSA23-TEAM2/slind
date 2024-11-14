@@ -1,4 +1,4 @@
-.Nav-wrapper {
+.MyPageNav-wrapper {
   position: fixed;
   top: 120px;
   left: 0;
@@ -12,36 +12,29 @@
   height: 100%;
   overflow-y: auto; /* 세로 스크롤 활성화 */
 }
-.Nav-header {
+.MyPageNav-header {
   display: flex;
   align-items: center;
   /* justify-content: space-around; */
 }
-.Nav-header .Bookmark-icon {
+.MyPageNav-header .Menu-icon {
   margin-top: 5px;
 }
-.Nav-header .Bookmark-title {
+.MyPageNav-header h2 {
   margin-left: 20px;
-}
-.Nav-search input {
-  width: 160px;
-  padding: 10px;
-  background-color: #f6f6f6;
-  border: 1px solid #f6f6f6;
-  border-radius: 5px;
 }
 /* .Nav-board { */
 /* height: 450px; */
 /* overflow-x: hidden; */
 /* } */
-.Nav-board-list {
+.MyPageNav-board-list {
   list-style: none;
   padding-left: 0px;
   display: flex;
   flex-direction: column;
 }
 
-.Nav-board-item {
+.MyPageNav-board-item {
   height: 45px;
 
   line-height: 45px;
@@ -49,13 +42,13 @@
   color: black;
 }
 
-.Nav-board-item li {
+.MyPageNav-board-item li {
   white-space: nowrap; /* 한 줄로 표시 */
   overflow: hidden;
   text-overflow: ellipsis;
 }
 /* 사용자와 상호작용할 수 있는 태그만 hover가능 */
-.Nav-board-item:hover {
+.MyPageNav-board-item:hover {
   color: #00b890;
   text-decoration: underline;
 }
