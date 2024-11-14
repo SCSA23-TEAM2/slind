@@ -4,4 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team2.slind.judgement.mapper.JudgementReactionMapper">
 
+    <select id="findByJudgementAndMemebr" resultType="Boolean">
+        SELECT is_like FROM tbl_judgement_reaction WHERE judgement_pk = #{judgementPk} and member_pk = #{memberPk}
+    </select>
 </mapper>
