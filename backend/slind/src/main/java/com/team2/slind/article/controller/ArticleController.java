@@ -3,7 +3,6 @@ package com.team2.slind.article.controller;
 import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.article.dto.request.ArticleReactionRequest;
 import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
-import com.team2.slind.article.dto.request.ArticleUpdateRequest;
 import com.team2.slind.article.dto.response.ArticleListResponse;
 import com.team2.slind.article.dto.response.ArticlePkResponse;
 import com.team2.slind.article.dto.response.ArticleMainResponse;
