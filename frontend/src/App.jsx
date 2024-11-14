@@ -7,6 +7,8 @@ import MainCourtBoard from "./components/MainCourtBoard";
 import AsideRealTimeBoard from "./components/AsideRealTimeBoard";
 import MyPageNav from "./components/MyPageNav";
 import MyPage from "./components/MyPage";
+import EditBookmark from "./components/EditBookmark";
+import MyContent from "./components/MyContent";
 
 import "./App.css";
 
@@ -31,6 +33,8 @@ function App() {
       {/* 마이페이지 */}
       <MyPageNav />
       {/* <MyPage /> */}
+      {/* <EditBookmark /> */}
+      <MyContent />
     </div>
   );
 }

@@ -1,0 +1,25 @@
+.MyContent-wrapper {
+  width: 1000px;
+  height: 600px;
+  position: relative;
+  top: 120px;
+  left: 280px;
+  /* border: 1px solid black; */
+}
+.MyContent-header {
+  width: 800px;
+  border-bottom: 3px solid #f6f6f6;
+}
+.MyContent-content {
+  padding-top: 10px;
+  width: 800px;
+  height: 400px;
+  /* border-bottom: 1px solid black; */
+  overflow-y: auto;
+}
+.content-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-left: 0;
+}
