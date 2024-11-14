@@ -7,6 +7,8 @@ import com.team2.slind.comment.dto.request.RecommentUpdateRequest;
 import com.team2.slind.comment.dto.response.CommentListResponse;
 import com.team2.slind.comment.dto.response.CommentResponse;
 import com.team2.slind.comment.service.CommentService;
+import com.team2.slind.common.exception.ContentException;
+import com.team2.slind.common.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,13 @@ public class CommentController {
             ) {
         Long articlePk = request.getArticlePk();
         String content = request.getComment();
+        if (articlePk == null || content == null) {
+            return ResponseEntity.badRequest().build();
+        } else if (content.length() > 1000) {
+            throw new ContentException(ContentException.CONTENT_TOO_LONG);
+        } else if (content.isEmpty() || content.trim().isEmpty()) {
+            throw new ContentException(ContentException.EMPTY_CONTENT);
+        }
         return commentService.createComment(memberPk, articlePk, content);
     }
 
@@ -58,6 +67,13 @@ public class CommentController {
             ) {
         Long commentPk = request.getOriginateComment();
         String content = request.getContent();
+        if (commentPk == null || content == null) {
+            return ResponseEntity.badRequest().build();
+        } else if (content.length() > 1000) {
+            throw new ContentException(ContentException.CONTENT_TOO_LONG);
+        } else if (content.isEmpty() || content.trim().isEmpty()) {
+            throw new ContentException(ContentException.EMPTY_CONTENT);
+        }
         return commentService.createRecomment(memberPk, commentPk, content);
     }
 
@@ -67,6 +83,13 @@ public class CommentController {
             ) {
         Long commentPk = request.getCommentPk();
         String content = request.getContent();
+        if (content == null || commentPk == null) {
+            return ResponseEntity.badRequest().build();
+        } else if (content.isEmpty() || content.trim().isEmpty()) {
+            throw new ContentException(ContentException.EMPTY_CONTENT);
+        } else if (content.length() > 1000) {
+            throw new ContentException(ContentException.CONTENT_TOO_LONG);
+        }
         return commentService.updateComment(memberPk, commentPk, content);
     }
 
@@ -76,6 +99,13 @@ public class CommentController {
             ) {
         Long commentPk = request.getCommentPk();
         String content = request.getContent();
+        if (content == null || commentPk == null) {
+            return ResponseEntity.badRequest().build();
+        } else if (content.isEmpty() || content.trim().isEmpty()) {
+            throw new ContentException(ContentException.EMPTY_CONTENT);
+        } else if (content.length() > 1000) {
+            throw new ContentException(ContentException.CONTENT_TOO_LONG);
+        }
         return commentService.updateRecomment(memberPk, commentPk, content);
     }
 

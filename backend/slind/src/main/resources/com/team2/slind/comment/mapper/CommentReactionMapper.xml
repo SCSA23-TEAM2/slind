@@ -4,4 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team2.slind.comment.mapper.CommentReactionMapper">
 
+    <select id="findByCommentPkAndMemberPk" resultType="com.team2.slind.comment.vo.CommentReaction">
+        SELECT * FROM tbl_comment_reaction WHERE comment_pk = #{commentPk} AND member_pk = #{memberPk}
+    </select>
 </mapper>
