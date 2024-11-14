@@ -14,4 +14,5 @@ public interface JudgementMapper {
     Optional<Judgement> findJudgementByPk(@Param("judgementPk") Long judgementPk);
 
     void updateViewCount(@Param("judgementPk") Long judgementPk);
+    int countByJudgementPk(@Param("judgementPk") Long judgementPk);
 }

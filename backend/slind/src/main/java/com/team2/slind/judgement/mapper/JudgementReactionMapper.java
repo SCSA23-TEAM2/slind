@@ -8,4 +8,9 @@ import java.util.Optional;
 public interface JudgementReactionMapper {
     Optional<Boolean> findByJudgementAndMemebr(@Param("judgementPk")Long judgementPk,
                                                @Param("memberPk") Long memberPk);
+
+    int countByJudgementAndMember(@Param("judgementPk") Long judgementPk,
+                                  @Param("memberPk") Long memberPk);
+
+    void addJudgementReaction(JudgementReaction judgementReaction);
 }
