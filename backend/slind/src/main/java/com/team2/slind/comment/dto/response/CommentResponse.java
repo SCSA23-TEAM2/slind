@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentResponse {
-    private Integer commentPk;
-    private Integer memberPk;
+    private Long commentPk;
+    private Long memberPk;
     private String nickname;
     private String commentContent;
     private Integer likeCount;
