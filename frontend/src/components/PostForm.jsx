@@ -5,7 +5,7 @@ const PostForm = () => {
   const [content, setContent] = useState("");
   const title = "제목";
   const board = "게시판";
-
+  const contentLengthLimit = 2000;
   const boardTitle =
     "게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름";
   const onChange = (e) => {
@@ -43,7 +43,9 @@ const PostForm = () => {
           id=""
           placeholder="본문 작성(최대 4000자)"
         ></textarea>
-        <div className="PostForm-length">{contentLength}/4000</div>
+        <div className="PostForm-length">
+          {contentLength}/{contentLengthLimit}
+        </div>
       </div>
       <div className="PostForm-Bottom">
         <button className="PostForm-submit-button">완성</button>
