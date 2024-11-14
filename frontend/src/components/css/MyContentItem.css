@@ -38,9 +38,16 @@
   flex: 0.2;
   color: gray;
 }
-.MyContentList-content-deleteButton {
+.MyContentList-content-delete {
   flex: 0.1;
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+}
+.MyContentList-content-delete button {
   cursor: pointer;
+  width: 45px;
   padding: 5px;
   /* margin-left: 10px;
   margin-right: 10px; */

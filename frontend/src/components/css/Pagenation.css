@@ -1,6 +1,8 @@
 .pagenation-content {
+  margin-top: 10px;
   display: flex;
   list-style: none;
+  gap: 10px;
 }
 
 .pagenation-icon-button {

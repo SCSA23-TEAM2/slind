@@ -17,6 +17,19 @@
   align-items: center;
   /* justify-content: space-around; */
 }
+.second-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.second-header button {
+  cursor: pointer;
+  padding: 5px;
+  color: white;
+  background-color: #00b890;
+  border: none;
+  border-radius: 5px;
+}
 .Nav-header .Bookmark-icon {
   margin-top: 5px;
 }

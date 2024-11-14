@@ -1,4 +1,5 @@
 import "./css/AsideRealTimeBoard.css";
+import Info from "./icon/Info";
 
 const AsideRealTimeBoard = () => {
   return (
@@ -70,7 +71,10 @@ const AsideRealTimeBoard = () => {
           </li>
         </ul>
       </div>
-      <div className="realtimeboard-bottom"></div>
+      <div className="realtimeboard-bottom">
+        <Info />
+        <div> 30분 단위 실시간 조회수 1위</div>
+      </div>
     </div>
   );
 };

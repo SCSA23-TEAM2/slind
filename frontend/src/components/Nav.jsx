@@ -63,8 +63,9 @@ const Nav = () => {
           ))}
         </ul>
       </div>
-      <div className="Nav-header">
+      <div className="Nav-header second-header">
         <h2 className="board-title">게시판</h2>
+        <button>새로 만들기</button>
       </div>
       <div className="Nav-search">
         <input

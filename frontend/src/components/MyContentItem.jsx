@@ -16,14 +16,15 @@ const MyContentItem = () => {
         </div>
         <div className="MyContentList-content-date">{date}</div>
         {/* 재판중인 게ㅣㅅ판이나 게시글은 삭제가 아니라 재판중 이라고 표시하고 비활성화해야함 */}
-        <button
-          onClick={() => {
-            console.log("wow");
-          }}
-          className="MyContentList-content-deleteButton"
-        >
-          삭제
-        </button>
+        <div className="MyContentList-content-delete">
+          <button
+            onClick={() => {
+              console.log("wow");
+            }}
+          >
+            삭제
+          </button>
+        </div>
       </div>
     </li>
   );

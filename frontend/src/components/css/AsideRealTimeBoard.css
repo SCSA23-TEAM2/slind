@@ -42,3 +42,12 @@
   text-decoration: underline;
   font-weight: bold;
 }
+.realtimeboard-bottom {
+  margin-top: 20px;
+  color: gray;
+  display: flex;
+  align-items: center;
+}
+.realtimeboard-bottom div {
+  margin-left: 10px;
+}
