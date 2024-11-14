@@ -29,6 +29,9 @@
         <typeAlias type="com.team2.slind.member.vo.Member" alias="Member"/>
         <typeAlias type="com.team2.slind.member.vo.Question" alias="Question"/>
 
+        <!--   LocalDateTime     -->
+        <typeAlias type="java.time.LocalDateTime" alias="LocalDateTime"/>
+
     </typeAliases>
 
 </configuration>
