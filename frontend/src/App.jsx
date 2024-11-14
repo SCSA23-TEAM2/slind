@@ -17,13 +17,13 @@ function App() {
     <div className="Body">
       {/*고정 컴포넌트  */}
       <Header />
-      {/* <Nav /> */}
+      <Nav />
 
       {/* 로그인 페이지 */}
       {/* <Login /> */}
 
       {/* 게시판 페이지 */}
-      {/* <GeneralBoard /> */}
+      <GeneralBoard />
 
       {/* 메인 페이지 */}
       {/* <MainCourtBoard />
@@ -31,10 +31,10 @@ function App() {
       <AsideRealTimeBoard /> */}
 
       {/* 마이페이지 */}
-      <MyPageNav />
+      {/* <MyPageNav /> */}
       {/* <MyPage /> */}
       {/* <EditBookmark /> */}
-      <MyContent />
+      {/* <MyContent /> */}
     </div>
   );
 }

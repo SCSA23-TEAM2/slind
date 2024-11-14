@@ -9,8 +9,13 @@
 .MyPage-header {
   width: 800px;
   border-bottom: 3px solid #f6f6f6;
+  margin: 20px 0;
+  padding: 20px 0;
 }
-
+.MyPage-header h1 {
+  font-size: 18px;
+  font-weight: bold;
+}
 .MyPage-content {
   width: 800px;
   height: 360px;

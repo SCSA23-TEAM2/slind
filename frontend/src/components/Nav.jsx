@@ -1,42 +1,44 @@
 import "./css/Nav.css";
 import { useState, useRef } from "react";
 import BookMark from "./icon/BookMark";
+
+const mockitem1 = {
+  boardPk: 1,
+  boardTitle: "상처치료해줄사람어디없나가만히놔두다간끊임없이덧나",
+};
+const mockitem2 = {
+  boardPk: 2,
+  boardTitle: "와우",
+};
+const mockitem3 = {
+  boardPk: 3,
+  boardTitle: "백준오브레전드",
+};
+const mockitem4 = {
+  boardPk: 4,
+  boardTitle: "t",
+};
+const wholeMock = [];
+// for (let i = 0; i < 30; i++) {
+//   wholeMock.push(mockitem);
+// }
+wholeMock.push(mockitem1);
+wholeMock.push(mockitem2);
+wholeMock.push(mockitem3);
+wholeMock.push(mockitem4);
 const Nav = () => {
   const idRef = useRef(1);
-  const mockitem1 = {
-    boardPk: 1,
-    boardTitle: "상처치료해줄사람어디없나가만히놔두다간끊임없이덧나",
-  };
-  const mockitem2 = {
-    boardPk: 2,
-    boardTitle: "와우",
-  };
-  const mockitem3 = {
-    boardPk: 3,
-    boardTitle: "백준오브레전드",
-  };
-  const wholeMock = [];
-  // for (let i = 0; i < 30; i++) {
-  //   wholeMock.push(mockitem);
-  // }
-  wholeMock.push(mockitem1);
-  wholeMock.push(mockitem2);
-  wholeMock.push(mockitem3);
-  wholeMock.push(mockitem3);
-  wholeMock.push(mockitem3);
-  wholeMock.push(mockitem3);
-  wholeMock.push(mockitem3);
-  wholeMock.push(mockitem3);
-  wholeMock.push(mockitem3);
-  wholeMock.push(mockitem3);
-  wholeMock.push(mockitem3);
+
   const [boardList, setBoardList] = useState(wholeMock);
   // const [inputBoard, setInputBoard] = useState("");
   const onChange = (e) => {
     if (e.target.value === "") setBoardList(wholeMock);
     else {
       const filtered = wholeMock.filter((item) => {
-        if (item.boardTitle.includes(e.target.value)) return true;
+        if (
+          item.boardTitle.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+          return true;
       });
       setBoardList(filtered);
     }
@@ -62,7 +64,7 @@ const Nav = () => {
         </ul>
       </div>
       <div className="Nav-header">
-        <h2>게시판</h2>
+        <h2 className="board-title">게시판</h2>
       </div>
       <div className="Nav-search">
         <input

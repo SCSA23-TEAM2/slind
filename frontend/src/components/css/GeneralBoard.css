@@ -28,6 +28,10 @@
   align-items: center;
   gap: 5px;
 }
+.board-name h1 {
+  font-size: 18px;
+  font-weight: bold;
+}
 .boardButton {
   display: flex;
   gap: 20px;

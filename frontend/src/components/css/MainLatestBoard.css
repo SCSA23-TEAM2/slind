@@ -10,6 +10,12 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 3px solid #f6f6f6;
+  margin: 20px 0;
+  padding: 20px 0;
+}
+.board-name h3 {
+  font-size: 18px;
+  font-weight: bold;
 }
 .board-item-wrapper ul {
   list-style: none;

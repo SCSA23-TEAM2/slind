@@ -9,6 +9,7 @@
 }
 .realtimeboard-header h4 {
   margin-top: 0;
+  font-weight: bold;
 }
 .board-content-wrapper {
   list-style: none;

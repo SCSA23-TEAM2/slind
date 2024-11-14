@@ -21,7 +21,9 @@
   margin-top: 5px;
 }
 .MyPageNav-header h2 {
-  margin-left: 20px;
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 18px;
 }
 /* .Nav-board { */
 /* height: 450px; */

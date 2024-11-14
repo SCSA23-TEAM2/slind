@@ -20,8 +20,11 @@
 .Nav-header .Bookmark-icon {
   margin-top: 5px;
 }
-.Nav-header .Bookmark-title {
-  margin-left: 20px;
+.Nav-header .Bookmark-title,
+.board-title {
+  margin: 10px;
+  font-size: 18px;
+  font-weight: bold;
 }
 .Nav-search input {
   width: 160px;

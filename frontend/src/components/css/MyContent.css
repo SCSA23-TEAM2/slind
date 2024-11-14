@@ -9,6 +9,12 @@
 .MyContent-header {
   width: 800px;
   border-bottom: 3px solid #f6f6f6;
+  margin: 20px 0;
+  padding: 20px 0;
+}
+.MyContent-header h1 {
+  font-size: 18px;
+  font-weight: bold;
 }
 .MyContent-content {
   padding-top: 10px;
@@ -20,6 +26,6 @@
 .content-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+
   padding-left: 0;
 }
