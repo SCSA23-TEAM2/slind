@@ -15,4 +15,5 @@ public class JudgementReaction {
     private Long judgementReactionPk;
     private Long judgementPk;
     private Long memberPk;
+    private Boolean isLike;
 }

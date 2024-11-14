@@ -18,4 +18,8 @@ public class Member extends BaseVO {
     private String memberPassword;
     private String nickname;
     private String answer;
+
+    public Member(Long memberPk){
+        this.memberPk = memberPk;
+    }
 }

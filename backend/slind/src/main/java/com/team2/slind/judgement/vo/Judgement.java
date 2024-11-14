@@ -1,6 +1,7 @@
 package com.team2.slind.judgement.vo;
 
 import com.team2.slind.common.basevo.BaseVO;
+import com.team2.slind.member.vo.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,11 +16,12 @@ import org.springframework.stereotype.Component;
 public class Judgement extends BaseVO {
 
     private Long judgementPk;
-    private Long memberPk;
+    private Member member;
     private Long articlePk;
     private Long boardPk;
     private String title;
     private String judgementContent;
     private int likeCount;
     private int dislikeCount;
+    private int viewCount;
 }
