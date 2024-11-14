@@ -1,6 +1,7 @@
 import "./css/Nav.css";
 import { useState, useRef } from "react";
 import BookMark from "./icon/BookMark";
+import Modal from "./Modal/CreateBoardModal";
 
 const mockitem1 = {
   boardPk: 1,
@@ -43,6 +44,17 @@ const Nav = () => {
       setBoardList(filtered);
     }
   };
+
+  // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   // useEffect(() => {
   //   // console.log(`count: ${count} , ${input}`);
   // }, [inputBoard]);
@@ -65,7 +77,11 @@ const Nav = () => {
       </div>
       <div className="Nav-header second-header">
         <h2 className="board-title">게시판</h2>
-        <button>새로 만들기</button>
+        <button onClick={openModal}>새로 만들기</button>
+        <Modal open={modalOpen} close={closeModal} header="게시판 생성">
+          {/* Modal.js <main> {props.children} </main>에 내용이 입력된다. 리액트 */}
+          함수형 모달 팝업창입니다. 쉽게 만들 수 있어요. 같이 만들어봐요!
+        </Modal>
       </div>
       <div className="Nav-search">
         <input
