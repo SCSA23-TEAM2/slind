@@ -6,7 +6,9 @@ import com.team2.slind.article.vo.Article;
 import com.team2.slind.board.mapper.BoardMapper;
 import com.team2.slind.board.vo.Board;
 import com.team2.slind.comment.mapper.CommentMapper;
+import com.team2.slind.comment.vo.Comment;
 import com.team2.slind.common.exception.AlreadyDeletedException;
+import com.team2.slind.common.exception.ArticleNotFoundException;
 import com.team2.slind.common.exception.DuplicateMemberIdException;
 import com.team2.slind.common.exception.DuplicateNicknameException;
 import com.team2.slind.judgement.mapper.JudgementMapper;
@@ -213,5 +215,53 @@ public class MemberService {
                 .list(responseList)
                 .hasNext(hasNext)
                 .build());
+    }
+
+    public ResponseEntity<InfiniteListResponse<CommentGetResponse>> getMyCommentList
+            (Long memberPk, Long lastCommentPk) {
+        logger.info("Start : Get My Comment List");
+        logger.info("memberPk : " + memberPk);
+        logger.info("lastCommentPk : " + lastCommentPk);
+
+        // 댓글 목록 가져오기
+        List<Comment> comments;
+
+        if (lastCommentPk == null) {
+            comments = commentMapper.findListByMemberPkFirst(memberPk, size);
+        } else {
+            comments = commentMapper.findListByMemberPk(memberPk, lastCommentPk, size);
+        }
+
+        // 반환 DTO 생성
+        List<CommentGetResponse> responseList = comments.stream()
+                .map(comment -> {
+                    logger.info("Comment : " , comment.getCommentPk());
+                    logger.info("articlePk: {}" , comment.getArticlePk());
+                    Article article = articleMapper.findByPk(comment.getArticlePk()).orElseThrow(()->
+                            new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
+                    return CommentGetResponse.builder()
+                            .boardPk(article.getArticleBoard().getBoardPk())
+                            .articlePk(article.getArticlePk())
+                            .articleTitle(article.getTitle())
+                            .commentPk(comment.getCommentPk())
+                            .articleContent(comment.getCommentContent())
+                            .createdDttm(comment.getCreatedDttm())
+                            .build();
+                })
+                .toList();
+
+        // hasNext 계산
+        boolean hasNext = comments.size() > size;
+        if (hasNext) {
+            responseList = responseList.subList(0, size);
+        }
+
+        logger.info("End : Get My Comment List");
+
+        return ResponseEntity.ok(InfiniteListResponse.<CommentGetResponse>builder()
+                .list(responseList)
+                .hasNext(hasNext)
+                .build());
+
     }
 }

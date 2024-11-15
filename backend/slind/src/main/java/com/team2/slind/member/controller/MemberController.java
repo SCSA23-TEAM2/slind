@@ -73,5 +73,11 @@ public class MemberController {
         return memberService.getMyBoardList(memberPk, lastBoardPk);
     }
 
+    @GetMapping({"/auth/comment", "/auth/comment/{lastCommentPk}"})
+    public ResponseEntity<InfiniteListResponse<CommentGetResponse>> getMyCommentList(
+            @PathVariable(value = "lastCommentPk", required = false) Long lastCommentPk
+    ){
+        return memberService.getMyCommentList(memberPk, lastCommentPk);
+    }
 
 }
