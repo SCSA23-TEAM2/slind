@@ -23,7 +23,8 @@ public interface ArticleMapper {
 
     Integer updateDislikeCount(@Param("upCount") Integer upCount, @Param("articlePk") Long articlePk);
 
+    Integer findCountByPk(Long articlePk);
+    Optional<Long> findMemberByPk(Long articlePk);
     Long findTotalRecords(Long boardPk);
-
     List<Article> findByBoardPk(Long boardPk, Integer offset, int articleListSize);
 }

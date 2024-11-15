@@ -7,6 +7,7 @@ import com.team2.slind.article.dto.response.ArticleListResponse;
 import com.team2.slind.article.dto.response.ArticlePkResponse;
 import com.team2.slind.article.dto.response.ArticleMainResponse;
 import com.team2.slind.article.service.ArticleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class ArticleController {
     }
 
     @PostMapping("/auth/reaction")
-    public ResponseEntity<Void> createReaction(@RequestBody ArticleReactionRequest articleReactionRequest) {
+    public ResponseEntity<Void> createReaction(@RequestBody @Valid ArticleReactionRequest articleReactionRequest) {
         return articleService.createReaction(articleReactionRequest, memberPk);
     }
 

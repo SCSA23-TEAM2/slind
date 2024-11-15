@@ -3,6 +3,7 @@ package com.team2.slind.article.vo;
 import com.team2.slind.board.vo.Board;
 import com.team2.slind.comment.vo.Comment;
 import com.team2.slind.common.basevo.BaseVO;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

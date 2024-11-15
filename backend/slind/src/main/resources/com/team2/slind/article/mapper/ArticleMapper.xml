@@ -101,4 +101,10 @@
         )
         ORDER BY created_dttm DESC, article_pk DESC
     </select>
+    <select id="findCountByPk" resultType="Integer">
+        SELECT COUNT(*) FROM tbl_article WHERE article_pk = #{articlePk}
+    </select>
+    <select id="findMemberByPk" resultType="Long">
+        SELECT member_pk FROM tbl_article WHERE article_pk = #{articlePk}
+    </select>
 </mapper>

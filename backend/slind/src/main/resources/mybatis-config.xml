@@ -32,6 +32,10 @@
         <!--   LocalDateTime     -->
         <typeAlias type="java.time.LocalDateTime" alias="LocalDateTime"/>
 
+
+        <!--    DTO    -->
+
+
     </typeAliases>
 
 </configuration>

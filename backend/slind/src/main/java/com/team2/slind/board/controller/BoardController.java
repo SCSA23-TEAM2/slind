@@ -3,6 +3,7 @@ package com.team2.slind.board.controller;
 import com.team2.slind.board.dto.request.BoardCreateRequest;
 import com.team2.slind.board.dto.response.BoardResponse;
 import com.team2.slind.board.service.BoardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class BoardController {
     private final BoardService boardService;
     static Long memberPk = 1L;
     @PostMapping
-    public ResponseEntity<Void> createBoard(@RequestBody BoardCreateRequest boardCreateRequest) {
+    public ResponseEntity<Void> createBoard(@RequestBody @Valid BoardCreateRequest boardCreateRequest) {
         return boardService.createBoard(boardCreateRequest, memberPk);
 
     }
