@@ -15,8 +15,10 @@ public class GlobalExceptionHandler {
         BindingResult bindingResult = ex.getBindingResult();
         StringBuilder sb = new StringBuilder();
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            sb.append(fieldError.getField()) // 필드 이름
+            sb.append(fieldError.getField())
                     .append(" : ")
+                    .append(fieldError.getRejectedValue())
+                    .append("(이)가 ")// 필드 이름
                     .append(fieldError.getDefaultMessage()) // 유효성 검사 실패 메시지
                     .append("\n");
         }

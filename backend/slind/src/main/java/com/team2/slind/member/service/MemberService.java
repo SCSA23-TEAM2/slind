@@ -5,6 +5,7 @@ import com.team2.slind.common.exception.AlreadyDeletedException;
 import com.team2.slind.common.exception.DuplicateMemberIdException;
 import com.team2.slind.common.exception.DuplicateNicknameException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
+import com.team2.slind.member.dto.request.MyPageUpdateRequest;
 import com.team2.slind.member.dto.response.MyPageInfoResponse;
 import com.team2.slind.member.mapper.MemberMapper;
 import com.team2.slind.member.mapper.QuestionMapper;
@@ -12,6 +13,7 @@ import com.team2.slind.member.vo.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -82,5 +84,17 @@ public class MemberService {
                 MyPageInfoResponse.builder().memberId(member.getMemberId())
                         .nickname(member.getNickname()).question(question)
                         .answer(member.getAnswer()).build());
+    }
+
+    @Transactional
+    public ResponseEntity<Void> updateMypageInfo(Long memberPk, MyPageUpdateRequest myPageUpdateRequest) {
+        Member member = memberMapper.findByMemberPk(memberPk).orElse(null);
+        if (member == null || member.getIsDeleted() == 1) {
+            throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_MEMBER);
+        }
+
+        memberMapper.updateMemberInfo(myPageUpdateRequest.getNickname(), myPageUpdateRequest.getQuestionPk(),
+                        myPageUpdateRequest.getAnswer(), memberPk);
+        return ResponseEntity.ok().build();
     }
 }
