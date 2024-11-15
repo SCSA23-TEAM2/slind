@@ -4,21 +4,23 @@ import com.team2.slind.common.exception.InvalidMemberIdLengthException;
 import com.team2.slind.common.exception.InvalidNicknameLengthException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
-import com.team2.slind.member.dto.request.QuestionAnswerUpdateRequest;
+import com.team2.slind.member.dto.response.JudgementGetInfiniteResponse;
+import com.team2.slind.member.dto.response.JudgementGetResponse;
 import com.team2.slind.member.dto.response.MyPageInfoResponse;
-import com.team2.slind.member.dto.response.ValidNicknameResponse;
 import com.team2.slind.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-    static Long memberPk = 2L;
+    static Long memberPk = 1L;
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@RequestBody MemberSignupRequest memberSignupRequest) {
         return memberService.signup(memberSignupRequest);
@@ -51,5 +53,13 @@ public class MemberController {
         return memberService.updateMypageInfo(memberPk, myPageUpdateRequest);
 
     }
+
+    @GetMapping({"/auth/judgement", "/auth/judgement/{lastJudgementPk}"})
+    public ResponseEntity<JudgementGetInfiniteResponse> getMyJudgementList(
+            @PathVariable(value = "lastJudgementPk", required = false) Long lastJudgementPk
+    ){
+        return memberService.getMyJudgementList(memberPk, lastJudgementPk);
+    }
+
 
 }

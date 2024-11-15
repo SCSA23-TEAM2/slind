@@ -1,8 +1,10 @@
 package com.team2.slind.member.mapper;
 
+import com.team2.slind.judgement.vo.Judgement;
 import com.team2.slind.member.vo.Member;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberMapper {
@@ -19,4 +21,5 @@ public interface MemberMapper {
                           @Param("answer") String answer,
                           @Param("memberPk") Long memberPk);
     int findCountByPk(@Param("memberPk") Long memberPk);
+
 }
