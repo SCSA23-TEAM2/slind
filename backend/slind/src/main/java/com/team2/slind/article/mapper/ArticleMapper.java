@@ -2,6 +2,7 @@ package com.team2.slind.article.mapper;
 
 import com.team2.slind.article.vo.Article;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,15 @@ public interface ArticleMapper {
     Integer findCountByPk(Long articlePk);
     Optional<Long> findMemberByPk(Long articlePk);
     Long findTotalRecords(Long boardPk);
-    List<Article> findByBoardPk(Long boardPk, Integer offset, int articleListSize);
+    List<Article> findByBoardPk(@Param("boardPk") Long boardPk,
+                                @Param("offset") Integer offset,
+                                @Param("articleListSize") int articleListSize);
+    List<Article> findByBoardPkOrderByViewCount(@Param("boardPk") Long boardPk,
+                                                @Param("offset") Integer offset,
+                                                @Param("articleListSize") int articleListSize);
+    List<Article> findByBoardPkOrderByLikeCount(Long boardPk,
+                                                @Param("offset") Integer offset,
+                                                @Param("articleListSize") int articleListSize);
 
     List<Article> findListByMemberPkFirst(@Param("memberPk") Long memberPk, @Param("size") int size);
 

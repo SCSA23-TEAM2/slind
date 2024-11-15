@@ -7,6 +7,7 @@ import com.team2.slind.article.dto.response.ArticleListResponse;
 import com.team2.slind.article.dto.response.ArticlePkResponse;
 import com.team2.slind.article.dto.response.ArticleMainResponse;
 import com.team2.slind.article.service.ArticleService;
+import com.team2.slind.common.exception.InvalidRequestException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -53,11 +54,11 @@ public class ArticleController {
             @PathVariable("sort") Integer sort,
             @PathVariable("page") Integer page) {
         if (sort == null || page == null || boardPk == null) {
-            return ResponseEntity.badRequest().build();
+            throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
         } else if (sort < 0 || sort > 2) {
-            return ResponseEntity.badRequest().build();
+            throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
         } else if (page < 0) {
-            return ResponseEntity.badRequest().build();
+            throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
         }
         return articleService.getArticleList(boardPk, sort, page);
     }
