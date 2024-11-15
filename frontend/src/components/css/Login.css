@@ -2,9 +2,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: 1024px;
+  height: 100%;
   width: 100%;
   background-color: #f6f6f6;
+  overflow-y: auto;
 }
 .login-wrapper {
   width: 400px;
@@ -22,7 +23,7 @@
   margin-bottom: 10px;
 }
 .login-header-content img {
-  width: 160px;
+  width: 187px;
   height: 80px;
 }
 .login-warning {

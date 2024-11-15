@@ -1,7 +1,9 @@
 import Header from "./components/Header";
 import Nav from "./components/Nav";
 import Login from "./components/Login";
+import Join from "./components/Join";
 import FindPassword from "./components/FindPassword";
+import PasswordConfig from "./components/PasswordConfig";
 import GeneralBoard from "./components/GeneralBoard";
 import MainLatestBoard from "./components/MainLatestBoard";
 import MainCourtBoard from "./components/MainCourtBoard";
@@ -19,12 +21,14 @@ function App() {
     <div className="Body">
       {/*고정 컴포넌트 */}
       {/*로그인, 회원가입, 비밀번호찾기 제외*/}
-      {/* <Header /> */}
+      <Header />
       {/*로그인, 회원가입, 비밀번호찾기, 마이페이지 제외*/}
-      {/* <Nav /> */}
+      <Nav />
       {/* ----- 로그인 페이지 */}
       {/* <Login /> */}
-      <FindPassword />
+      {/* <Join /> */}
+      {/* <FindPassword /> */}
+      {/* <PasswordConfig /> */}
       {/* ----- 게시판 페이지 */}
       {/* <GeneralBoard /> */}
       {/* ----- 메인 페이지 */}
@@ -32,8 +36,8 @@ function App() {
       <MainLatestBoard />
       <AsideRealTimeBoard /> */}
       {/* ----- 마이페이지 */}
-      {/* <MyPageNav />
-      <MyPage /> */}
+      {/* <MyPageNav /> */}
+      {/* <MyPage /> */}
       {/* <EditBookmark /> */}
       {/* <MyContent /> */}
       {/* ----- 게시글 작성 페이지 */}

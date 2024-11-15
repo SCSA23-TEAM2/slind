@@ -1,0 +1,148 @@
+.Join-body-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #f6f6f6;
+  overflow-y: auto;
+}
+.Join-wrapper {
+  width: 500px;
+  height: 950px;
+  margin: 60px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  border: 3px solid #00b890;
+  gap: 20px;
+}
+.Join-Header {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.Join-Header img {
+  width: 187px;
+  height: 80px;
+}
+.Join-content {
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.Join-id-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.Join-id-content {
+  width: 430px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.Join-id-content input {
+  width: 270px;
+  padding: 15px;
+  height: 20px;
+  background-color: #f6f6f6;
+  border-bottom: 1px solid black;
+  border-radius: 5px;
+  outline: none;
+}
+.Join-id-content input:focus {
+  border-bottom: 1px solid #00b890;
+  outline: none;
+}
+
+.Join-id-content button {
+  cursor: pointer;
+  padding: 5px;
+  height: 40px;
+  width: 80px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  background-color: #00b890;
+}
+.Join-warning {
+  font-size: small;
+}
+.Join-nickname-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.Join-nickname-content {
+  width: 430px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.Join-nickname-content input {
+  width: 270px;
+  padding: 15px;
+  height: 20px;
+  background-color: #f6f6f6;
+  border-bottom: 1px solid black;
+  border-radius: 5px;
+  outline: none;
+}
+.Join-nickname-content input:focus {
+  border-bottom: 1px solid #00b890;
+  outline: none;
+}
+
+.Join-nickname-content button {
+  cursor: pointer;
+  padding: 5px;
+  height: 40px;
+  width: 80px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  background-color: #00b890;
+}
+.Join-pwdQA-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 20px;
+}
+.Join-pwdQ,
+.Join-pwdA {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.Join-pwdA-input {
+  width: 270px;
+  height: 40px;
+  border-bottom: 1px solid black;
+  padding: 15px;
+  line-height: 20px;
+  border-radius: 5px;
+  background-color: #f6f6f6;
+}
+.Join-bottom {
+  width: 430px;
+  height: 70px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.Join-complete-button {
+  cursor: pointer;
+  padding: 5px;
+  height: 40px;
+  width: 80px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  background-color: #00b890;
+}
