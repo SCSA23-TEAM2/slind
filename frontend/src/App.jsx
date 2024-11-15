@@ -47,9 +47,9 @@ function App() {
 
       {/* 게시글 상세 페이지 */}
       <PostDetail />
+      {/* 테스트용 */}
       {/* <InfiniteScrollTest /> */}
     </div>
   );
 }
-
 export default App;
