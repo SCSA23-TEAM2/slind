@@ -56,7 +56,7 @@
                 WHERE member_pk = #{memberPk}
                 ORDER BY judgement_pk DESC
                 )
-            WHERE ROWNUM &lt;= #{size}
+            WHERE ROWNUM &lt;= #{size}+1
         )
     </select>
 </mapper>

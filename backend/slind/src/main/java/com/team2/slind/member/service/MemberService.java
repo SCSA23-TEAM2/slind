@@ -1,6 +1,11 @@
 package com.team2.slind.member.service;
 
 
+import com.team2.slind.article.mapper.ArticleMapper;
+import com.team2.slind.article.vo.Article;
+import com.team2.slind.board.mapper.BoardMapper;
+import com.team2.slind.board.vo.Board;
+import com.team2.slind.comment.mapper.CommentMapper;
 import com.team2.slind.common.exception.AlreadyDeletedException;
 import com.team2.slind.common.exception.DuplicateMemberIdException;
 import com.team2.slind.common.exception.DuplicateNicknameException;
@@ -8,9 +13,7 @@ import com.team2.slind.judgement.mapper.JudgementMapper;
 import com.team2.slind.judgement.vo.Judgement;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
-import com.team2.slind.member.dto.response.JudgementGetInfiniteResponse;
-import com.team2.slind.member.dto.response.JudgementGetResponse;
-import com.team2.slind.member.dto.response.MyPageInfoResponse;
+import com.team2.slind.member.dto.response.*;
 import com.team2.slind.member.mapper.MemberMapper;
 import com.team2.slind.member.mapper.QuestionMapper;
 import com.team2.slind.member.vo.Member;
@@ -32,8 +35,13 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final QuestionMapper questionMapper;
     private final JudgementMapper judgementMapper;
+    private final ArticleMapper articleMapper;
+    private final BoardMapper boardMapper;
+    private final CommentMapper commentMapper;
+
+
     private final Logger logger = LoggerFactory.getLogger(MemberService.class);
-    final int size = 10;
+    final int size = 5;
 
     public ResponseEntity<Void> signup(MemberSignupRequest memberSignupRequest) {
         String memberId = memberSignupRequest.getMemberId();
@@ -107,7 +115,7 @@ public class MemberService {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<JudgementGetInfiniteResponse> getMyJudgementList(
+    public ResponseEntity<InfiniteListResponse<JudgementGetResponse>> getMyJudgementList(
             Long memberPk, Long lastJudgementPk) {
         logger.info("Start : Get My Judgement List ");
         logger.info("memberPk : " + memberPk);
@@ -133,8 +141,77 @@ public class MemberService {
         }
         logger.info("End : Get My Judgement List ");
 
-        return ResponseEntity.ok().body(JudgementGetInfiniteResponse.builder().
-                judgementList(responseList).hasNext(hasNext).build());
+        return ResponseEntity.ok().body(InfiniteListResponse.<JudgementGetResponse>builder().
+                list(responseList).hasNext(hasNext).build());
     }
 
+    public ResponseEntity<InfiniteListResponse<ArticleGetResponse>> getMyArticleList(Long memberPk, Long lastArticlePk) {
+        logger.info("Start : Get My Article List ");
+        logger.info("memberPk : " + memberPk);
+        logger.info("lastArticlePk : " + lastArticlePk);
+
+        List<Article> list;
+
+        if (lastArticlePk == null) {
+            list = articleMapper.findListByMemberPkFirst(memberPk, size);
+        } else {
+            list = articleMapper.findListByMemberPk(memberPk, lastArticlePk, size);
+        }
+
+        List<ArticleGetResponse> responseList = list.stream()
+                .map(article -> ArticleGetResponse.builder()
+                        .boardPk(article.getArticleBoard().getBoardPk())
+                        .boardTitle(article.getArticleBoard().getTitle())
+                        .articlePk(article.getArticlePk())
+                        .articleTitle(article.getTitle())
+                        .createdDttm(article.getCreatedDttm())
+                        .build())
+                .toList();
+
+        Boolean hasNext = list.size() > size;
+        if (hasNext) {
+            responseList = responseList.subList(0, size);
+        }
+
+        logger.info("End : Get My Article List ");
+
+        return ResponseEntity.ok().body(InfiniteListResponse.<ArticleGetResponse>builder()
+                .list(responseList)
+                .hasNext(hasNext)
+                .build());
+    }
+
+    public ResponseEntity<InfiniteListResponse<BoardGetResponse>> getMyBoardList(Long memberPk, Long lastBoardPk) {
+        logger.info("Start : Get My Board List ");
+        logger.info("memberPk : " + memberPk);
+        logger.info("lastBoardPk : " + lastBoardPk);
+
+        List<Board> list;
+
+        if (lastBoardPk == null) {
+            list = boardMapper.findListByMemberPkFirst(memberPk, size);
+        } else {
+            list = boardMapper.findListByMemberPk(memberPk, lastBoardPk, size);
+        }
+
+        List<BoardGetResponse> responseList = list.stream()
+                .map(board -> BoardGetResponse.builder()
+                        .boardPk(board.getBoardPk())
+                        .boardTitle(board.getTitle())
+                        .createdDttm(board.getCreatedDttm())
+                        .build())
+                .toList();
+
+        Boolean hasNext = list.size() > size;
+        if (hasNext) {
+            responseList = responseList.subList(0, size);
+        }
+
+        logger.info("End : Get My Board List ");
+
+        return ResponseEntity.ok().body(InfiniteListResponse.<BoardGetResponse>builder()
+                .list(responseList)
+                .hasNext(hasNext)
+                .build());
+    }
 }

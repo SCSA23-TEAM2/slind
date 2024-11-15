@@ -27,4 +27,10 @@ public interface ArticleMapper {
     Optional<Long> findMemberByPk(Long articlePk);
     Long findTotalRecords(Long boardPk);
     List<Article> findByBoardPk(Long boardPk, Integer offset, int articleListSize);
+
+    List<Article> findListByMemberPkFirst(@Param("memberPk") Long memberPk, @Param("size") int size);
+
+    List<Article> findListByMemberPk(@Param("memberPk") Long memberPk,
+                                     @Param("lastPk") Long lastPk,
+                                     @Param("size") int size);
 }
