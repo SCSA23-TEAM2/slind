@@ -107,4 +107,27 @@
     <select id="findMemberByPk" resultType="Long">
         SELECT member_pk FROM tbl_article WHERE article_pk = #{articlePk}
     </select>
+    <select id="findListByMemberPkFirst" resultMap="ArticleMap">
+        SELECT a.article_pk, a.title, a.created_dttm,
+        b.board_pk, b.title AS board_title
+        FROM tbl_article a
+        JOIN tbl_board b ON a.board_pk = b.board_pk
+        WHERE a.member_pk = #{memberPk}
+        AND a.is_deleted = 0
+        ORDER BY a.article_pk DESC
+        FETCH FIRST #{size}+1 ROWS ONLY
+    </select>
+
+    <select id="findListByMemberPk" resultMap="ArticleMap">
+        SELECT a.article_pk, a.title AS title, a.created_dttm,
+        b.board_pk, b.title AS board_title
+        FROM tbl_article a
+        JOIN tbl_board b ON a.board_pk = b.board_pk
+        WHERE a.member_pk = #{memberPk}
+        AND a.article_pk  &lt; #{lastPk}
+        AND a.is_deleted = 0
+        ORDER BY a.article_pk DESC
+        FETCH FIRST #{size}+1 ROWS ONLY
+    </select>
+
 </mapper>

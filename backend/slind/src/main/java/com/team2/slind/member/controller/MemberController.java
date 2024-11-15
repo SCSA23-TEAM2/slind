@@ -4,9 +4,7 @@ import com.team2.slind.common.exception.InvalidMemberIdLengthException;
 import com.team2.slind.common.exception.InvalidNicknameLengthException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
-import com.team2.slind.member.dto.response.JudgementGetInfiniteResponse;
-import com.team2.slind.member.dto.response.JudgementGetResponse;
-import com.team2.slind.member.dto.response.MyPageInfoResponse;
+import com.team2.slind.member.dto.response.*;
 import com.team2.slind.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -55,10 +53,24 @@ public class MemberController {
     }
 
     @GetMapping({"/auth/judgement", "/auth/judgement/{lastJudgementPk}"})
-    public ResponseEntity<JudgementGetInfiniteResponse> getMyJudgementList(
+    public ResponseEntity<InfiniteListResponse<JudgementGetResponse>> getMyJudgementList(
             @PathVariable(value = "lastJudgementPk", required = false) Long lastJudgementPk
     ){
         return memberService.getMyJudgementList(memberPk, lastJudgementPk);
+    }
+
+    @GetMapping({"/auth/article", "/auth/article/{lastArticlePk}"})
+    public ResponseEntity<InfiniteListResponse<ArticleGetResponse>> getMyArticleList(
+            @PathVariable(value = "lastArticlePk", required = false) Long lastArticlePk
+    ){
+        return memberService.getMyArticleList(memberPk, lastArticlePk);
+    }
+
+    @GetMapping({"/auth/board", "/auth/board/{lastBoardPk}"})
+    public ResponseEntity<InfiniteListResponse<BoardGetResponse>> getMyBoardList(
+            @PathVariable(value = "lastBoardPk", required = false) Long lastBoardPk
+    ){
+        return memberService.getMyBoardList(memberPk, lastBoardPk);
     }
 
 

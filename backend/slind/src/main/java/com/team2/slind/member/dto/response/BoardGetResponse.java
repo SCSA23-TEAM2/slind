@@ -5,16 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JudgementGetInfiniteResponse {
-
-    private List<JudgementGetResponse> judgementList;
-    private Boolean hasNext;
-
-
+public class BoardGetResponse {
+    private Long boardPk;
+    private String boardTitle;
+    private LocalDateTime createdDttm;
 }
