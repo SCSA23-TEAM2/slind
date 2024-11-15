@@ -4,6 +4,7 @@ import com.team2.slind.common.exception.InvalidMemberIdLengthException;
 import com.team2.slind.common.exception.InvalidNicknameLengthException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
+import com.team2.slind.member.dto.request.QuestionAnswerUpdateRequest;
 import com.team2.slind.member.dto.response.MyPageInfoResponse;
 import com.team2.slind.member.dto.response.ValidNicknameResponse;
 import com.team2.slind.member.service.MemberService;
@@ -50,4 +51,5 @@ public class MemberController {
         return memberService.updateMypageInfo(memberPk, myPageUpdateRequest);
 
     }
+
 }

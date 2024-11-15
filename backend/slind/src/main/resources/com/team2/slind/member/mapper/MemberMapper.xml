@@ -23,5 +23,8 @@
     <select id="findByMemberPk" parameterType="Long" resultType="Member">
         SELECT * FROM tbl_member WHERE member_pk = #{memberPk} AND is_deleted = 0
     </select>
+    <select id="findCountByPk" parameterType="Long" resultType="int">
+        SELECT COUNT(*) FROM tbl_member WHERE member_pk = #{memberPk} AND is_deleted = 0
+    </select>
 
 </mapper>
