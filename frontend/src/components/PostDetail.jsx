@@ -1,5 +1,5 @@
 const PostDetail = () => {
-  return <div></div>;
+  return <div>wow</div>;
 };
 
 export default PostDetail;
