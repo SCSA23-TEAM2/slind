@@ -3,6 +3,7 @@ package com.team2.slind.member.controller;
 import com.team2.slind.common.exception.InvalidMemberIdLengthException;
 import com.team2.slind.common.exception.InvalidNicknameLengthException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
+import com.team2.slind.member.dto.response.MyPageInfoResponse;
 import com.team2.slind.member.dto.response.ValidNicknameResponse;
 import com.team2.slind.member.service.MemberService;
 import jakarta.validation.Valid;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-
+    static Long memberPk = 2L;
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@RequestBody MemberSignupRequest memberSignupRequest) {
         return memberService.signup(memberSignupRequest);
@@ -35,5 +36,11 @@ public class MemberController {
             throw new InvalidNicknameLengthException(InvalidNicknameLengthException.INVALID_NICKNAME_LENGTH);
         }
         return memberService.checkDuplicateNickname(nickname);
+    }
+
+
+    @GetMapping("/auth/mypage")
+    public ResponseEntity<MyPageInfoResponse> getMypageInfo(){
+        return memberService.getMyPageInfo(memberPk);
     }
 }

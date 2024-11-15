@@ -13,4 +13,7 @@
     <select id="findByNickname" parameterType="string" resultType="Member">
         SELECT * FROM tbl_member WHERE nickname = #{nickname}
     </select>
+    <select id="findByMemberPk" parameterType="Long" resultType="Member">
+        SELECT * FROM tbl_member WHERE member_pk = #{memberPk}
+    </select>
 </mapper>

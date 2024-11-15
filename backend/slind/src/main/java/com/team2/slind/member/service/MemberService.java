@@ -1,12 +1,13 @@
 package com.team2.slind.member.service;
 
 
+import com.team2.slind.common.exception.AlreadyDeletedException;
 import com.team2.slind.common.exception.DuplicateMemberIdException;
 import com.team2.slind.common.exception.DuplicateNicknameException;
-import com.team2.slind.common.exception.InvalidNicknameLengthException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
-import com.team2.slind.member.dto.response.ValidNicknameResponse;
+import com.team2.slind.member.dto.response.MyPageInfoResponse;
 import com.team2.slind.member.mapper.MemberMapper;
+import com.team2.slind.member.mapper.QuestionMapper;
 import com.team2.slind.member.vo.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberMapper memberMapper;
-
+    private final QuestionMapper questionMapper;
     public ResponseEntity<Void> signup(MemberSignupRequest memberSignupRequest) {
         String memberId = memberSignupRequest.getMemberId();
         String nickname = memberSignupRequest.getNickname();
@@ -67,5 +68,19 @@ public class MemberService {
     private boolean isMemberIdDuplicated(String memberId) {
         Optional<Member> member = memberMapper.findByMemberId(memberId);
         return member.isPresent();
+    }
+
+    public ResponseEntity<MyPageInfoResponse> getMyPageInfo(Long memberPk) {
+        Member member = memberMapper.findByMemberPk(memberPk).orElse(null);
+        if (member == null || member.getIsDeleted() == 1) {
+            throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_MEMBER);
+        }
+
+        String question = questionMapper.findTextByPk(member.getQuestionPk());
+
+        return ResponseEntity.ok().body(
+                MyPageInfoResponse.builder().memberId(member.getMemberId())
+                        .nickname(member.getNickname()).question(question)
+                        .answer(member.getAnswer()).build());
     }
 }
