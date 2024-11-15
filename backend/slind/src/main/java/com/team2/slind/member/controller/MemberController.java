@@ -3,6 +3,7 @@ package com.team2.slind.member.controller;
 import com.team2.slind.common.exception.InvalidMemberIdLengthException;
 import com.team2.slind.common.exception.InvalidNicknameLengthException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
+import com.team2.slind.member.dto.request.MyPageUpdateRequest;
 import com.team2.slind.member.dto.response.MyPageInfoResponse;
 import com.team2.slind.member.dto.response.ValidNicknameResponse;
 import com.team2.slind.member.service.MemberService;
@@ -42,5 +43,11 @@ public class MemberController {
     @GetMapping("/auth/mypage")
     public ResponseEntity<MyPageInfoResponse> getMypageInfo(){
         return memberService.getMyPageInfo(memberPk);
+    }
+
+    @PutMapping("/auth/mypage")
+    public ResponseEntity<Void> updateMypageInfo(@RequestBody @Valid MyPageUpdateRequest myPageUpdateRequest){
+        return memberService.updateMypageInfo(memberPk, myPageUpdateRequest);
+
     }
 }
