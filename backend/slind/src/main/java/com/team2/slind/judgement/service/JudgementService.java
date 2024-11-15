@@ -86,7 +86,7 @@ public class JudgementService {
         Judgement judgement = judgementMapper.findJudgementByPk(judgementPk).orElseThrow(() ->
                 new JudgementNotFoundException(JudgementNotFoundException.NOT_EXIST_JUDGEMENT));
 
-        Optional<Boolean> reactionOpt = judgementReactionMapper.findByJudgementAndMemebr(judgementPk, memberPk);
+        Optional<Boolean> reactionOpt = judgementReactionMapper.findByJudgementAndMember(judgementPk, memberPk);
         Boolean isLike = reactionOpt.orElse(false);;
         Boolean isDislike = !reactionOpt.orElse(true);;
         Boolean isMine = judgement.getMember().getMemberPk().equals(memberPk);

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Optional;
 
 public interface JudgementReactionMapper {
-    Optional<Boolean> findByJudgementAndMemebr(@Param("judgementPk")Long judgementPk,
+    Optional<Boolean> findByJudgementAndMember(@Param("judgementPk")Long judgementPk,
                                                @Param("memberPk") Long memberPk);
 
     int countByJudgementAndMember(@Param("judgementPk") Long judgementPk,

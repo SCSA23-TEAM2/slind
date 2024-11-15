@@ -34,6 +34,7 @@
 
 
         <!--    DTO    -->
+        <typeAlias type="com.team2.slind.article.dto.mapper.ArticleDetailMapperDTO" alias="ArticleDetailMapperDTO"/>
 
 
     </typeAliases>

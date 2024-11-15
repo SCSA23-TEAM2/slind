@@ -1,5 +1,6 @@
 package com.team2.slind.article.mapper;
 
+import com.team2.slind.article.dto.mapper.ArticleDetailMapperDTO;
 import com.team2.slind.article.vo.Article;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,4 +34,6 @@ public interface ArticleMapper {
     List<Article> findListByMemberPk(@Param("memberPk") Long memberPk,
                                      @Param("lastPk") Long lastPk,
                                      @Param("size") int size);
+    Optional<ArticleDetailMapperDTO> findArticleDetail(@Param("articlePk") Long articlePk);
+
 }

@@ -59,4 +59,7 @@
             WHERE ROWNUM &lt;= #{size}+1
         )
     </select>
+    <select id="findPkByArticlePk" parameterType="Long" resultType="Long">
+        SELECT judgement_pk FROM tbl_judgement WHERE article_pk = #{articlePk} AND is_deleted = 0
+    </select>
 </mapper>

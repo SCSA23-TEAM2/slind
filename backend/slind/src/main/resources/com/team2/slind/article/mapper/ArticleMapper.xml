@@ -15,6 +15,17 @@
         </collection>
     </resultMap>
 
+    <resultMap id="ArticleDetailMap" type="Article" autoMapping="true">
+        <id property="articlePk" column="article_pk"/>
+        <association property="articleBoard" javaType="Board">
+            <id property="boardPk" column="board_pk"/>
+            <result property="title" column="board_title"/>
+        </association>
+        <collection property="comments" javaType="List" ofType="Comment">
+            <id property="commentPk" column="comment_pk"/>
+        </collection>
+    </resultMap>
+
     <insert id="saveArticle" parameterType="Article" >
         INSERT INTO tbl_article (article_pk, board_pk, member_pk, title, article_content)
         VALUES (seq_article_pk.NEXTVAL, #{articleBoard.boardPk}, #{memberPk}, #{title}, #{articleContent})
@@ -128,6 +139,23 @@
         AND a.is_deleted = 0
         ORDER BY a.article_pk DESC
         FETCH FIRST #{size}+1 ROWS ONLY
+    </select>
+
+
+    <select id="findArticleDetail" resultType="ArticleDetailMapperDTO" parameterType="Long">
+        SELECT
+        a.article_pk AS articlePk,
+        a.member_pk,
+        b.board_pk AS boardPk,
+        a.title AS title,
+        a.article_content AS articleContent,
+        m.nickname AS nickname,
+        a.created_dttm
+        FROM tbl_article a
+        JOIN tbl_board b ON a.board_pk = b.board_pk
+        JOIN tbl_member m ON a.member_pk = m.member_pk
+        WHERE a.article_pk = #{articlePk}
+        AND a.is_deleted = 0
     </select>
 
 </mapper>

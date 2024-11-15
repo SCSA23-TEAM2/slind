@@ -1,5 +1,7 @@
 package com.team2.slind.article.service;
 
+import com.team2.slind.article.dto.mapper.ArticleDetailMapperDTO;
+import com.team2.slind.article.dto.response.ArticleDetailResponse;
 import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.article.dto.request.ArticleReactionRequest;
 import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
@@ -13,6 +15,7 @@ import com.team2.slind.article.vo.ArticleReaction;
 import com.team2.slind.board.mapper.BoardMapper;
 import com.team2.slind.board.vo.Board;
 import com.team2.slind.common.exception.*;
+import com.team2.slind.judgement.mapper.JudgementMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +36,7 @@ public class ArticleService {
     private final ArticleMapper articleMapper;
     private final BoardMapper boardMapper;
     private final ArticleReactionMapper articleReactionMapper;
+    private final JudgementMapper judgementMapper;
     private Logger logger = LoggerFactory.getLogger(ArticleService.class);
     private static final int PAGE_LIST_SIZE = 10;
     private static final int ARTICLE_LIST_SIZE = 12;
@@ -244,5 +249,30 @@ public class ArticleService {
                 .hasPrevious(hasPrevious)
                 .hasNext(hasNext)
                 .build());
+    }
+
+    public ResponseEntity<ArticleDetailResponse> getArticleDetail(Long articlePk, Long memberPk) {
+        ArticleDetailMapperDTO article = articleMapper.findArticleDetail(articlePk).orElseThrow(()->
+                new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
+        Collections Collections;
+        int size = article.getComments() != null ?article.getComments().size():0;
+
+        Optional<Boolean> reactionOpt = articleReactionMapper.FindIsLikeByArticlePkAndMemberPk(articlePk, memberPk);
+        Boolean isLike = reactionOpt.orElse(false);
+        Boolean isDislike = !reactionOpt.orElse(true);
+        Boolean isMine = article.getMemberPk().equals(memberPk);
+        Optional<Long> judgementPkOpt = judgementMapper.findPkByArticlePk(articlePk);
+        Boolean isJudgement = judgementPkOpt.isPresent();
+
+        ArticleDetailResponse response = ArticleDetailResponse.builder()
+                .articlePk(articlePk)
+                .boardPk(article.getBoardPk()).title(article.getTitle())
+                .articleContent(article.getArticleContent()).nickname(article.getNickname())
+                .likeCount(article.getLikeCount()).dislikeCount(article.getDislikeCount())
+                .viewCnt(article.getViewCnt()).commentCount(size)
+                .createdDttm(article.getCreatedDttm())
+                .isLike(isLike).isDislike(isDislike).isMine(isMine)
+                .isJudgement(isJudgement).judgementPk(judgementPkOpt.orElse(null)).build();
+        return ResponseEntity.ok().body(response);
     }
 }

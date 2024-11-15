@@ -23,4 +23,6 @@ public interface JudgementMapper {
 
     List<Judgement> findListByMemberPkFirst(@Param("memberPk") Long memberPk,
                                             @Param("size") int size);
+
+    Optional<Long> findPkByArticlePk(@Param("articlePk") Long articlePk);
 }
