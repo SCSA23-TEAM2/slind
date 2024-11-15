@@ -101,10 +101,10 @@ public class ArticleService {
     }
     @Transactional
     public ResponseEntity<Void> deleteArticle(Long articlePk, Long memberPk) {
-        Article article = articleMapper.findByPk(articlePk).orElseThrow(()->
+        Long articleMemberPk = articleMapper.findMemberByPk(articlePk).orElseThrow(()->
         new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
 
-        if (!article.getMemberPk().equals(memberPk)) {
+        if (!articleMemberPk.equals(memberPk)) {
             throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_DELETE_ARTICLE);
         }
         Long result = articleMapper.deleteArticle(articlePk);
@@ -121,6 +121,9 @@ public class ArticleService {
         Long articlePk = articleReactionRequest.getArticlePk();
         logger.info("=========createReaction=============");
         logger.info("articlePk:{}", articlePk);
+        if (articleMapper.findCountByPk(articlePk) == 0) {
+            throw new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND);
+        }
         Boolean requestIsLike = articleReactionRequest.getIsLike();
         Boolean isUp = articleReactionRequest.getIsUp();
         //memberPk의 게시글 반응이 있다면 가져오기
