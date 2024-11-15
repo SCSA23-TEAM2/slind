@@ -95,4 +95,29 @@
         )
         WHERE ROWNUM <![CDATA[<=]]> #{fetchCount} + 1
     </select>
+
+
+    <select id="findListByMemberPkFirst" resultType="Comment">
+        SELECT c.comment_pk, c.comment_content, c.created_dttm, c.article_pk
+        FROM tbl_comment c
+        JOIN tbl_article a ON c.article_pk = a.article_pk
+        WHERE c.is_deleted = 0
+        AND c.member_pk = #{memberPk}
+        AND a.is_deleted = 0
+        ORDER BY c.comment_pk DESC
+        FETCH FIRST #{size} + 1 ROWS ONLY
+    </select>
+
+    <select id="findListByMemberPk" resultType="Comment">
+        SELECT c.comment_pk, c.comment_content, c.created_dttm, c.article_pk
+        FROM tbl_comment c
+        JOIN tbl_article a ON c.article_pk = a.article_pk
+        WHERE c.comment_pk &lt; #{lastCommentPk}
+        AND c.member_pk = #{memberPk}
+        AND c.is_deleted = 0
+        AND a.is_deleted = 0
+        ORDER BY c.comment_pk DESC
+        FETCH FIRST #{size} + 1 ROWS ONLY
+    </select>
+
 </mapper>

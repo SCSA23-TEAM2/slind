@@ -47,7 +47,7 @@
         SELECT seq_article_pk.CURRVAL FROM DUAL
     </select>
 
-    <select id="findByPk" resultType="Article" parameterType="Long">
+    <select id="findByPk" resultMap="ArticleMap" parameterType="Long">
         SELECT * FROM tbl_article WHERE article_pk=#{pk} and is_deleted = 0
     </select>
     <select id="findRecentArticles" resultMap="ArticleMap">
