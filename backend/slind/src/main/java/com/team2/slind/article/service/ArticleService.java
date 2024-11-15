@@ -129,7 +129,7 @@ public class ArticleService {
         //memberPk의 게시글 반응이 있다면 가져오기
         Optional<ArticleReaction> reactionOpt = articleReactionMapper.findByArticlePkAndMemberPk(articlePk, memberPk);
         //up일 때
-        if (isUp){
+        if (isUp) {
             logger.info("=====================반응 +1 API =======================");
             if (reactionOpt.isPresent()) {
                 ArticleReaction reaction = reactionOpt.get();
@@ -145,7 +145,6 @@ public class ArticleService {
                     // 게시글 count 변경 :  기존 반응 count -1
                     changeArticleReactionCount(reaction.getIsLike(), false, articlePk);
                     logger.info("Finished Article Table Count Value Update");
-
                 }
             } else {
                 // null이면 새로운 반응 save

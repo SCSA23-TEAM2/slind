@@ -21,6 +21,16 @@
         SET comment_content = #{commentContent}
         WHERE comment_pk = #{commentPk}
     </update>
+    <update id="updateLikeCount">
+        UPDATE tbl_comment
+        SET like_count = like_count + #{upCount}
+        WHERE comment_pk = #{commentPk}
+    </update>
+    <update id="updateDislikeCount">
+        UPDATE tbl_comment
+        SET dislike_count = dislike_count + #{upCount}
+        WHERE comment_pk = #{commentPk}
+    </update>
     <delete id="deleteComment">
         UPDATE tbl_comment
         SET is_deleted = 1,

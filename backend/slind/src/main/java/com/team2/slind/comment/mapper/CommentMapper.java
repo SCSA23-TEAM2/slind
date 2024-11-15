@@ -16,4 +16,6 @@ public interface CommentMapper {
     Long createRecomment(Long memberPk, Long originateComment, String commentContent);
     Long updateRecomment(Long memberPk, Long commentPk, String commentContent);
     Optional<Comment> findByPk(Long commentPk);
+    Integer updateLikeCount(Integer upCount, Long commentPk);
+    Integer updateDislikeCount(Integer upCount, Long commentPk);
 }
