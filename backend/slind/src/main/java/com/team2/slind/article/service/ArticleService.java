@@ -209,7 +209,16 @@ public class ArticleService {
             totalPages++;
         }
         if (page < 1 || page > totalPages) {
-            return ResponseEntity.badRequest().build();
+            // return emtpy list
+            return ResponseEntity.ok().body(ArticleListResponse.builder()
+                    .list(new ArrayList<>())
+                    .currentPage(page)
+                    .totalPages(totalPages.intValue())
+                    .startPage(1)
+                    .endPage(1)
+                    .hasPrevious(false)
+                    .hasNext(false)
+                    .build());
         }
         logger.info("totalPages:{}", totalPages);
         Integer startPage = (page - 1) / PAGE_LIST_SIZE * PAGE_LIST_SIZE + 1;
@@ -220,6 +229,12 @@ public class ArticleService {
 
         if (sort == 0) {
             articleList = articleMapper.findByBoardPk(boardPk, start, ARTICLE_LIST_SIZE);
+        } else if (sort == 1) {
+            articleList = articleMapper.findByBoardPkOrderByViewCount(boardPk, start, ARTICLE_LIST_SIZE);
+        } else if (sort == 2) {
+            articleList = articleMapper.findByBoardPkOrderByLikeCount(boardPk, start, ARTICLE_LIST_SIZE);
+        } else {
+            throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
         }
 
         List<ArticleMainResponse> list = articleList.stream().map(article ->
