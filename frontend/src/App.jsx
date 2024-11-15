@@ -13,6 +13,8 @@ import MyPage from "./components/MyPage";
 import EditBookmark from "./components/EditBookmark";
 import MyContent from "./components/MyContent";
 import PostForm from "./components/PostForm";
+import PostDetail from "./components/PostDetail";
+import InfiniteScrollTest from "./components/InfiniteScrollTest";
 
 import "./App.css";
 
@@ -23,7 +25,7 @@ function App() {
       {/*로그인, 회원가입, 비밀번호찾기 제외*/}
       <Header />
       {/*로그인, 회원가입, 비밀번호찾기, 마이페이지 제외*/}
-      <Nav />
+      {/* <Nav /> */}
       {/* ----- 로그인 페이지 */}
       {/* <Login /> */}
       {/* <Join /> */}
@@ -36,12 +38,16 @@ function App() {
       <MainLatestBoard />
       <AsideRealTimeBoard /> */}
       {/* ----- 마이페이지 */}
-      {/* <MyPageNav /> */}
+      <MyPageNav />
       {/* <MyPage /> */}
       {/* <EditBookmark /> */}
-      {/* <MyContent /> */}
+      <MyContent />
       {/* ----- 게시글 작성 페이지 */}
       {/* <PostForm /> */}
+
+      {/* 게시글 상세 페이지 */}
+      {/* <PostDetail /> */}
+      {/* <InfiniteScrollTest /> */}
     </div>
   );
 }
