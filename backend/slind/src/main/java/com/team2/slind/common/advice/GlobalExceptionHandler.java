@@ -1,15 +1,12 @@
 package com.team2.slind.common.advice;
 
 import com.team2.slind.common.exception.*;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.Set;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -34,7 +31,7 @@ public class GlobalExceptionHandler {
             NoReactionExcetpion.class,
             AlreadyReactedException.class,
             NoReactionExcetpion.class,
-            JudgementNotFoundException.class
+            JudgementNotFoundException.class,
     })
     public ResponseEntity<String> handleDuplicateTitleException(Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());
