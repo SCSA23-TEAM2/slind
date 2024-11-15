@@ -70,7 +70,7 @@ const GeneralBoard = () => {
                     <div className="item-imoji-count">{Mock.viewCount}</div>
                   </div>
                   <div className="item-imoji-content">
-                    <Like />
+                    <Like size={20} />
                     <div className="item-imoji-count">{Mock.like}</div>
                   </div>
                   <div className="item-imoji-content">
