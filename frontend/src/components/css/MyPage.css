@@ -1,0 +1,108 @@
+.MyPage-wrapper {
+  width: 1000px;
+  height: 600px;
+  position: relative;
+  top: 120px;
+  left: 380px;
+  /* border: 1px solid black; */
+}
+.MyPage-header {
+  width: 800px;
+  border-bottom: 3px solid #f6f6f6;
+  margin: 20px 0;
+  padding: 20px 0;
+}
+.MyPage-header h1 {
+  font-size: 18px;
+  font-weight: bold;
+}
+.MyPage-content {
+  width: 800px;
+  height: 360px;
+  /* border: 1px solid black; */
+  display: flex;
+  flex-direction: column;
+}
+.id {
+  flex: 0.2;
+}
+
+.nickname {
+  flex: 0.4;
+}
+
+.pwdQ {
+  flex: 0.2;
+}
+
+.pwdA {
+  flex: 0.2;
+}
+
+.MyPage-item-wrapper {
+  display: flex;
+  border-bottom: 2px solid #f6f6f6;
+}
+.item-header {
+  width: 200px;
+  background-color: #f6f6f6;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.item-content {
+  width: 600px;
+  padding: 20px;
+  /* padding-left: 20px;
+  padding-right: 20px; */
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+  gap: 10px;
+}
+.nickname-input {
+  width: 480px;
+  height: 40px;
+  background-color: #f6f6f6;
+  border: 1px solid #f6f6f6;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+.nickname-check-button button {
+  cursor: pointer;
+  padding: 5px;
+  height: 40px;
+  color: white;
+  background-color: #00b890;
+  border: none;
+  border-radius: 5px;
+}
+.input-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.MyPage-bottom {
+  height: 50px;
+  width: 800px;
+  display: flex;
+  padding-top: 10px;
+  justify-content: space-between;
+}
+.MyPage-bottom button {
+  cursor: pointer;
+  padding: 5px;
+  height: 40px;
+  width: 80px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+.withdraw-button {
+  background-color: red;
+}
+.save-button {
+  background-color: #00b890;
+}

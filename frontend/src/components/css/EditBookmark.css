@@ -1,0 +1,63 @@
+.EditBookmark-wrapper {
+  width: 1000px;
+  height: 600px;
+  position: relative;
+  top: 120px;
+  left: 380px;
+  /* border: 1px solid black; */
+}
+.EditBookmark-header {
+  width: 800px;
+  border-bottom: 3px solid #f6f6f6;
+  margin: 20px 0;
+  padding: 20px 0;
+}
+.EditBookmark-header h1 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.EditBookmark-content {
+  padding-top: 10px;
+  width: 800px;
+  height: 400px;
+  /* border-bottom: 1px solid black; */
+  overflow-y: auto;
+}
+.EditBookmark-content ul {
+  list-style: none;
+}
+.guide-line {
+  color: gray;
+}
+.bookmark-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-left: 0;
+}
+ul .bookmark-board-content {
+  display: flex;
+}
+.bookmark-board-name {
+  padding-left: 10px;
+  width: 800px;
+  /* border-right: 1px solid black; */
+}
+.EditBookmark-bottom {
+  width: 800px;
+  height: 50px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: end;
+}
+.bookmark-save-button {
+  cursor: pointer;
+  padding: 5px;
+  height: 40px;
+  width: 80px;
+  background-color: #00b890;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}

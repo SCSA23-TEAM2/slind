@@ -1,0 +1,53 @@
+.realtimeboard-wrapper {
+  position: absolute;
+  top: 200px;
+  left: 1100px;
+  width: 300px;
+  height: 500px;
+  background-color: #f6f6f6;
+  padding: 20px;
+}
+.realtimeboard-header h4 {
+  margin-top: 0;
+  font-weight: bold;
+}
+.board-content-wrapper {
+  list-style: none;
+  padding-left: 0;
+}
+.board-content-wrapper li {
+  height: 43px;
+}
+.content-item {
+  display: flex;
+  align-items: center;
+}
+.item-order {
+  width: 30px;
+  font-weight: bold;
+  color: gray;
+}
+.item-value {
+  padding-left: 20px;
+  padding-right: 20px;
+  white-space: nowrap; /* 한 줄로 표시 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item-value a {
+  text-decoration: none;
+  color: black;
+}
+.item-value a:hover {
+  text-decoration: underline;
+  font-weight: bold;
+}
+.realtimeboard-bottom {
+  margin-top: 20px;
+  color: gray;
+  display: flex;
+  align-items: center;
+}
+.realtimeboard-bottom div {
+  margin-left: 10px;
+}
