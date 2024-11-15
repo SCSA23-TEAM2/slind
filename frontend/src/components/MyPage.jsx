@@ -33,7 +33,7 @@ const MyPage = () => {
               </div>
             </div>
             <div className="nickname-check-warning">
-              사용 가능한 아이디입니다.
+              사용 가능한 닉네임입니다.
             </div>
           </div>
         </div>
