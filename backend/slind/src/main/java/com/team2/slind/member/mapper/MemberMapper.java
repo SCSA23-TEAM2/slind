@@ -18,4 +18,5 @@ public interface MemberMapper {
                           @Param("questionPk") Long questionPk,
                           @Param("answer") String answer,
                           @Param("memberPk") Long memberPk);
+    int findCountByPk(@Param("memberPk") Long memberPk);
 }

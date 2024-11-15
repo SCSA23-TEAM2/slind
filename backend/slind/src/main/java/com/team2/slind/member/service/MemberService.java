@@ -6,6 +6,7 @@ import com.team2.slind.common.exception.DuplicateMemberIdException;
 import com.team2.slind.common.exception.DuplicateNicknameException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
+import com.team2.slind.member.dto.request.QuestionAnswerUpdateRequest;
 import com.team2.slind.member.dto.response.MyPageInfoResponse;
 import com.team2.slind.member.mapper.MemberMapper;
 import com.team2.slind.member.mapper.QuestionMapper;
@@ -88,8 +89,8 @@ public class MemberService {
 
     @Transactional
     public ResponseEntity<Void> updateMypageInfo(Long memberPk, MyPageUpdateRequest myPageUpdateRequest) {
-        Member member = memberMapper.findByMemberPk(memberPk).orElse(null);
-        if (member == null || member.getIsDeleted() == 1) {
+        int memberCount = memberMapper.findCountByPk(memberPk);
+        if (memberCount == 0) {
             throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_MEMBER);
         }
 
@@ -97,4 +98,5 @@ public class MemberService {
                         myPageUpdateRequest.getAnswer(), memberPk);
         return ResponseEntity.ok().build();
     }
+
 }
