@@ -1,13 +1,11 @@
 package com.team2.slind.comment.controller;
 
-import com.team2.slind.comment.dto.request.CommentCreateRequest;
-import com.team2.slind.comment.dto.request.CommentUpdateRequest;
-import com.team2.slind.comment.dto.request.RecommentCreateRequest;
-import com.team2.slind.comment.dto.request.RecommentUpdateRequest;
+import com.team2.slind.comment.dto.request.*;
 import com.team2.slind.comment.dto.response.CommentListResponse;
 import com.team2.slind.comment.dto.response.CommentResponse;
 import com.team2.slind.comment.service.CommentService;
 import com.team2.slind.common.exception.ContentException;
+import com.team2.slind.common.exception.InvalidRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -120,5 +118,18 @@ public class CommentController {
             @PathVariable Long commentPk
             ) {
         return commentService.deleteRecomment(memberPk, commentPk);
+    }
+
+    @PostMapping("/auth/reaction")
+    public ResponseEntity<Void> createReaction(
+            @RequestBody CommentReactionRequest request
+            ) {
+        Long commentPk = request.getCommentPk();
+        Boolean isLike = request.getIsLike();
+        Boolean isUp = request.getIsUp();
+        if (commentPk == null || isLike == null || isUp == null) {
+            throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
+        }
+        return commentService.createReaction(memberPk, commentPk, isLike, isUp);
     }
 }
