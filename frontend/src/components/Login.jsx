@@ -1,5 +1,6 @@
 import "./css/Login.css";
 import { useState } from "react";
+import {Link} from "react-router-dom"
 import Logo from "../assets/RealLogoWithoutBackground.png";
 
 const Login = () => {
@@ -22,9 +23,9 @@ const Login = () => {
     <div className="body-wrapper">
       <div className="login-wrapper">
         <div className="login-header-content">
-          <a href="">
+          <Link to="/">
             <img src={Logo} alt="logo" />
-          </a>
+          </Link>
         </div>
         <div className="login-warning"></div>
         <div className="login-form-wrapper">

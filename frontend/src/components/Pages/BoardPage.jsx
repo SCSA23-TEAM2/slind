@@ -1,4 +1,11 @@
+import Header from "../Header";
+import Nav from "../Nav";
+import GeneralBoard from "../GeneralBoard";
 const BoardPage = () => {
-    return <div>BoardPage</div>
+    return <>
+        <Header/>
+        <Nav/>
+        <GeneralBoard/>
+    </>
 }
 export default BoardPage

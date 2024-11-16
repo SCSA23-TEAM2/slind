@@ -1,4 +1,6 @@
 import "./css/MainLatestBoard.css";
+
+import {Link} from "react-router-dom"
 // import New from "./icon/New";
 // import Like from "./icon/Like";
 // import DisLike from "./icon/DisLike";
@@ -8,7 +10,7 @@ const MainLatestBoard = () => {
   const Mock = {
     articlePk: 1,
     boardPk: 1,
-    boardName: "런닝크루",
+    boardName: "런닝 크루",
     title: "글 제목",
     viewCount: 100,
     like: 1000,
@@ -30,10 +32,10 @@ const MainLatestBoard = () => {
           <li>
             <div className="board-item-content">
               <div className="item-board-name">
-                <a href="">{Mock.boardName}</a>
+                <Link to={`/board/${Mock.boardName}`}>{Mock.boardName}</Link>
               </div>
               <div className="item-title">
-                <a href="">{Mock.title}</a>
+                <Link to={`/board/${Mock.boardName}/Post/${Mock.title}`}>{Mock.title}</Link>
               </div>
               <div className="item-imoji-wrapper">
                 <div className="item-imoji-content">

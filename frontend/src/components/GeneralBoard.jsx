@@ -1,6 +1,7 @@
 import "./css/GeneralBoard.css";
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 // import BoardIcon from "./icon/BoardIcon";
 // import Like from "./icon/Like";
 // import DisLike from "./icon/DisLike";
@@ -62,7 +63,7 @@ const GeneralBoard = () => {
               <div className="board-item-content">
                 <div className="item-board-name">{Mock.boardName}</div>
                 <div className="item-title">
-                  <a href="">{Mock.title}</a>
+                  <Link to={`/board/${Mock.boardName}/Post/${Mock.title}`}>{Mock.title}</Link>
                 </div>
                 <div className="item-imoji-wrapper">
                   <div className="item-imoji-content">
@@ -84,136 +85,7 @@ const GeneralBoard = () => {
                 </div>
               </div>
             </li>
-            <li>
-              <div className="board-item-content">
-                <div className="item-board-name">{Mock.boardName}</div>
-                <div className="item-title">
-                  <a href="">{Mock.title}</a>
-                </div>
-                <div className="item-imoji-wrapper">
-                  <div className="item-imoji-content">
-                    {/* <View /> */}
-                    <div className="item-imoji-count">{Mock.viewCount}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Like /> */}
-                    <div className="item-imoji-count">{Mock.like}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <DisLike /> */}
-                    <div className="item-imoji-count">{Mock.dislike}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Comment /> */}
-                    <div className="item-imoji-count">{Mock.commentCount}</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="board-item-content">
-                <div className="item-board-name">{Mock.boardName}</div>
-                <div className="item-title">
-                  <a href="">{Mock.title}</a>
-                </div>
-                <div className="item-imoji-wrapper">
-                  <div className="item-imoji-content">
-                    {/* <View /> */}
-                    <div className="item-imoji-count">{Mock.viewCount}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Like /> */}
-                    <div className="item-imoji-count">{Mock.like}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <DisLike /> */}
-                    <div className="item-imoji-count">{Mock.dislike}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Comment /> */}
-                    <div className="item-imoji-count">{Mock.commentCount}</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="board-item-content">
-                <div className="item-board-name">{Mock.boardName}</div>
-                <div className="item-title">
-                  <a href="">{Mock.title}</a>
-                </div>
-                <div className="item-imoji-wrapper">
-                  <div className="item-imoji-content">
-                    {/* <View /> */}
-                    <div className="item-imoji-count">{Mock.viewCount}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Like /> */}
-                    <div className="item-imoji-count">{Mock.like}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <DisLike /> */}
-                    <div className="item-imoji-count">{Mock.dislike}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Comment /> */}
-                    <div className="item-imoji-count">{Mock.commentCount}</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="board-item-content">
-                <div className="item-board-name">{Mock.boardName}</div>
-                <div className="item-title">
-                  <a href="">{Mock.title}</a>
-                </div>
-                <div className="item-imoji-wrapper">
-                  <div className="item-imoji-content">
-                    {/* <View /> */}
-                    <div className="item-imoji-count">{Mock.viewCount}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Like /> */}
-                    <div className="item-imoji-count">{Mock.like}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <DisLike /> */}
-                    <div className="item-imoji-count">{Mock.dislike}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Comment /> */}
-                    <div className="item-imoji-count">{Mock.commentCount}</div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className="board-item-content">
-                <div className="item-board-name">{Mock.boardName}</div>
-                <div className="item-title">
-                  <a href="">{Mock.title}</a>
-                </div>
-                <div className="item-imoji-wrapper">
-                  <div className="item-imoji-content">
-                    {/* <View /> */}
-                    <div className="item-imoji-count">{Mock.viewCount}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Like /> */}
-                    <div className="item-imoji-count">{Mock.like}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <DisLike /> */}
-                    <div className="item-imoji-count">{Mock.dislike}</div>
-                  </div>
-                  <div className="item-imoji-content">
-                    {/* <Comment /> */}
-                    <div className="item-imoji-count">{Mock.commentCount}</div>
-                  </div>
-                </div>
-              </div>
-            </li>
+            
             
           </ul>
         </div>

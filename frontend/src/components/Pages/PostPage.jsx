@@ -1,4 +1,11 @@
+import Header from "../Header";
+import Nav from "../Nav";
+import PostDetail from "../PostDetail";
 const PostPage = () => {
-    return <div>PostPage</div>
+    return <>
+        <Header/>
+        <Nav/>
+        <PostDetail/>
+    </>
 }
 export default PostPage

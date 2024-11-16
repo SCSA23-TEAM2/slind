@@ -1,5 +1,6 @@
 import "./css/Join.css";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../assets/RealLogoWithoutBackground.png";
 import PwdConfig from "./PwdConfig";
 import Dropdown from "react-dropdown";
@@ -12,9 +13,9 @@ const Join = () => {
     <div className="Join-body-wrapper">
       <div className="Join-wrapper">
         <div className="Join-Header">
-          <a href="">
+          <Link to="/">
             <img src={Logo} alt="logo" />
-          </a>
+          </Link>
         </div>
         <div className="Join-content">
           <div className="Join-id-wrapper">

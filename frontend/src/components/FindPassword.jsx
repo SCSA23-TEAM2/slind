@@ -1,5 +1,6 @@
 import "./css/FindPassword.css";
 import { useState } from "react";
+import {Link} from "react-router-dom"
 import Logo from "../assets/RealLogoWithoutBackground.png";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -11,9 +12,9 @@ const FindPassword = () => {
     <div className="FindPassword-body-wrapper">
       <div className="FindPassword-wrapper">
         <div className="FindPassword-header">
-          <a href="">
+          <Link to="/">
             <img src={Logo} alt="logo" />
-          </a>
+          </Link>
         </div>
         <div className="FindPassword-content">
           <div className="FindPassword-Id">

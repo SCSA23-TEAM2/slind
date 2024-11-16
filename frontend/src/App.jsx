@@ -1,9 +1,9 @@
 // import Header from "./components/Header";
 // import Nav from "./components/Nav";
-// import Login from "./components/Login";
-// import Join from "./components/Join";
-// import FindPassword from "./components/FindPassword";
-// import PasswordConfig from "./components/PasswordConfig";
+import Login from "./components/Login";
+import Join from "./components/Join";
+import FindPassword from "./components/FindPassword";
+import PasswordConfig from "./components/PasswordConfig";
 // import GeneralBoard from "./components/GeneralBoard";
 // import MainLatestBoard from "./components/MainLatestBoard";
 // import MainCourtBoard from "./components/MainCourtBoard";
@@ -28,7 +28,7 @@ import {Routes, Route, Link, useNavigate} from "react-router-dom";
 import "./App.css";
 
 function App() {
-  const [isLogined,setIsLogined] = useState(false);
+  const [isLogined,setIsLogined] = useState(true);
   return (
     
     <div className="Body">
@@ -46,6 +46,10 @@ function App() {
           <Route path="MyContent/MySuit" element={<MyPagePage/>}/>
         </Route>
         <Route path="*" element={<NotFoundPage/>}/>
+        <Route path="/Login" element={<Login/>}/>
+        <Route path="/Join" element={<Join/>}/>
+        <Route path="/FindPassword" element={<FindPassword/>}/>
+        <Route path="/PasswordConfig" element={<PasswordConfig/>}/>
       </Routes>
       {/*고정 컴포넌트 */}
       {/*로그인, 회원가입, 비밀번호찾기 제외*/}

@@ -1,4 +1,6 @@
 import "./css/MainCourtBoard.css";
+
+import {Link} from "react-router-dom"
 // import Court from "./icon/Court";
 // import Like from "./icon/Like";
 // import DisLike from "./icon/DisLike";
@@ -26,7 +28,7 @@ const MainCourtBoard = () => {
         </div>
         <div className="board-detail">
           <div>
-            <a href="">더보기</a>
+            <Link to="/board/PeopleCourt">더보기</Link>
           </div>
         </div>
       </div>
@@ -38,7 +40,7 @@ const MainCourtBoard = () => {
                 <a href="">{Mock.boardName}</a>
               </div>
               <div className="item-title">
-                <a href="">{Mock.title}</a>
+                <Link to={`/board/${Mock.boardName}/Post/${Mock.title}`}>{Mock.title}</Link>
               </div>
               <div className="item-imoji-wrapper">
                 <div className="item-imoji-content">
