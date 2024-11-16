@@ -47,7 +47,10 @@ public interface CommentMapper {
     Integer updateDislikeCount(@Param("upCount") Integer upCount,
                                @Param("commentPk") Long commentPk);
 
-    List<Comment> findListByMemberPkFirst(@Param("memberPk") Long memberPk, @Param("size") int size);
+    List<Comment> findListByMemberPkFirst(@Param("memberPk") Long memberPk,
+                                          @Param("size") int size);
 
-    List<Comment> findListByMemberPk(@Param("memberPk") Long memberPk, @Param("lastCommentPk") Long lastCommentPk, @Param("size") int size);
+    List<Comment> findListByMemberPk(@Param("memberPk") Long memberPk,
+                                     @Param("lastCommentPk") Long lastCommentPk,
+                                     @Param("size") int size);
 }

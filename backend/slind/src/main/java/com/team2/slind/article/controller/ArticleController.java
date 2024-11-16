@@ -1,5 +1,6 @@
 package com.team2.slind.article.controller;
 
+import com.team2.slind.article.dto.response.ArticleDetailResponse;
 import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.article.dto.request.ArticleReactionRequest;
 import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
@@ -31,6 +32,11 @@ public class ArticleController {
     @PutMapping("/auth")
     public ResponseEntity<ArticlePkResponse> updateArticle(@RequestBody ArticlePkCreateUpdateRequest articlePkCreateUpdateRequest) {
         return articleService.updateArticle(articlePkCreateUpdateRequest, memberPk);
+    }
+
+    @GetMapping("/detail/{articlePk}")
+    public ResponseEntity<ArticleDetailResponse> getArticleDetail(@PathVariable("articlePk") Long articlePk) {
+        return articleService.getArticleDetail(articlePk, memberPk);
     }
 
     @DeleteMapping("/auth/{articlePk}")
