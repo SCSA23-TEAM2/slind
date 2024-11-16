@@ -1,5 +1,6 @@
 import "./css/MainLatestBoard.css";
-
+import axios from "axios";
+import {useState,useEffect} from "react"
 import {Link} from "react-router-dom"
 // import New from "./icon/New";
 // import Like from "./icon/Like";
@@ -7,16 +8,36 @@ import {Link} from "react-router-dom"
 // import Comment from "./icon/Comment";
 // import View from "./icon/View";
 const MainLatestBoard = () => {
-  const Mock = {
-    articlePk: 1,
-    boardPk: 1,
-    boardName: "런닝 크루",
-    title: "글 제목",
-    viewCount: 100,
-    like: 1000,
-    dislike: 10000,
-    commentCount: 10,
-  };
+  const [latestPost, setLatestPost] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const AxiosGetlatestPost = async () => {
+    // console.log("여기다")
+    try {
+        const response = await axios.get("http://localhost:3000/latestPost");
+        setLatestPost(response.data);
+        console.log(response.data)
+        setIsLoaded(true);
+    } catch {
+      console.error();
+    }    
+  }
+  useEffect(() => {
+    console.log("wow");
+    AxiosGetlatestPost();
+        // setData(prevData => [...prevData, ...newData]);
+        // setHasMore(newData.length > 0);
+  },[]);
+
+  // {
+	// 	"articlePk" : 1,
+	// 	"boardPk" : 1,
+	// 	"boardTitle" : "런닝크루",
+	// 	"articleTitle": "글 제목",
+  //       "viewCount": 100, 
+  //       "likeCount" : 1000,
+  //       "dislikeCount" : 10000, 
+  //       "commentCount" : 10
+	// }
   return (
     <div className="mainLatestBoard-wrapper">
       <div className="board-header">
@@ -31,30 +52,37 @@ const MainLatestBoard = () => {
         <ul>
           <li>
             <div className="board-item-content">
-              <div className="item-board-name">
-                <Link to={`/board/${Mock.boardName}`}>{Mock.boardName}</Link>
+              {latestPost.map((item) => {
+                return (
+                <>
+                <div className="item-board-name">
+                <Link to={`/board/${item.boardTitle}`}>{item.boardTitle}</Link>
               </div>
               <div className="item-title">
-                <Link to={`/board/${Mock.boardName}/Post/${Mock.title}`}>{Mock.title}</Link>
+                <Link to={`/board/${item.boardTitle}/Post/${item.articleTitle}`}>{item.articleTitle}</Link>
               </div>
               <div className="item-imoji-wrapper">
                 <div className="item-imoji-content">
                   {/* <View /> */}
-                  <div className="item-imoji-count">{Mock.viewCount}</div>
+                  <div className="item-imoji-count">{item.viewCount}</div>
                 </div>
                 <div className="item-imoji-content">
                   {/* <Like /> */}
-                  <div className="item-imoji-count">{Mock.like}</div>
+                  <div className="item-imoji-count">{item.likeCount}</div>
                 </div>
                 <div className="item-imoji-content">
                   {/* <DisLike /> */}
-                  <div className="item-imoji-count">{Mock.dislike}</div>
+                  <div className="item-imoji-count">{item.dislikeCount}</div>
                 </div>
                 <div className="item-imoji-content">
                   {/* <Comment /> */}
-                  <div className="item-imoji-count">{Mock.commentCount}</div>
+                  <div className="item-imoji-count">{item.commentCount}</div>
                 </div>
               </div>
+                </>);
+          })}
+
+              
             </div>
           </li>
           

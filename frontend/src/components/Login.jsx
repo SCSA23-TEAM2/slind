@@ -1,9 +1,11 @@
 import "./css/Login.css";
 import { useState } from "react";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import Logo from "../assets/RealLogoWithoutBackground.png";
 
+import axios from "axios"
 const Login = () => {
+  const navigate = useNavigate();
   const [input, setInput] = useState({
     id: "",
     password: "",
@@ -15,10 +17,20 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const chechValueForLogin = () => {
-    console.log(input.id, input.password);
+  const chechValueForLogin = async () => {
+    try {
+      console.log(input)
+      const response = await axios.post("http://localhost:3000/members",input);
+      console.log(response.data);
+    } catch {
+      console.log("no");
+    }    
+        // setData(prevData => [...prevData, ...newData]);
+        // setHasMore(newData.length > 0);
   };
-
+  const gotoJoin = () =>{
+    navigate('/Join')
+  }
   return (
     <div className="body-wrapper">
       <div className="login-wrapper">
@@ -52,7 +64,7 @@ const Login = () => {
           </div>
           <div className="login-other-content">
             <div>회원이 아니세요?</div>
-            <button>회원가입 하기</button>
+            <button onClick={gotoJoin}>회원가입 하기</button>
           </div>
         </div>
       </div>

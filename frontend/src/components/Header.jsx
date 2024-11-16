@@ -4,7 +4,7 @@ import {useState} from "react";
 import {Link} from "react-router-dom";
 const Header = () => {
   
-  const [isLogined, setIsLogined] = useState(true);
+  const [isLogined, setIsLogined] = useState(false);
   // console.log("이동")
   return (
     <div className="header-wrapper">
