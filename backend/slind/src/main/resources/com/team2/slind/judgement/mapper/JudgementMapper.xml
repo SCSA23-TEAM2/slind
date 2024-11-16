@@ -62,4 +62,19 @@
     <select id="findPkByArticlePk" parameterType="Long" resultType="Long">
         SELECT judgement_pk FROM tbl_judgement WHERE article_pk = #{articlePk} AND is_deleted = 0
     </select>
+
+
+    <select id="findExpiredJudgements" resultType="Judgement">
+        SELECT *
+        FROM tbl_judgement
+        WHERE created_dttm &lt;= #{expiryTime}
+        AND is_deleted = 0
+    </select>
+
+    <update id="finishJudgement" parameterType="Long">
+        UPDATE tbl_judgement
+        SET is_deleted = 1,
+        deleted_dttm = SYSDATE
+        WHERE judgement_pk = #{judgementPk}
+    </update>
 </mapper>
