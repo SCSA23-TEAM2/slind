@@ -1,6 +1,6 @@
 import "./css/Nav.css";
 import { useState, useRef } from "react";
-import BookMark from "./icon/BookMark";
+// import BookMark from "./icon/BookMark";
 import Modal from "./Modal/CreateBoardModal";
 
 const mockitem1 = {
@@ -62,7 +62,7 @@ const Nav = () => {
     <div className="Nav-wrapper">
       <div className="Nav-header">
         <div className="Bookmark-icon">
-          <BookMark />
+          {/* <BookMark /> */}
         </div>
         <h2 className="Bookmark-title">즐겨찾기</h2>
       </div>

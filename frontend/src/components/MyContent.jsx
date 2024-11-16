@@ -1,6 +1,6 @@
 import "./css/MyContent.css";
 import MyContentItem from "./MyContentItem";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, } from "react";
 import { useInView } from "react-intersection-observer";
 
 const MyContent = () => {

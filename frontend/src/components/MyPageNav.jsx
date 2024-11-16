@@ -1,5 +1,5 @@
 import "./css/MyPageNav.css";
-import Menu from "./icon/Menu";
+// import Menu from "./icon/Menu";
 const mockitem1 = {
   id: 1,
   myPagePk: 1,
@@ -45,7 +45,7 @@ const MyPageNav = () => {
     <div className="MyPageNav-wrapper">
       <div className="MyPageNav-header">
         <div className="Menu-icon">
-          <Menu />
+          {/* <Menu /> */}
         </div>
         <h2>메뉴</h2>
       </div>

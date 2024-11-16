@@ -1,7 +1,7 @@
 import "./css/PwdConfig.css";
 
-import ViewPwd from "./icon/ViewPwd";
-import LockPwd from "./icon/LockPwd";
+// import ViewPwd from "./icon/ViewPwd";
+// import LockPwd from "./icon/LockPwd";
 import { useState } from "react";
 
 const PwdConfig = () => {
@@ -34,7 +34,7 @@ const PwdConfig = () => {
                 setInvisible1(!invisible1);
               }}
             >
-              <ViewPwd />
+              {/* <ViewPwd /> */}
             </button>
           ) : (
             <button
@@ -43,7 +43,7 @@ const PwdConfig = () => {
                 setInvisible1(!invisible1);
               }}
             >
-              <LockPwd />
+              {/* <LockPwd /> */}
             </button>
           )}
         </div>
@@ -66,7 +66,7 @@ const PwdConfig = () => {
                 setInvisible2(!invisible2);
               }}
             >
-              <ViewPwd />
+              {/* <ViewPwd /> */}
             </button>
           ) : (
             <button
@@ -75,7 +75,7 @@ const PwdConfig = () => {
                 setInvisible2(!invisible2);
               }}
             >
-              <LockPwd />
+              {/* <LockPwd /> */}
             </button>
           )}
         </div>

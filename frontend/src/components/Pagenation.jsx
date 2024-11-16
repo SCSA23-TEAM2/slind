@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Next from "./icon/Next";
-import Prev from "./icon/Prev";
-import DoubleNext from "./icon/DoubleNext";
-import DoublePrev from "./icon/DoublePrev";
+// import Next from "./icon/Next";
+// import Prev from "./icon/Prev";
+// import DoubleNext from "./icon/DoubleNext";
+// import DoublePrev from "./icon/DoublePrev";
 import "./css/Pagenation.css";
 
 const Pagenation = () => {
@@ -41,7 +41,7 @@ const Pagenation = () => {
             }}
             className="pagenation-icon-button"
           >
-            <DoublePrev />
+            {/* <DoublePrev /> */}
           </button>
         </li>
       )}
@@ -53,7 +53,7 @@ const Pagenation = () => {
             }}
             className="pagenation-icon-button"
           >
-            <Prev />
+            {/* <Prev /> */}
           </button>
         </li>
       )}
@@ -80,7 +80,7 @@ const Pagenation = () => {
             }}
             className="pagenation-icon-button"
           >
-            <Next />
+            {/* <Next /> */}
           </button>
         </li>
       )}
@@ -93,7 +93,7 @@ const Pagenation = () => {
             }}
             className="pagenation-icon-button"
           >
-            <DoubleNext />
+            {/* <DoubleNext /> */}
           </button>
         </li>
       )}
