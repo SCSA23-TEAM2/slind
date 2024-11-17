@@ -1,8 +1,10 @@
 package com.team2.slind.board.service;
 
 import com.team2.slind.board.dto.request.BoardCreateRequest;
+import com.team2.slind.board.dto.request.BookmarkUpdateRequest;
 import com.team2.slind.board.dto.response.BoardResponse;
 import com.team2.slind.board.mapper.BoardMapper;
+import com.team2.slind.board.mapper.BookmarkMapper;
 import com.team2.slind.board.vo.Board;
 import com.team2.slind.common.exception.*;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -21,6 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardMapper boardMapper;
+    private final BookmarkMapper bookmarkMapper;
     private final Logger logger = LoggerFactory.getLogger(BoardService.class);
     public ResponseEntity<Void> createBoard(BoardCreateRequest boardCreateRequest, Long memberPk) {
         logger.info("Start createBoard in BoardService");
@@ -82,5 +86,30 @@ public class BoardService {
                 .toList();
 
         return ResponseEntity.ok().body(responseList);
+    }
+
+    public ResponseEntity<List<BoardResponse>> getBookmarkList(Long memberPk) {
+//        List<Board> bookmarkList = bookmarkMapper.findByMemberPk(memberPk);
+        List<Board> bookmarkList = boardMapper.findListByBookmarkByMemberPk(memberPk);
+
+        List<BoardResponse> responseList = bookmarkList.stream().map(board -> BoardResponse.builder()
+                .boardPk(board.getBoardPk()).boardTitle(board.getTitle()).build()).toList();
+        return ResponseEntity.ok().body(responseList);
+    }
+
+    @Transactional
+    public ResponseEntity<Void> updateBookmarkList(BookmarkUpdateRequest bookmarkUpdateRequest, Long memberPk) {
+        //기존 북마크 전체 삭제
+        bookmarkMapper.deleteOriginalList(memberPk);
+
+
+
+        //새로운 리스트 insert
+        List<Long> boardPkList = bookmarkUpdateRequest.getBoardPkList();
+        if (boardPkList != null && !boardPkList.isEmpty()) {
+            logger.info("boardPkList:{}", boardPkList);
+            bookmarkMapper.insertBookmark(memberPk, boardPkList);
+        }
+        return ResponseEntity.ok().build();
     }
 }

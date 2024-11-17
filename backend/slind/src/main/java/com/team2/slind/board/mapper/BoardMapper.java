@@ -29,4 +29,5 @@ public interface BoardMapper {
                                    @Param("lastPk") Long lastPk,
                                    @Param("size") int size);
 
+    List<Board> findListByBookmarkByMemberPk(Long memberPk);
 }

@@ -51,4 +51,9 @@
         ORDER BY board_pk DESC
         FETCH FIRST #{size}+1 ROWS ONLY
     </select>
+
+    <select id="findListByBookmarkByMemberPk" parameterType="Long">
+        SELECT b.board_pk, b.title FROM tbl_board b
+        JOIN tbl_bookmark bm ON bm.member_pk = #{memberPk} AND bm.board_pk = b.board_pk
+    </select>
 </mapper>

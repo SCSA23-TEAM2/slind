@@ -3,5 +3,37 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team2.slind.board.mapper.BookmarkMapper">
+    <delete id="deleteOriginalList" parameterType="Long">
+        DELETE FROM tbl_bookmark
+        WHERE member_pk = #{memberPk}
+    </delete>
+<!--    <insert id="insertBookmark" parameterType="map">-->
+<!--        INSERT INTO tbl_bookmark (bookmark_pk, member_pk, board_pk)-->
+<!--        SELECT seq_bookmark_pk.NEXTVAL, #{memberPk}, #{boardPk}-->
+<!--        FROM DUAL-->
+<!--        <foreach collection="boardPkList" item="boardPk" separator="UNION ALL">-->
+<!--            SELECT seq_bookmark_pk.NEXTVAL, #{memberPk}, #{boardPk} FROM DUAL-->
+<!--        </foreach>-->
+<!--    </insert>-->
 
+    <!--    <insert id="insertBookmark" parameterType="map">-->
+<!--        INSERT INTO tbl_bookmark (bookmark_pk, member_pk, board_pk)-->
+<!--        SELECT #{memberPk}, #{boardPk}-->
+<!--        FROM DUAL-->
+<!--        <foreach collection="boardPkList" item="boardPk" separator=";">-->
+<!--            SELECT #{memberPk}, #{boardPk} FROM DUAL-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+<!--    <insert id="insertBookmark" parameterType="map">-->
+<!--        INSERT INTO tbl_bookmark (member_pk, board_pk)-->
+<!--        VALUES-->
+<!--        <foreach collection="boardPkList" item="boardPk" separator=",">-->
+<!--            (#{memberPk}, #{boardPk})-->
+<!--        </foreach>-->
+<!--        <foreach collection="boardPkList" item="boardPk"  separator=";" >-->
+<!--            INSERT INTO tbl_bookmark (member_pk, board_pk)-->
+<!--            VALUES (#{memberPk}, #{boardPk})-->
+<!--        </foreach>-->
+<!--    </insert>-->
 </mapper>

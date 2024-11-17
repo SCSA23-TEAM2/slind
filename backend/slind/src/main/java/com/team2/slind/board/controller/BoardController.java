@@ -1,6 +1,7 @@
 package com.team2.slind.board.controller;
 
 import com.team2.slind.board.dto.request.BoardCreateRequest;
+import com.team2.slind.board.dto.request.BookmarkUpdateRequest;
 import com.team2.slind.board.dto.response.BoardResponse;
 import com.team2.slind.board.service.BoardService;
 import jakarta.validation.Valid;
@@ -38,6 +39,16 @@ public class BoardController {
         return boardService.getBoardList();
     }
 
+    @GetMapping("/auth/favorite")
+    public ResponseEntity<List<BoardResponse>> getBookmarkList(){
+        return boardService.getBookmarkList(memberPk);
+
+    }
+
+//    @PostMapping("/auth/favorite")
+//    public ResponseEntity<Void> updateBookmarkList(@RequestBody BookmarkUpdateRequest bookmarkUpdateRequest){
+//        return boardService.updateBookmarkList(bookmarkUpdateRequest, memberPk);
+//    }
 
 
 
