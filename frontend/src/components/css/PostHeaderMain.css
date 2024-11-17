@@ -1,0 +1,57 @@
+.PostDetail-main-Header {
+  display: flex;
+}
+.PostDetail-main-Header-left {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.PostDetail-main-title {
+  font-weight: bold;
+  font-size: 24px;
+}
+.PostDetail-main-boardName a {
+  text-decoration: none;
+  color: black;
+}
+.PostDetail-main-boardName a:hover {
+  text-decoration: underline;
+  color: #00b890;
+}
+.PostDetail-main-author {
+  font-weight: bold;
+  color: gray;
+}
+.PostDetail-main-date {
+  color: gray;
+}
+.PostDetail-main-Header-right {
+  flex: 0.1;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+.PostDetail-main-button {
+  cursor: pointer;
+  padding: 5px;
+  height: 40px;
+  width: 80px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  background-color: #00b890;
+}
+.PostDetail-main-content-wrapper {
+  border-top: 3px solid #f6f6f6;
+  border-bottom: 3px solid #f6f6f6;
+  padding: 15px;
+  margin-top: 30px;
+}
+.PostDetail-main-content {
+  line-height: 24px;
+}
+.inCourt {
+  background-color: gray;
+
+}

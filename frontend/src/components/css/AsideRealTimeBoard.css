@@ -14,6 +14,7 @@
 .board-content-wrapper {
   list-style: none;
   padding-left: 0;
+  height: 440px;
 }
 .board-content-wrapper li {
   height: 43px;

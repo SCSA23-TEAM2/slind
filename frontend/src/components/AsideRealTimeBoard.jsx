@@ -1,5 +1,6 @@
 import "./css/AsideRealTimeBoard.css";
-import Info from "./icon/Info";
+import Info from "./iconFolder/Info";
+import { Link } from "react-router-dom";
 
 const AsideRealTimeBoard = () => {
   return (
@@ -12,61 +13,7 @@ const AsideRealTimeBoard = () => {
           <li className="content-item">
             <div className="item-order">1</div>
             <div className="item-value">
-              <a href="">wow</a>
-            </div>
-          </li>
-          <li className="content-item">
-            <div className="item-order">2</div>
-            <div className="item-value">
-              <a href="">wow</a>
-            </div>
-          </li>
-          <li className="content-item">
-            <div className="item-order">3</div>
-            <div className="item-value">
-              <a href="">wow</a>
-            </div>
-          </li>
-          <li className="content-item">
-            <div className="item-order">4</div>
-            <div className="item-value">
-              <a href="">wow</a>
-            </div>
-          </li>
-          <li className="content-item">
-            <div className="item-order">5</div>
-            <div className="item-value">
-              <a href="">wow</a>
-            </div>
-          </li>
-          <li className="content-item">
-            <div className="item-order">6</div>
-            <div className="item-value">
-              <a href="">wow</a>
-            </div>
-          </li>
-          <li className="content-item">
-            <div className="item-order">7</div>
-            <div className="item-value">
-              <a href="">wow</a>
-            </div>
-          </li>
-          <li className="content-item">
-            <div className="item-order">8</div>
-            <div className="item-value">
-              <a href="">wow</a>
-            </div>
-          </li>
-          <li className="content-item">
-            <div className="item-order">9</div>
-            <div className="item-value">
-              <a href="">wow</a>
-            </div>
-          </li>
-          <li className="content-item">
-            <div className="item-order">10</div>
-            <div className="item-value">
-              <a href="">woasdfsdfsssdfsddfsgsdfgsdgsw</a>
+              <Link to="">wow</Link>
             </div>
           </li>
         </ul>

@@ -1,5 +1,5 @@
 import { useInView } from "react-intersection-observer";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./css/InfiniteScrollTest.css";
 const InfiniteScrollTest = () => {
   const { ref, inView } = useInView({

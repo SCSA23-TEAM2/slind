@@ -1,47 +1,72 @@
 import "./css/Nav.css";
-import { useState, useRef } from "react";
-import BookMark from "./icon/BookMark";
+import { useState, useRef, useEffect } from "react";
+import useAxios from "../useAxios";
+// import BookMark from "./icon/BookMark";
 import Modal from "./Modal/CreateBoardModal";
-
-const mockitem1 = {
-  boardPk: 1,
-  boardTitle: "상처치료해줄사람어디없나가만히놔두다간끊임없이덧나",
-};
-const mockitem2 = {
-  boardPk: 2,
-  boardTitle: "와우",
-};
-const mockitem3 = {
-  boardPk: 3,
-  boardTitle: "백준오브레전드",
-};
-const mockitem4 = {
-  boardPk: 4,
-  boardTitle: "t",
-};
-const wholeMock = [];
-// for (let i = 0; i < 30; i++) {
-//   wholeMock.push(mockitem);
-// }
-wholeMock.push(mockitem1);
-wholeMock.push(mockitem2);
-wholeMock.push(mockitem3);
-wholeMock.push(mockitem4);
+import { Link } from "react-router-dom";
+// import axios from "axios";
+// const mockitem1 = {
+//   boardPk: 1,
+//   boardTitle: "상처치료해줄사람어디없나가만히놔두다간끊임없이덧나",
+// };
+// const mockitem2 = {
+//   boardPk: 2,
+//   boardTitle: "와우",
+// };
+// const mockitem3 = {
+//   boardPk: 3,
+//   boardTitle: "백준오브레전드",
+// };
+// const mockitem4 = {
+//   boardPk: 4,
+//   boardTitle: "t",
+// };
+// const wholeMock = [];
+// // for (let i = 0; i < 30; i++) {
+// //   wholeMock.push(mockitem);
+// // }
+// wholeMock.push(mockitem1);
+// wholeMock.push(mockitem2);
+// wholeMock.push(mockitem3);
+// wholeMock.push(mockitem4);
 const Nav = () => {
-  const idRef = useRef(1);
+  console.log("123");
+  const axios = useAxios();
+  const idRef = useRef(0);
 
-  const [boardList, setBoardList] = useState(wholeMock);
-  // const [inputBoard, setInputBoard] = useState("");
+  const [originalBoardList, setOriginalBoardList] = useState([]);
+  // const [filteredBoard, setfilteredBoard] = useState([]);
+  const [viewBoard, setViewBoard] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const AxiosGetApiBoard = async () => {
+    // console.log("여기다")
+    try {
+      const response = await axios.get("http://localhost:8080/api/board");
+      setOriginalBoardList(response.data);
+      // console.log(response.data)
+      setViewBoard(response.data);
+      setIsLoaded(true);
+    } catch {
+      console.error();
+    }
+  };
+  useEffect(() => {
+    // console.log("wow");
+    AxiosGetApiBoard();
+    // setData(prevData => [...prevData, ...newData]);
+    // setHasMore(newData.length > 0);
+  }, [axios]);
+
   const onChange = (e) => {
-    if (e.target.value === "") setBoardList(wholeMock);
+    if (e.target.value === "") setViewBoard(originalBoardList);
     else {
-      const filtered = wholeMock.filter((item) => {
+      const filtered = originalBoardList.filter((item) => {
         if (
           item.boardTitle.toLowerCase().includes(e.target.value.toLowerCase())
         )
           return true;
       });
-      setBoardList(filtered);
+      setViewBoard(filtered);
     }
   };
 
@@ -60,28 +85,25 @@ const Nav = () => {
   // }, [inputBoard]);
   return (
     <div className="Nav-wrapper">
-      <div className="Nav-header">
-        <div className="Bookmark-icon">
-          <BookMark />
-        </div>
+      {/* <div className="Nav-header">
+        <div className="Bookmark-icon"> */}
+      {/* <BookMark /> */}
+      {/* </div>
         <h2 className="Bookmark-title">즐겨찾기</h2>
       </div>
       <div className="Nav-board">
         <ul className="Nav-board-list">
-          {boardList.map((item) => (
-            <a key={item.boardPk} className="Nav-board-item" href="">
+          {viewBoard.map((item) => (
+            <Link key={idRef.current++} className="Nav-board-item" to={`/board/${item.boardTitle}`}>
               <li>{item.boardTitle}</li>
-            </a>
+            </Link>
           ))}
         </ul>
-      </div>
+      </div> */}
       <div className="Nav-header second-header">
         <h2 className="board-title">게시판</h2>
         <button onClick={openModal}>새로 만들기</button>
-        <Modal open={modalOpen} close={closeModal} header="게시판 생성">
-          {/* Modal.js <main> {props.children} </main>에 내용이 입력된다. 리액트 */}
-          함수형 모달 팝업창입니다. 쉽게 만들 수 있어요. 같이 만들어봐요!
-        </Modal>
+        <Modal open={modalOpen} close={closeModal} header="게시판 생성"></Modal>
       </div>
       <div className="Nav-search">
         <input
@@ -93,10 +115,19 @@ const Nav = () => {
       </div>
       <div className="Nav-board">
         <ul className="Nav-board-list">
-          {boardList.map((item) => (
-            <a key={item.boardPk} className="Nav-board-item" href="">
+          {viewBoard.map((item) => (
+            <Link
+              key={idRef.current++}
+              className="Nav-board-item"
+              to={`/board/${item.boardTitle}`}
+              state={{
+                boardPk: 1,
+                boardName: item.boardTitle,
+                kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
+              }}
+            >
               <li>{item.boardTitle}</li>
-            </a>
+            </Link>
           ))}
         </ul>
       </div>

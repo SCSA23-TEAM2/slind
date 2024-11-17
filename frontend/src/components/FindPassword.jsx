@@ -1,29 +1,53 @@
 import "./css/FindPassword.css";
 import { useState } from "react";
+import {Link, useNavigate} from "react-router-dom"
 import Logo from "../assets/RealLogoWithoutBackground.png";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 const options = { "너희 어머니는?": 0, "형은 뭐해?": 1, "니 동생뭐함?": 2 };
 
 const FindPassword = () => {
+  const [userId, setUserId] = useState("")
+  const [okUserId, setOkUserId] = useState(false);
+  const [userIdWarning, setUserIdWarning] = useState("");
   const [curOption, setCurOption] = useState("너희 어머니는?");
+  const navigate = useNavigate();
+  const gotoPasswordConfig = () =>{
+    navigate("/PasswordConfig", {
+      state : {
+        userid: userId
+      }
+    })
+  }
+  const onChange = (e) => {
+    if (e.target.value === "") setUserIdWarning("아이디를 입력해주세요!")
+    else {
+      //빈칸, 글자수 제한, 정규표현식 체크 
+      setOkUserId(true);
+      setUserIdWarning("")
+    }
+    console.log(e.target.value)
+    setUserId(e.target.value)
+  };
   return (
     <div className="FindPassword-body-wrapper">
       <div className="FindPassword-wrapper">
         <div className="FindPassword-header">
-          <a href="">
+          <Link to="/">
             <img src={Logo} alt="logo" />
-          </a>
+          </Link>
         </div>
         <div className="FindPassword-content">
           <div className="FindPassword-Id">
             <input
+            value={userId}
               type="text"
               className="FindPassword-id-input"
               placeholder="아이디"
+              onChange={onChange}
             />
             <div className="FindPassword-id-warning">
-              아이디를 입력해주세요!
+              {userIdWarning}
             </div>
           </div>
           <div className="FindPassword-pwdQ">
@@ -49,10 +73,13 @@ const FindPassword = () => {
               name=""
               id=""
             ></textarea>
+                        <div className="FindPassword-id-warning">
+              아이디를 입력해주세요!
+            </div>
           </div>
         </div>
         <div className="FindPassword-bottom">
-          <button className="FindPassword-check-button">확인</button>
+          <button onClick={gotoPasswordConfig} className="FindPassword-check-button">확인</button>
         </div>
       </div>
     </div>

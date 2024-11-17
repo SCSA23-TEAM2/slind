@@ -1,39 +1,56 @@
 import { useEffect, useState } from "react";
-import Next from "./icon/Next";
-import Prev from "./icon/Prev";
-import DoubleNext from "./icon/DoubleNext";
-import DoublePrev from "./icon/DoublePrev";
+import Next from "./iconFolder/Next";
+import Prev from "./iconFolder/Prev";
+import DoubleNext from "./iconFolder/DoubleNext";
+import DoublePrev from "./iconFolder/DoublePrev";
 import "./css/Pagenation.css";
 
-const Pagenation = () => {
-  const mockPage = {
-    currentPage: 2,
-    totalPages: 11,
-    startPage: 1,
-    endPage: 10,
-    hasPrevious: false,
-    hasNext: true,
-  };
-  const [pageInfo, setInfo] = useState(mockPage);
-  const [curPage, setcurPage] = useState(1);
+const Pagenation = ({
+  currentPage,
+  totalPages,
+  startPage,
+  endPage,
+  hasPrevious,
+  hasNext,
+  CallAxios,
+}) => {
+  const [pageInfo, setPageInfo] = useState({
+    currentPage: currentPage,
+    totalPages: totalPages,
+    startPage: startPage,
+    endPage: endPage,
+    hasPrevious: hasPrevious,
+    hasNext: hasNext,
+  });
+
   const [pageRange, setPageRange] = useState([]);
   useEffect(() => {
-    setPageRange(writePages(mockPage.startPage, mockPage.endPage));
-  }, [curPage]);
+    setPageInfo({
+      currentPage: currentPage,
+      totalPages: totalPages,
+      startPage: startPage,
+      endPage: endPage,
+      hasPrevious: hasPrevious,
+      hasNext: hasNext,
+    });
+    setPageRange(writePages(startPage, endPage));
+  }, [currentPage, totalPages, startPage, endPage, hasPrevious, hasNext]);
   const writePages = (s, e) => {
     const tempRange = [];
     for (let i = s; i <= e; i++) {
+      // console.log(i);
       tempRange.push(i);
     }
     return tempRange;
   };
   const curPageHandler = (n) => {
-    setcurPage(n);
+    CallAxios(n);
     console.log(n);
   };
+
   return (
     <ul className="pagenation-content">
-      {curPage > pageInfo.startPage && (
+      {pageInfo.currentPage > pageInfo.startPage && (
         <li>
           <button
             onClick={() => {
@@ -49,7 +66,7 @@ const Pagenation = () => {
         <li>
           <button
             onClick={() => {
-              curPageHandler(curPage - 10);
+              curPageHandler(startPage - 10);
             }}
             className="pagenation-icon-button"
           >
@@ -63,9 +80,11 @@ const Pagenation = () => {
             onClick={() => {
               curPageHandler(pageNum);
             }}
-            disabled={pageNum === curPage}
+            disabled={pageNum === pageInfo.currentPage}
             className={
-              pageNum === curPage ? "active" : "pagenation-icon-button"
+              pageNum === pageInfo.currentPage
+                ? "active"
+                : "pagenation-icon-button"
             }
           >
             {pageNum}
@@ -76,7 +95,7 @@ const Pagenation = () => {
         <li>
           <button
             onClick={() => {
-              curPageHandler(curPage + 10);
+              curPageHandler(startPage + 10);
             }}
             className="pagenation-icon-button"
           >
@@ -85,11 +104,11 @@ const Pagenation = () => {
         </li>
       )}
 
-      {curPage < pageInfo.endPage && (
+      {pageInfo.currentPage < pageInfo.endPage && (
         <li>
           <button
             onClick={() => {
-              curPageHandler(pageInfo.endPage);
+              curPageHandler(totalPages);
             }}
             className="pagenation-icon-button"
           >
