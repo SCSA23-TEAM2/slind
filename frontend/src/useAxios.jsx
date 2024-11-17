@@ -1,14 +1,16 @@
-import axios from 'axios';
-import { useAuth } from './AuthContext';
-
+import axios from "axios";
+import { useAuth } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 const useAxios = () => {
-  const { accessToken, refreshToken, logout, setAccessToken,setRefreshToken } = useAuth();
+  const navigate = useNavigate();
+  const { accessToken, refreshToken, logout, setAccessToken, setRefreshToken } =
+    useAuth();
 
   // Create an Axios instance with default headers
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000', // Replace with your API base URL
+    baseURL: "http://localhost:8080", // Replace with your API base URL
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
 
@@ -16,7 +18,7 @@ const useAxios = () => {
   axiosInstance.interceptors.request.use(
     (config) => {
       if (accessToken) {
-        config.headers['Authorization'] = `Bearer ${accessToken}`;
+        config.headers["Authorization"] = `Bearer ${accessToken}`;
       }
       return config;
     },
@@ -33,7 +35,7 @@ const useAxios = () => {
       if (error.response && error.response.status === 401 && refreshToken) {
         try {
           const refreshResponse = await axios.post(
-            'http://your-api-url.com/refresh', // Your refresh token API endpoint
+            "http://your-api-url.com/refresh", // Your refresh token API endpoint
             { refresh_token: refreshToken }
           );
 
@@ -44,11 +46,11 @@ const useAxios = () => {
           setAccessToken(newAccessToken);
           setRefreshToken(newRefreshToken);
 
-          localStorage.setItem('access_token', newAccessToken);
-          localStorage.setItem('refresh_token', newRefreshToken);
+          localStorage.setItem("access_token", newAccessToken);
+          localStorage.setItem("refresh_token", newRefreshToken);
 
           // Retry the original request with the new access token
-          error.config.headers['Authorization'] = `Bearer ${newAccessToken}`;
+          error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axiosInstance(error.config);
         } catch (refreshError) {
           logout(); // If refresh fails, log out

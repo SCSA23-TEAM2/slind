@@ -21,33 +21,32 @@ import BoardPage from "./components/Pages/BoardPage";
 import MyPagePage from "./components/Pages/MyPagePage";
 import PostPage from "./components/Pages/PostPage";
 import WritePage from "./components/Pages/writePage";
-import NotFoundPage from "./components/Pages/NotFoundPage"
+import NotFoundPage from "./components/Pages/NotFoundPage";
 
 import { useState } from "react";
-import {Routes, Route, Link, useNavigate} from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import "./App.css";
 
 function App() {
-
   return (
     <div className="Body">
       <Routes>
-        <Route path="/" element={<HomePage/>}/>
-        <Route path="/board/:Name" element={<BoardPage/>}/>
-        <Route path="/board/:Name/Post/:id" element={<PostPage/>}/>
-        <Route path="/board/:Name/write" element={<WritePage/>}/>
-        <Route path="/MyPage" element={<MyPagePage/>}>
-          <Route path="Bookmark" element={<MyPagePage/>}/>
-          <Route path="MyContent/MyBoard" element={<MyPagePage/>}/>
-          <Route path="MyContent/MyPost" element={<MyPagePage/>}/>
-          <Route path="MyContent/MyComment" element={<MyPagePage/>}/>
-          <Route path="MyContent/MySuit" element={<MyPagePage/>}/>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/board/:Name" element={<BoardPage />} />
+        <Route path="/board/:Name/Post/:id" element={<PostPage />} />
+        <Route path="/board/:Name/write" element={<WritePage />} />
+        <Route path="/MyPage" element={<MyPagePage />}>
+          <Route path="Bookmark" element={<MyPagePage />} />
+          <Route path="MyContent/MyBoard" element={<MyPagePage />} />
+          <Route path="MyContent/MyPost" element={<MyPagePage />} />
+          <Route path="MyContent/MyComment" element={<MyPagePage />} />
+          <Route path="MyContent/MySuit" element={<MyPagePage />} />
         </Route>
-        <Route path="*" element={<NotFoundPage/>}/>
-        <Route path="/Login" element={<Login/>}/>
-        <Route path="/Join" element={<Join/>}/>
-        <Route path="/FindPassword" element={<FindPassword/>}/>
-        <Route path="/PasswordConfig" element={<PasswordConfig/>}/>
+        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Join" element={<Join />} />
+        <Route path="/FindPassword" element={<FindPassword />} />
+        <Route path="/PasswordConfig" element={<PasswordConfig />} />
       </Routes>
       {/*고정 컴포넌트 */}
       {/*로그인, 회원가입, 비밀번호찾기 제외*/}

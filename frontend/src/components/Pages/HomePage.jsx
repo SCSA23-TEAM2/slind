@@ -5,14 +5,14 @@ import MainCourtBoard from "../MainCourtBoard";
 import AsideRealTimeBoard from "../AsideRealTimeBoard";
 
 const HomePage = () => {
-    return (
-        <>
-        <Header/>
-        <Nav/>
-        <MainCourtBoard/>
-        <MainLatestBoard/>
-        <AsideRealTimeBoard/>
-        </>
-    )
-}
-export default HomePage
+  return (
+    <>
+      <Header />
+      <Nav />
+      <MainCourtBoard />
+      <MainLatestBoard />
+      {/* <AsideRealTimeBoard/> */}
+    </>
+  );
+};
+export default HomePage;

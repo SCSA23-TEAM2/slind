@@ -1,6 +1,6 @@
 import "./css/AsideRealTimeBoard.css";
-// import Info from "./icon/Info";
-import {Link} from "react-router-dom"
+import Info from "./iconFolder/Info";
+import { Link } from "react-router-dom";
 
 const AsideRealTimeBoard = () => {
   return (
@@ -16,12 +16,10 @@ const AsideRealTimeBoard = () => {
               <Link to="">wow</Link>
             </div>
           </li>
-
-
         </ul>
       </div>
       <div className="realtimeboard-bottom">
-        {/* <Info /> */}
+        <Info />
         <div> 30분 단위 실시간 조회수 1위</div>
       </div>
     </div>

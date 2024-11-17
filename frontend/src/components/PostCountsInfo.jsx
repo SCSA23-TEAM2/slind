@@ -1,19 +1,19 @@
 import "./css/PostCountsInfo.css";
-// import Like from "./icon/Like";
-// import DisLike from "./icon/DisLike";
+import Like from "./iconFolder/Like";
+import DisLike from "./iconFolder/DisLike";
 const PostCountsInfo = () => {
   return (
     <div className="PostCountsInfo-wrapper">
       <div className="PostCountsInfo-toggle-wrapper">
         <div className="PostCountsInfo-like">
           <button className="like-button">
-            {/* <Like size={80}></Like> */}
+            <Like size={40}></Like>
           </button>
           <div>10</div>
         </div>
         <div className="PostCountsInfo-dislike">
           <button className="dislike-button">
-            {/* <Like size={40}></Like> */}
+            <Like size={40}></Like>
           </button>
           <div>10</div>
         </div>

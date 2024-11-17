@@ -1,6 +1,6 @@
 import "./css/MyPageNav.css";
-import {Link} from "react-router-dom"
-// import Menu from "./icon/Menu";
+import { Link } from "react-router-dom";
+import Menu from "./iconFolder/Menu";
 const mockitem1 = {
   id: 1,
   myPagePk: 1,
@@ -46,14 +46,19 @@ const MyPageNav = () => {
     <div className="MyPageNav-wrapper">
       <div className="MyPageNav-header">
         <div className="Menu-icon">
-          {/* <Menu /> */}
+          <Menu />
         </div>
         <h2>메뉴</h2>
       </div>
       <div className="MyPageNav-board">
         <ul className="MyPageNav-board-list">
           {wholeMock.map((item) => (
-            <Link key={item.id} className="MyPageNav-board-item" to={`/MyPage`} state= {{pageNum: item.id}}>
+            <Link
+              key={item.id}
+              className="MyPageNav-board-item"
+              to={`/MyPage`}
+              state={{ pageNum: item.id }}
+            >
               <li>{item.boardTitle}</li>
             </Link>
           ))}

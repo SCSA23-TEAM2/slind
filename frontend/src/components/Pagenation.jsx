@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-// import Next from "./icon/Next";
-// import Prev from "./icon/Prev";
-// import DoubleNext from "./icon/DoubleNext";
-// import DoublePrev from "./icon/DoublePrev";
+import Next from "./iconFolder/Next";
+import Prev from "./iconFolder/Prev";
+import DoubleNext from "./iconFolder/DoubleNext";
+import DoublePrev from "./iconFolder/DoublePrev";
 import "./css/Pagenation.css";
 
 const Pagenation = ({
@@ -12,17 +12,16 @@ const Pagenation = ({
   endPage,
   hasPrevious,
   hasNext,
-  CallAxios
+  CallAxios,
 }) => {
-
   const [pageInfo, setPageInfo] = useState({
-    "currentPage": currentPage,
-    "totalPages": totalPages,
-    "startPage" : startPage,
-    "endPage" : endPage,
-    "hasPrevious": hasPrevious,
-    "hasNext": hasNext
-  })
+    currentPage: currentPage,
+    totalPages: totalPages,
+    startPage: startPage,
+    endPage: endPage,
+    hasPrevious: hasPrevious,
+    hasNext: hasNext,
+  });
 
   const [pageRange, setPageRange] = useState([]);
   useEffect(() => {
@@ -37,7 +36,6 @@ const Pagenation = ({
     setPageRange(writePages(startPage, endPage));
   }, [currentPage, totalPages, startPage, endPage, hasPrevious, hasNext]);
   const writePages = (s, e) => {
-
     const tempRange = [];
     for (let i = s; i <= e; i++) {
       // console.log(i);
@@ -60,7 +58,7 @@ const Pagenation = ({
             }}
             className="pagenation-icon-button"
           >
-            {/* <DoublePrev /> */}
+            <DoublePrev />
           </button>
         </li>
       )}
@@ -72,7 +70,7 @@ const Pagenation = ({
             }}
             className="pagenation-icon-button"
           >
-            {/* <Prev /> */}
+            <Prev />
           </button>
         </li>
       )}
@@ -84,7 +82,9 @@ const Pagenation = ({
             }}
             disabled={pageNum === pageInfo.currentPage}
             className={
-              pageNum === pageInfo.currentPage ? "active" : "pagenation-icon-button"
+              pageNum === pageInfo.currentPage
+                ? "active"
+                : "pagenation-icon-button"
             }
           >
             {pageNum}
@@ -99,7 +99,7 @@ const Pagenation = ({
             }}
             className="pagenation-icon-button"
           >
-            {/* <Next /> */}
+            <Next />
           </button>
         </li>
       )}
@@ -112,7 +112,7 @@ const Pagenation = ({
             }}
             className="pagenation-icon-button"
           >
-            {/* <DoubleNext /> */}
+            <DoubleNext />
           </button>
         </li>
       )}
