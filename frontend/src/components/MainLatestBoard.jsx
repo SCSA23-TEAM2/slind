@@ -1,6 +1,6 @@
 import "./css/MainLatestBoard.css";
 import axios from "axios";
-import {useState,useEffect} from "react"
+import {useState,useEffect,useRef} from "react"
 import {Link} from "react-router-dom"
 // import New from "./icon/New";
 // import Like from "./icon/Like";
@@ -8,12 +8,13 @@ import {Link} from "react-router-dom"
 // import Comment from "./icon/Comment";
 // import View from "./icon/View";
 const MainLatestBoard = () => {
+  const idRef = useRef(0);
   const [latestPost, setLatestPost] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const AxiosGetlatestPost = async () => {
     // console.log("여기다")
     try {
-        const response = await axios.get("http://localhost:3000/latestPost");
+        const response = await axios.get("http://localhost:3000/apiarticlemain");
         setLatestPost(response.data);
         console.log(response.data)
         setIsLoaded(true);
@@ -56,7 +57,11 @@ const MainLatestBoard = () => {
                 return (
                 <>
                 <div className="item-board-name">
-                <Link to={`/board/${item.boardTitle}`}>{item.boardTitle}</Link>
+                <Link to={`/board/${item.boardTitle}`} state= {{
+              boardPk : 1,
+              boardName : item.boardTitle,
+              kind: 0 //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
+            }}>{item.boardTitle}</Link>
               </div>
               <div className="item-title">
                 <Link to={`/board/${item.boardTitle}/Post/${item.articleTitle}`}>{item.articleTitle}</Link>

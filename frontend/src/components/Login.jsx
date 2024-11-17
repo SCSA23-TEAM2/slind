@@ -31,6 +31,9 @@ const Login = () => {
   const gotoJoin = () =>{
     navigate('/Join')
   }
+  const gotoFindPassword = () =>{
+    navigate("/FindPassword")
+  }
   return (
     <div className="body-wrapper">
       <div className="login-wrapper">
@@ -60,7 +63,7 @@ const Login = () => {
         <div className="login-other-wrapper">
           <div className="login-other-content">
             <div>비밀번호 기억이 안나세요?</div>
-            <button>비밀 번호 찾기</button>
+            <button onClick={gotoFindPassword}>비밀 번호 찾기</button>
           </div>
           <div className="login-other-content">
             <div>회원이 아니세요?</div>

@@ -1,10 +1,13 @@
 import Logo from "../assets/RealLogoWithoutBackground.png";
 import "./css/PasswordConfig.css";
 import PwdConfig from "./PwdConfig";
-import {Link} from "react-router-dom"
+import {Link, useLocation} from "react-router-dom"
 
 
 const PasswordConfig = () => {
+
+  const userId = useLocation();
+  console.log(userId.state.userid);
   return (
     <div className="PasswordConfig-body-wrapper">
       <div className="PasswordConfig-wrapper">

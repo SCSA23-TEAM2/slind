@@ -1,22 +1,34 @@
 import "./css/MainCourtBoard.css";
-
+import {useState, useEffect,useRef} from "react"
 import {Link} from "react-router-dom"
+import axios from "axios";
 // import Court from "./icon/Court";
 // import Like from "./icon/Like";
 // import DisLike from "./icon/DisLike";
 // import Comment from "./icon/Comment";
 // import View from "./icon/View";
 const MainCourtBoard = () => {
-  const Mock = {
-    articlePk: 1,
-    boardPk: 1,
-    boardName: "런닝크asdasda루",
-    title: "글 제목",
-    viewCount: 100,
-    like: 1000,
-    dislike: 10000,
-    commentCount: 10,
-  };
+  const idRef = useRef(0);
+  const [courtPosts, setCourtPosts] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const AxiosGetCourtPosts = async () => {
+    // console.log("여기다")
+    try {
+        const response = await axios.get("http://localhost:3000/apiJudgementSortPage");
+        setCourtPosts(response.data.list);
+        console.log(response.data)
+        setIsLoaded(true);
+    } catch {
+      console.error();
+    }    
+  }
+  useEffect(() => {
+    // console.log("wow");
+    AxiosGetCourtPosts();
+        // setData(prevData => [...prevData, ...newData]);
+        // setHasMore(newData.length > 0);
+  },[]);
+
   return (
     <div className="mainCourtBoard-wrapper">
       <div className="board-header">
@@ -28,40 +40,46 @@ const MainCourtBoard = () => {
         </div>
         <div className="board-detail">
           <div>
-            <Link to="/board/PeopleCourt">더보기</Link>
+            <Link to="/board/PeopleCourt" state= {{
+              
+              kind: 1}}>더보기</Link>
           </div>
         </div>
       </div>
       <div className="board-item-wrapper">
         <ul>
-          <li>
-            <div className="board-item-content">
-              <div className="item-board-name">
-                <a href="">{Mock.boardName}</a>
-              </div>
-              <div className="item-title">
-                <Link to={`/board/${Mock.boardName}/Post/${Mock.title}`}>{Mock.title}</Link>
-              </div>
-              <div className="item-imoji-wrapper">
-                <div className="item-imoji-content">
-                  {/* <View /> */}
-                  <div className="item-imoji-count">{Mock.viewCount}</div>
-                </div>
-                <div className="item-imoji-content">
-                  {/* <Like /> */}
-                  <div className="item-imoji-count">{Mock.like}</div>
-                </div>
-                <div className="item-imoji-content">
-                  {/* <DisLike /> */}
-                  <div className="item-imoji-count">{Mock.dislike}</div>
-                </div>
-                <div className="item-imoji-content">
-                  {/* <Comment /> */}
-                  <div className="item-imoji-count">{Mock.commentCount}</div>
-                </div>
-              </div>
-            </div>
-          </li>
+        {courtPosts.map((item) => {
+                return (
+                  <li key={idRef.current++}>
+                  <div className="board-item-content">
+                    <div className="item-board-name">
+                      <div>{item.boardName}</div>
+                    </div>
+                    <div className="item-title">
+                      <Link to={`/board/${item.boardName}/Post/${item.title}`}>{item.title}</Link>
+                    </div>
+                    <div className="item-imoji-wrapper">
+                      <div className="item-imoji-content">
+                        {/* <View /> */}
+                        <div className="item-imoji-count">{item.viewCount}</div>
+                      </div>
+                      <div className="item-imoji-content">
+                        {/* <Like /> */}
+                        <div className="item-imoji-count">{item.like}</div>
+                      </div>
+                      <div className="item-imoji-content">
+                        {/* <DisLike /> */}
+                        <div className="item-imoji-count">{item.dislike}</div>
+                      </div>
+                      {/* <div className="item-imoji-content"> */}
+                        {/* <Comment /> */}
+                        {/* <div className="item-imoji-count">{Mock.commentCount}</div> */}
+                      {/* </div> */}
+                    </div>
+                  </div>
+                </li>);
+          })}
+          
           
         </ul>
       </div>
