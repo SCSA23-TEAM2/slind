@@ -56,7 +56,10 @@ const MainCourtBoard = () => {
                       <div>{item.boardName}</div>
                     </div>
                     <div className="item-title">
-                      <Link to={`/board/${item.boardName}/Post/${item.title}`}>{item.title}</Link>
+                      <Link to={`/board/${item.boardName}/Post/${item.title}`} state={{
+                                      judgementPk: item.judgementPk,
+              kind: 1
+            }}>{item.title}</Link>
                     </div>
                     <div className="item-imoji-wrapper">
                       <div className="item-imoji-content">

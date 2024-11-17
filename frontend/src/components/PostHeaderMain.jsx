@@ -1,39 +1,68 @@
 import "./css/PostHeaderMain.css";
 import {Link} from "react-router-dom"
 
-const PostHeaderMain = () => {
-  const isMine = true;
-  const title1 =
-    "안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  \
-    안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  \
-    안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  안녕하세요  ";
-  const title2 = "밥드실 분 구함";
-  const author = "맥도날드 트럼프";
-  const date = "2018-03-09 14:21";
-  const boardName = "삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자삼성전자";
-  const content =
-    "What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why do we use it?It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).Where does it come from?Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure LatinBC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,, comes from a line in section 1.10.32.The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from de Finibuor non-characteristic words etc.";
+const PostHeaderMain = ({boardPk,articlePk,isMine,title,nickname,createdDttm,articleContent,content,isJudgement , pi}) => {
+
+
+  console.log(pi);
+  const ismine = isMine;
+  const Title = title;
+  const Nickname = nickname;
+  const date = createdDttm;
+  const boardName = pi.boardName
+  const Content = pi.kind == 0 ? articleContent : content;
+  const IsJudgement = isJudgement;
+  const kind = pi.kind
+  const BoardPk = boardPk;
+  const ArticlePk = articlePk;
+  console.log(ismine,Title,Nickname,date,boardName,content,IsJudgement,kind)
   return (
     <>
       <div className="PostDetail-main-Header">
         <div className="PostDetail-main-Header-left">
-          <div className="PostDetail-main-title">{title2}</div>
+          <div className="PostDetail-main-title">{title}</div>
           <div className="PostDetail-main-boardName">
-            <Link to={`/board/${boardName}`}>{boardName} 게시판</Link>
+            {
+              kind == 0 ?             (<Link to={`/board/${boardName}`} state= {{
+                boardPk : pi.boardPk,
+                boardName : boardName,
+                kind: 0 //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
+              }}>{boardName} 게시판</Link>) : ( ArticlePk == null ? (
+                (<Link to={`/board/${boardName}`} state= {{
+                  boardPk : BoardPk,
+                  boardName : boardName,
+                  kind: 0 //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
+                }}>피고 : 게시판</Link>)
+              ) : (
+                (<Link to={`/board/${boardName}`} state= {{
+                  boardPk : BoardPk,
+                  boardName : boardName,
+                  kind: 0 //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
+                }}>피고 : 게시판</Link>)
+
+              ))
+            }
+
           </div>
-          <div className="PostDetail-main-author">{author}</div>
+          <div className="PostDetail-main-author">{nickname}</div>
           <div className="PostDetail-main-date">{date}</div>
         </div>
         <div className="PostDetail-main-Header-right">
-          {isMine ? (
-            <button className="PostDetail-main-button">수정하기</button>
-          ) : (
-            <button className="PostDetail-main-button">소송하기</button>
-          )}
+          {
+            isJudgement ? <button className="PostDetail-main-button inCourt">재판 중</button> : (
+
+              isMine ? (
+                <button className="PostDetail-main-button">수정하기</button>
+              ) : (
+                <button className="PostDetail-main-button">소송하기</button>
+              )
+            )
+          }
+
         </div>
       </div>
       <div className="PostDetail-main-content-wrapper">
-        <div className="PostDetail-main-content">{content}</div>
+        <div className="PostDetail-main-content">{Content}</div>
       </div>
     </>
   );

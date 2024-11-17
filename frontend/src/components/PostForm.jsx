@@ -1,6 +1,9 @@
+import { useLocation } from "react-router-dom";
 import "./css/PostForm.css";
 import { useState } from "react";
 const PostForm = () => {
+  const PostFormInfo = useLocation();
+  console.log(PostFormInfo.state)
   const [contentLength, setContentLength] = useState(0);
   const [content, setContent] = useState("");
   const title = "제목";

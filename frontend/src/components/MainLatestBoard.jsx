@@ -64,7 +64,11 @@ const MainLatestBoard = () => {
             }}>{item.boardTitle}</Link>
               </div>
               <div className="item-title">
-                <Link to={`/board/${item.boardTitle}/Post/${item.articleTitle}`}>{item.articleTitle}</Link>
+                <Link to={`/board/${item.boardTitle}/Post/${item.articleTitle}`} state= {{
+              boardName : item.boardTitle,
+              articlePk : item.articlePk,
+              kind: 0 //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
+            }}>{item.articleTitle}</Link>
               </div>
               <div className="item-imoji-wrapper">
                 <div className="item-imoji-content">
