@@ -2,9 +2,10 @@ import "./css/Login.css";
 import { useState } from "react";
 import {Link, useNavigate} from "react-router-dom"
 import Logo from "../assets/RealLogoWithoutBackground.png";
-
+import { useAuth } from '../AuthContext';
 import axios from "axios"
 const Login = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [input, setInput] = useState({
     id: "",
@@ -17,15 +18,25 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const chechValueForLogin = async () => {
+
+  const Login = async ()=> {
+
+
     try {
-      console.log(input)
-      const response = await axios.post("http://localhost:3000/members",input);
-      console.log(response.data);
-    } catch {
-      console.log("no");
-    }    
-        // setData(prevData => [...prevData, ...newData]);
+      const response = await axios.post('http://localhost:3000/api/member/signin', input);
+
+      const tokens = response.data; // Assumes the response contains access_token and refresh_token
+      login(tokens); // Set the tokens in context and localStorage
+
+      // Redirect or do something after login
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  }
+
+  const chechValueForLogin = () => {
+    Login();  
+    // setData(prevData => [...prevData, ...newData]);
         // setHasMore(newData.length > 0);
   };
   const gotoJoin = () =>{

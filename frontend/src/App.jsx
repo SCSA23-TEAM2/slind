@@ -28,11 +28,9 @@ import {Routes, Route, Link, useNavigate} from "react-router-dom";
 import "./App.css";
 
 function App() {
-  const [isLogined,setIsLogined] = useState(true);
+
   return (
-    
     <div className="Body">
-    
       <Routes>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/board/:Name" element={<BoardPage/>}/>

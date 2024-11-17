@@ -1,20 +1,22 @@
 import "./css/MainLatestBoard.css";
-import axios from "axios";
+// import axios from "axios";
 import {useState,useEffect,useRef} from "react"
 import {Link} from "react-router-dom"
+import useAxios from "../useAxios"
 // import New from "./icon/New";
 // import Like from "./icon/Like";
 // import DisLike from "./icon/DisLike";
 // import Comment from "./icon/Comment";
 // import View from "./icon/View";
 const MainLatestBoard = () => {
+  const axios = useAxios();
   const idRef = useRef(0);
   const [latestPost, setLatestPost] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const AxiosGetlatestPost = async () => {
     // console.log("여기다")
     try {
-        const response = await axios.get("http://localhost:3000/apiarticlemain");
+        const response = await axios.get("http://localhost:3000/api/article/main");
         setLatestPost(response.data);
         console.log(response.data)
         setIsLoaded(true);
@@ -27,7 +29,7 @@ const MainLatestBoard = () => {
     AxiosGetlatestPost();
         // setData(prevData => [...prevData, ...newData]);
         // setHasMore(newData.length > 0);
-  },[]);
+  },[axios]);
 
   // {
 	// 	"articlePk" : 1,

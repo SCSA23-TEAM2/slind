@@ -42,9 +42,9 @@ const GeneralBoard = () => {
     console.log(pagenum);
     console.log(curOption)
     if (infoBoard.kind) {
-      AxiosGetapiArticleBoardPkSortPage("http://localhost:3000/apiJudgementSortPage");
+      AxiosGetapiArticleBoardPkSortPage(`http://localhost:3000/api/judgement/${options[curOption]}/${pagenum}`);
     } else {
-      AxiosGetapiArticleBoardPkSortPage("http://localhost:3000/apiArticleBoardPkSortPage");
+      AxiosGetapiArticleBoardPkSortPage(`http://localhost:3000/api/article/${infoBoard.boardPk}/${options[curOption]}/${pagenum}`);
     }
     
   }
@@ -53,7 +53,7 @@ const GeneralBoard = () => {
     
         // setData(prevData => [...prevData, ...newData]);
         // setHasMore(newData.length > 0);
-  },[]);
+  },[axios]);
 
   const SortPage = ()=>{
     CallAxios(1);

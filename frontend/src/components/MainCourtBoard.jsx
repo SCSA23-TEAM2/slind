@@ -1,20 +1,21 @@
 import "./css/MainCourtBoard.css";
 import {useState, useEffect,useRef} from "react"
 import {Link} from "react-router-dom"
-import axios from "axios";
+import useAxios from "../useAxios"
 // import Court from "./icon/Court";
 // import Like from "./icon/Like";
 // import DisLike from "./icon/DisLike";
 // import Comment from "./icon/Comment";
 // import View from "./icon/View";
 const MainCourtBoard = () => {
+  const axios = useAxios();
   const idRef = useRef(0);
   const [courtPosts, setCourtPosts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const AxiosGetCourtPosts = async () => {
     // console.log("여기다")
     try {
-        const response = await axios.get("http://localhost:3000/apiJudgementSortPage");
+        const response = await axios.get("http://localhost:3000/api/judgement/0/0");
         setCourtPosts(response.data.list);
         console.log(response.data)
         setIsLoaded(true);
@@ -27,7 +28,7 @@ const MainCourtBoard = () => {
     AxiosGetCourtPosts();
         // setData(prevData => [...prevData, ...newData]);
         // setHasMore(newData.length > 0);
-  },[]);
+  },[axios]);
 
   return (
     <div className="mainCourtBoard-wrapper">

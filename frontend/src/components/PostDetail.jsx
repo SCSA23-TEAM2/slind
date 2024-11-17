@@ -8,10 +8,9 @@ import axios from "axios"
 const PostDetail = () => {
   const PostLocation = useLocation();
   const PostInfo = PostLocation.state
-
+  const [PI, setPI] = useState(PostInfo);
   const [postInfo, setPostInfo] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
-  console.log(PostInfo)
   const AxiosGetapiApiArticleDetailArticlePk = async (address) => {
     // console.log("여기다")
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
@@ -25,25 +24,29 @@ const PostDetail = () => {
     }    
   }
   const CallAxios = () => {
-    if (PostInfo.kind) {
-      AxiosGetapiApiArticleDetailArticlePk("http://localhost:3000/apiJudgementJudgementPk");
+
+    if (PI.kind) {
+      AxiosGetapiApiArticleDetailArticlePk(`http://localhost:3000/api/judgement/${PI.judgementPk}`);
     } else {
-      AxiosGetapiApiArticleDetailArticlePk("http://localhost:3000/apiArticleDetailArticlePk");
+      AxiosGetapiApiArticleDetailArticlePk(`http://localhost:3000/api/article/detail/${PI.articlePk}`);
     }
     
     
   }
+  const handleLinkClick = (state) => {
+    setPI(state);
+  };
   useEffect(() => {
     CallAxios();
-    
+    console.log(PI)    
         // setData(prevData => [...prevData, ...newData]);
         // setHasMore(newData.length > 0);
-  },[])
+  },[PI])
 
   return (
     <div className="PostDetail-main-wrapper">
       {/* 게시글 헤더와 본문 컴포넌트화 */}
-      <PostHeaderMain {...postInfo} pi={PostInfo} />
+      <PostHeaderMain {...postInfo} pi={PI} handleLinkClick={handleLinkClick}/>
       {/* 하단, 조회수, 좋아요수,싫어요수,댓글수는 컴포넌트화 */}
       <PostCountsInfo {...postInfo}/>
 

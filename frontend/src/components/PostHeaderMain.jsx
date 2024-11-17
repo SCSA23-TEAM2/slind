@@ -1,7 +1,7 @@
 import "./css/PostHeaderMain.css";
 import {Link} from "react-router-dom"
 
-const PostHeaderMain = ({boardPk,articlePk,isMine,title,nickname,createdDttm,articleContent,content,isJudgement , pi}) => {
+const PostHeaderMain = ({boardPk,articlePk,isMine,title,nickname,createdDttm,articleContent,content,isJudgement , pi,handleLinkClick}) => {
 
 
   console.log(pi);
@@ -20,10 +20,10 @@ const PostHeaderMain = ({boardPk,articlePk,isMine,title,nickname,createdDttm,art
     <>
       <div className="PostDetail-main-Header">
         <div className="PostDetail-main-Header-left">
-          <div className="PostDetail-main-title">{title}</div>
+          <div className="PostDetail-main-title">{Title}</div>
           <div className="PostDetail-main-boardName">
             {
-              kind == 0 ?             (<Link to={`/board/${boardName}`} state= {{
+              kind == 0 ?   (<Link to={`/board/${boardName}`} state= {{
                 boardPk : pi.boardPk,
                 boardName : boardName,
                 kind: 0 //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
@@ -34,11 +34,15 @@ const PostHeaderMain = ({boardPk,articlePk,isMine,title,nickname,createdDttm,art
                   kind: 0 //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
                 }}>피고 : 게시판</Link>)
               ) : (
-                (<Link to={`/board/${boardName}`} state= {{
-                  boardPk : BoardPk,
-                  boardName : boardName,
-                  kind: 0 //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
-                }}>피고 : 게시판</Link>)
+                (<Link to={`/board/${boardName}/Post/${title}`} 
+                  onClick={()=>{
+                    handleLinkClick({
+                      boardName : boardName,
+                      articlePk : ArticlePk,
+                      kind: 0 
+                    })
+                  }}
+                >피고 : 게시글</Link>)
 
               ))
             }

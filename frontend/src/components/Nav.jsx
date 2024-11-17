@@ -1,9 +1,10 @@
 import "./css/Nav.css";
 import { useState, useRef, useEffect } from "react";
+import useAxios from "../useAxios"
 // import BookMark from "./icon/BookMark";
 import Modal from "./Modal/CreateBoardModal";
 import {Link} from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 // const mockitem1 = {
 //   boardPk: 1,
 //   boardTitle: "상처치료해줄사람어디없나가만히놔두다간끊임없이덧나",
@@ -29,6 +30,8 @@ import axios from "axios";
 // wholeMock.push(mockitem3);
 // wholeMock.push(mockitem4);
 const Nav = () => {
+  console.log("123")
+  const axios = useAxios();
   const idRef = useRef(0);
 
   const [originalBoardList, setOriginalBoardList] = useState([]);
@@ -38,9 +41,9 @@ const Nav = () => {
   const AxiosGetApiBoard = async () => {
     // console.log("여기다")
     try {
-        const response = await axios.get("http://localhost:3000/apiboard");
+        const response = await axios.get("http://localhost:3000/api/board");
         setOriginalBoardList(response.data);
-        console.log(response.data)
+        // console.log(response.data)
         setViewBoard(response.data)
         setIsLoaded(true);
     } catch {
@@ -48,11 +51,11 @@ const Nav = () => {
     }    
   }
   useEffect(() => {
-    console.log("wow");
+    // console.log("wow");
     AxiosGetApiBoard();
         // setData(prevData => [...prevData, ...newData]);
         // setHasMore(newData.length > 0);
-  },[]);
+  },[axios]);
 
 
   const onChange = (e) => {
@@ -83,10 +86,10 @@ const Nav = () => {
   // }, [inputBoard]);
   return (
     <div className="Nav-wrapper">
-      <div className="Nav-header">
-        <div className="Bookmark-icon">
+      {/* <div className="Nav-header">
+        <div className="Bookmark-icon"> */}
           {/* <BookMark /> */}
-        </div>
+        {/* </div>
         <h2 className="Bookmark-title">즐겨찾기</h2>
       </div>
       <div className="Nav-board">
@@ -97,7 +100,7 @@ const Nav = () => {
             </Link>
           ))}
         </ul>
-      </div>
+      </div> */}
       <div className="Nav-header second-header">
         <h2 className="board-title">게시판</h2>
         <button onClick={openModal}>새로 만들기</button>

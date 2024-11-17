@@ -1,10 +1,22 @@
 import "./css/Header.css";
 import Logo from "../assets/RealLogoWithoutBackground.png";
 import {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link,  useNavigate} from "react-router-dom";
+import { useAuth } from '../AuthContext';
 const Header = () => {
+    const navigate = useNavigate();
+    const { isAuthenticated,logout } = useAuth();
   
-  const [isLogined, setIsLogined] = useState(false);
+    const handleLogout = () => {
+      console.log("wow")
+      // setIsLogined(false);
+      logout(); // Remove tokens from context and localStorage
+      // Redirect to login or home page
+      navigate('/Login')
+    };
+  
+
+  // const [isLogined, setIsLogined] = useState(true);
   // console.log("이동")
   return (
     <div className="header-wrapper">
@@ -18,8 +30,8 @@ const Header = () => {
       </div>
       <div className="header-nav-wrapper">
         <ul className="header-nav-contents">
-          {isLogined ?  (<><li className={"header-nav-list"}>
-            <a href="">로그아웃</a>
+          {isAuthenticated ?  (<><li className={"header-nav-list"}>
+            <Link onClick={handleLogout}>로그아웃</Link>
           </li>
           <li className="header-nav-list">
             <Link to="/MyPage" state= {{pageNum: 1}}>마이페이지</Link>
