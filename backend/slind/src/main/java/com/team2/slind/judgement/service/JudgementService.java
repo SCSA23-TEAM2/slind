@@ -9,6 +9,8 @@ import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.common.exception.*;
 import com.team2.slind.judgement.dto.request.JudgementReactionRequest;
 import com.team2.slind.judgement.dto.response.JudgementDetailResponse;
+import com.team2.slind.judgement.dto.response.JudgementListResponse;
+import com.team2.slind.judgement.dto.response.JudgementMainResponse;
 import com.team2.slind.judgement.dto.response.JudgementPkResponse;
 import com.team2.slind.judgement.mapper.JudgementMapper;
 import com.team2.slind.judgement.mapper.JudgementReactionMapper;
@@ -23,6 +25,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,6 +39,8 @@ public class JudgementService {
     private final JudgementMapper judgementMapper;
     private final JudgementReactionMapper judgementReactionMapper;
     private final Logger logger = LoggerFactory.getLogger(JudgementService.class);
+    private static final int JUDGEMENT_LIST_SIZE = 12;
+    private static final int PAGE_SIZE = 10;
     @Transactional
     public ResponseEntity<JudgementPkResponse> addJudgementArticle(
             ArticlePkCreateUpdateRequest articlePkCreateUpdateRequest, Long memberPk) {
@@ -146,5 +152,89 @@ public class JudgementService {
         judgementReactionMapper.addJudgementReaction(judgementReaction);
         return ResponseEntity.ok().build();
 
+    }
+
+    public ResponseEntity<JudgementListResponse> getJudgementList(Integer sort, Integer page) {
+        List<Judgement> judgementList = null;
+        Long totalRecords = judgementMapper.findTotalRecords();
+        Long totalPage = totalRecords / JUDGEMENT_LIST_SIZE;
+        if (totalRecords % JUDGEMENT_LIST_SIZE != 0) {
+            totalPage++;
+        }
+        if (page < 1 || page > totalPage) {
+            // return empty list
+            return ResponseEntity.ok().body(JudgementListResponse.builder()
+                    .list(new ArrayList<>())
+                    .currentPage(page)
+                    .totalPages(totalPage.intValue())
+                    .startPage(1)
+                    .endPage(1)
+                    .hasPrevious(false)
+                    .hasNext(false)
+                    .build());
+        }
+        Integer startPage = (page - 1) / PAGE_SIZE * PAGE_SIZE + 1;
+        Integer endPage = Math.min(startPage + PAGE_SIZE - 1, totalPage.intValue());
+        Boolean hasPrevious = startPage > 1;
+        Boolean hasNext = endPage < totalPage.intValue();
+        Integer offset = (page - 1) * JUDGEMENT_LIST_SIZE;
+        // print log
+        log.info("sort:{}", sort);
+        log.info("page:{}", page);
+        log.info("totalRecords:{}", totalRecords);
+        log.info("totalPage:{}", totalPage);
+        log.info("startPage:{}", startPage);
+        log.info("endPage:{}", endPage);
+        log.info("hasPrevious:{}", hasPrevious);
+        log.info("hasNext:{}", hasNext);
+        log.info("offset:{}", offset);
+
+
+        if (sort == 0) {
+            judgementList = judgementMapper.findList(offset, JUDGEMENT_LIST_SIZE);
+        } else if (sort == 1) {
+            judgementList = judgementMapper.findListOrderByViewCount(offset, JUDGEMENT_LIST_SIZE);
+        } else if (sort == 2) {
+            judgementList = judgementMapper.findListOrderByLikeCount(offset, JUDGEMENT_LIST_SIZE);
+        } else {
+            throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
+        }
+
+        List<JudgementMainResponse> list = new ArrayList<>();
+        for (Judgement judgement : judgementList) {
+            String boardName = null;
+            if (judgement.getBoardPk() != null) {
+                Board board = boardMapper.findByBoardPk(judgement.getBoardPk()).orElseThrow(() ->
+                        new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND));
+                boardName = board.getTitle();
+            }
+            String articleTitle = null;
+            if (judgement.getArticlePk() != null) {
+                Article article = articleMapper.findByPk(judgement.getArticlePk()).orElseThrow(() ->
+                        new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
+                articleTitle = article.getTitle();
+            }
+            System.out.println(judgement.getMember());
+            list.add(JudgementMainResponse.builder()
+                    .judgementPk(judgement.getJudgementPk())
+                    .nickname(judgement.getMember().getNickname())
+                    .isArticle(judgement.getArticlePk() != null)
+                    .boardName(boardName)
+                    .articleTitle(articleTitle)
+                    .title(judgement.getTitle())
+                    .viewCount(judgement.getViewCount())
+                    .likeCount(judgement.getLikeCount())
+                    .dislikeCount(judgement.getDislikeCount())
+                    .build());
+        }
+        return ResponseEntity.ok().body(JudgementListResponse.builder()
+                .list(list)
+                .currentPage(page)
+                .totalPages(totalPage.intValue())
+                .startPage(startPage)
+                .endPage(endPage)
+                .hasPrevious(hasPrevious)
+                .hasNext(hasNext)
+                .build());
     }
 }
