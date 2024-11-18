@@ -21,7 +21,7 @@ public class BoardController {
     static Long memberPk = 1L;
     private final BookmarkService bookmarkService;
 
-    @PostMapping
+    @PostMapping("/auth")
     public ResponseEntity<Void> createBoard(@RequestBody @Valid BoardCreateRequest boardCreateRequest) {
         return boardService.createBoard(boardCreateRequest, memberPk);
 
@@ -32,7 +32,7 @@ public class BoardController {
         return boardService.checkDuplicateBoard(title);
     }
 
-    @DeleteMapping("/{boardPk}")
+    @DeleteMapping("/auth/{boardPk}")
     public ResponseEntity<Void> deleteBoard(@PathVariable("boardPk") Long boardPk) {
         return boardService.deleteBoard(boardPk, memberPk);
     }
