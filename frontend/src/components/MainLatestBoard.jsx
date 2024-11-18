@@ -31,7 +31,7 @@ const MainLatestBoard = () => {
     AxiosGetlatestPost();
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
-  }, [axios]);
+  }, []);
 
   // {
   // 	"articlePk" : 1,
@@ -55,62 +55,61 @@ const MainLatestBoard = () => {
       </div>
       <div className="board-item-wrapper">
         <ul>
-          <li>
-            <div className="board-item-content">
-              {latestPost.map((item) => {
-                return (
-                  <>
-                    <div className="item-board-name">
-                      <Link
-                        to={`/board/${item.boardTitle}`}
-                        state={{
-                          boardPk: 1,
-                          boardName: item.boardTitle,
-                          kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
-                        }}
-                      >
-                        {item.boardTitle}
-                      </Link>
+          {latestPost.map((item) => {
+            console.log(item);
+            return (
+              <li>
+                <div className="board-item-content">
+                  <div className="item-board-name">
+                    <Link
+                      to={`/board/${item.boardTitle}`}
+                      state={{
+                        boardPk: 1,
+                        boardName: item.boardTitle,
+                        kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
+                      }}
+                    >
+                      {item.boardTitle}
+                    </Link>
+                  </div>
+                  <div className="item-title">
+                    <Link
+                      to={`/board/${item.boardTitle}/Post/${item.articleTitle}`}
+                      state={{
+                        boardName: item.boardTitle,
+                        articlePk: item.articlePk,
+                        kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
+                      }}
+                    >
+                      {item.articleTitle}
+                    </Link>
+                  </div>
+                  <div className="item-imoji-wrapper">
+                    <div className="item-imoji-content">
+                      <View />
+                      <div className="item-imoji-count">{item.viewCount}</div>
                     </div>
-                    <div className="item-title">
-                      <Link
-                        to={`/board/${item.boardTitle}/Post/${item.articleTitle}`}
-                        state={{
-                          boardName: item.boardTitle,
-                          articlePk: item.articlePk,
-                          kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
-                        }}
-                      >
-                        {item.articleTitle}
-                      </Link>
+                    <div className="item-imoji-content">
+                      <Like />
+                      <div className="item-imoji-count">{item.likeCount}</div>
                     </div>
-                    <div className="item-imoji-wrapper">
-                      <div className="item-imoji-content">
-                        <View />
-                        <div className="item-imoji-count">{item.viewCount}</div>
-                      </div>
-                      <div className="item-imoji-content">
-                        <Like />
-                        <div className="item-imoji-count">{item.likeCount}</div>
-                      </div>
-                      <div className="item-imoji-content">
-                        <DisLike />
-                        <div className="item-imoji-count">
-                          {item.dislikeCount}
-                        </div>
-                      </div>
-                      <div className="item-imoji-content">
-                        <Comment />
-                        <div className="item-imoji-count">
-                          {item.commentCount}
-                        </div>
+                    <div className="item-imoji-content">
+                      <DisLike />
+                      <div className="item-imoji-count">
+                        {item.dislikeCount}
                       </div>
                     </div>
-                  </>
-                );
-              })}
-            </div>
-          </li>
+                    <div className="item-imoji-content">
+                      <Comment />
+                      <div className="item-imoji-count">
+                        {item.commentCount}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
