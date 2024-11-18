@@ -28,4 +28,15 @@ public interface JudgementMapper {
     void finishJudgementWin(@Param("judgementPk") Long judgementPk);
     void finishJudgementLose(@Param("judgementPk") Long judgementPk);
     List<Judgement> findByStatus();
+
+    List<Judgement> findList(@Param("offset") Integer offset,
+                             @Param("judgementListSize") int judgementListSize);
+
+    List<Judgement> findListOrderByViewCount(@Param("offset") Integer offset,
+                                             @Param("judgementListSize") int judgementListSize);
+
+    List<Judgement> findListOrderByLikeCount(@Param("offset") Integer offset,
+                                             @Param("judgementListSize") int judgementListSize);
+
+    Long findTotalRecords();
 }

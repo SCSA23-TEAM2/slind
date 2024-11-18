@@ -84,4 +84,64 @@
         status = 'LOSE'
         WHERE judgement_pk = #{judgementPk}
     </update>
+    <select id="findList" resultMap="judgementMap">
+        SELECT *
+        FROM (
+            SELECT subquery.*, ROWNUM AS rnum
+            FROM (
+                SELECT
+                    j.judgement_pk, j.article_pk, j.board_pk, j.title, j.judgement_content,
+                    j.view_count, j.like_count, j.dislike_count, j.created_dttm,
+                    m.member_pk AS member_pk, m.nickname AS nickname
+                FROM tbl_judgement j
+                LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
+                WHERE j.is_deleted = 0
+                ORDER BY j.created_dttm DESC, j.judgement_pk DESC
+            ) subquery
+            WHERE ROWNUM &lt;= #{offset} + #{judgementListSize}
+        )
+        WHERE rnum > #{offset}
+        ORDER BY created_dttm DESC, judgement_pk DESC
+    </select>
+    <select id="findListOrderByViewCount" resultMap="judgementMap">
+        SELECT *
+        FROM (
+            SELECT subquery.*, ROWNUM AS rnum
+            FROM (
+                SELECT
+                    j.judgement_pk, j.article_pk, j.board_pk, j.title, j.judgement_content,
+                    j.view_count, j.like_count, j.dislike_count, j.created_dttm,
+                    m.member_pk AS member_pk, m.nickname AS nickname
+                FROM tbl_judgement j
+                LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
+                WHERE j.is_deleted = 0
+                ORDER BY j.view_count DESC, j.judgement_pk DESC
+            ) subquery
+            WHERE ROWNUM &lt;= #{offset} + #{judgementListSize}
+        )
+        WHERE rnum > #{offset}
+        ORDER BY view_count DESC, judgement_pk DESC
+    </select>
+    <select id="findListOrderByLikeCount" resultMap="judgementMap">
+        SELECT *
+        FROM (
+            SELECT subquery.*, ROWNUM AS rnum
+            FROM (
+                SELECT
+                    j.judgement_pk, j.article_pk, j.board_pk, j.title, j.judgement_content,
+                    j.view_count, j.like_count, j.dislike_count, j.created_dttm,
+                    m.member_pk AS member_pk, m.nickname AS nickname
+                FROM tbl_judgement j
+                LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
+                WHERE j.is_deleted = 0
+                ORDER BY j.like_count DESC, j.judgement_pk DESC
+            ) subquery
+            WHERE ROWNUM &lt;= #{offset} + #{judgementListSize}
+        )
+        WHERE rnum > #{offset}
+        ORDER BY like_count DESC, judgement_pk DESC
+    </select>
+    <select id="findTotalRecords" resultType="Long">
+        SELECT COUNT(*) FROM tbl_judgement WHERE is_deleted = 0
+    </select>
 </mapper>
