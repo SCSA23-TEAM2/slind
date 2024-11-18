@@ -48,7 +48,7 @@ public class JudgementService {
         }
         String title = articlePkCreateUpdateRequest.getTitle();
 
-        String content = articlePkCreateUpdateRequest.getContent();
+        String content = articlePkCreateUpdateRequest.getArticleContent();
 
         Judgement articleJudgement =
                 Judgement.builder().member(new Member(memberPk)).articlePk(articlePk)
@@ -71,7 +71,7 @@ public class JudgementService {
         }
         String title = requestDto.getTitle();
 
-        String content = requestDto.getContent();
+        String content = requestDto.getArticleContent();
 
         Judgement articleJudgement =
                 Judgement.builder().member(new Member(memberPk))
