@@ -10,4 +10,5 @@ public interface MemberMapper {
     void addMember(Member member);
 
     Optional<Member> findByNickname(String nickname);
+
 }
