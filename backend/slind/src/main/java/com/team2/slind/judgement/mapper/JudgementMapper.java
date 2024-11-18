@@ -1,9 +1,9 @@
 package com.team2.slind.judgement.mapper;
 
 import com.team2.slind.judgement.vo.Judgement;
-import com.team2.slind.member.dto.response.JudgementGetResponse;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,4 +25,8 @@ public interface JudgementMapper {
                                             @Param("size") int size);
 
     Optional<Long> findPkByArticlePk(@Param("articlePk") Long articlePk);
+
+    void finishJudgementWin(@Param("judgementPk") Long judgementPk);
+    void finishJudgementLose(@Param("judgementPk") Long judgementPk);
+    List<Judgement> findByStatus();
 }
