@@ -2,10 +2,11 @@ import "./css/PostDetail.css";
 
 import PostHeaderMain from "./PostHeaderMain";
 import PostCountsInfo from "./PostCountsInfo";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useAxios from "../useAxios";
 const PostDetail = () => {
+  const navigate = useNavigate();
   const axios = useAxios();
   const PostLocation = useLocation();
   const PostInfo = PostLocation.state;
@@ -40,21 +41,22 @@ const PostDetail = () => {
     setPI(state);
   };
   const gotoPostModifyForm = () => {
-    navigate(`/board/${info.boardName}/write`, {
+    navigate(`/board/${PI.boardName}/write`, {
       state: {
-        pk: info.articlePk,
-        Name: info.boardName,
+        pk: postInfo.articlePk,
+        Name: PI.boardName,
         kind: 2,
-        title: Info.title,
-        articleContent: Info.articleContent,
+        title: postInfo.title,
+        articleContent: postInfo.articleContent,
       },
     });
   };
   const gotoSuitForm = () => {
+    console.log(postInfo);
     navigate(`/board/PeopleCourt/write`, {
       state: {
-        pk: infoBoard.articlePk,
-        Name: infoBoard.title,
+        pk: postInfo.articlePk,
+        Name: postInfo.title,
         kind: 1,
         title: "",
         articleContent: "",
@@ -149,6 +151,7 @@ const PostDetail = () => {
         pi={PI}
         handleLinkClick={handleLinkClick}
         gotoPostModifyForm={gotoPostModifyForm}
+        gotoSuitForm={gotoSuitForm}
       />
       {/* 하단, 조회수, 좋아요수,싫어요수,댓글수는 컴포넌트화 */}
       <PostCountsInfo

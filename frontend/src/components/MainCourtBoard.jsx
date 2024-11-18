@@ -82,11 +82,13 @@ const MainCourtBoard = () => {
                     </div>
                     <div className="item-imoji-content">
                       <Like />
-                      <div className="item-imoji-count">{item.like}</div>
+                      <div className="item-imoji-count">{item.likeCount}</div>
                     </div>
                     <div className="item-imoji-content">
                       <DisLike />
-                      <div className="item-imoji-count">{item.dislike}</div>
+                      <div className="item-imoji-count">
+                        {item.dislikeCount}
+                      </div>
                     </div>
                     {/* <div className="item-imoji-content"> */}
                     {/* <Comment /> */}

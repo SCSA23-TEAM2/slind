@@ -14,8 +14,7 @@ const PostForm = () => {
   const [title, setTitle] = useState(PostFormInfo.state.title);
 
   const contentLengthLimit = 2000;
-  const boardTitle =
-    "게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름 게시판 이름";
+  console.log(PostFormInfo.state);
   const onChange = (e) => {
     console.log(e.target.value);
     setContent(e.target.value);
@@ -26,8 +25,8 @@ const PostForm = () => {
     setTitle(e.target.value);
   };
   const SubmitPost = async () => {
-    try {
-      if (PostFormInfo.state.kind == 0) {
+    if (PostFormInfo.state.kind == 0) {
+      try {
         const response = await axios.post(
           "http://localhost:8080/api/article/auth",
           {
@@ -43,11 +42,17 @@ const PostForm = () => {
             kind: 0,
           },
         });
-      } else if (PostFormInfo.state.kind == 2) {
+      } catch (error) {
+        console.error();
+      }
+    } else if (PostFormInfo.state.kind == 2) {
+      console.log(content);
+      console.log(title);
+      try {
         const response = await axios.put(
           "http://localhost:8080/api/article/auth",
           {
-            boardPk: PostFormInfo.state.pk,
+            articlePk: PostFormInfo.state.pk,
             title: title,
             articleContent: content,
           }
@@ -59,19 +64,51 @@ const PostForm = () => {
             kind: 0,
           },
         });
-      } else {
-        console.log("아직", PostFormInfo.state.kind);
+      } catch (error) {
+        console.error(error);
       }
-
-      // console.log({
-      //   boardPk: PostFormInfo.state.pk,
-      //   title: title,
-      //   articleContent: content,
-      // });
-    } catch (error) {
-      console.error(error);
-      navigate("/");
+    } else {
+      console.log(PostFormInfo.state);
+      try {
+        if (PostFormInfo.state.kind == 1) {
+          const response = await axios.post(
+            "http://localhost:8080/api/judgement/auth/article",
+            {
+              articlePk: PostFormInfo.state.pk,
+              title: title,
+              articleContent: content,
+            }
+          );
+          navigate("/board/PeopleCourt", {
+            state: {
+              kind: 1,
+            },
+          });
+        } else {
+          const response = await axios.post(
+            "http://localhost:8080/api/judgement/auth/board",
+            {
+              boardPk: PostFormInfo.state.pk,
+              title: title,
+              articleContent: content,
+            }
+          );
+          navigate("/board/PeopleCourt", {
+            state: {
+              kind: 1,
+            },
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
+
+    // console.log({
+    //   boardPk: PostFormInfo.state.pk,
+    //   title: title,
+    //   articleContent: content,
+    // });
   };
 
   return (
@@ -94,7 +131,9 @@ const PostForm = () => {
           </div>
         </div>
         <div className="PostForm-board-wrapper">
-          <div className="PostForm-board">게시판</div>
+          <div className="PostForm-board">
+            {PostFormInfo.state.kind % 2 == 0 ? "게시판" : "피고"}
+          </div>
           <div className="PostForm-board-value">{board}</div>
         </div>
       </div>

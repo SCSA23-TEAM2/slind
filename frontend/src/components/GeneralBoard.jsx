@@ -83,7 +83,7 @@ const GeneralBoard = () => {
       state: {
         pk: infoBoard.boardPk,
         Name: infoBoard.boardName,
-        kind: 1,
+        kind: 3,
         title: "",
         articleContent: "",
       },
@@ -134,7 +134,11 @@ const GeneralBoard = () => {
                 <li key={idRef.current++}>
                   <div className="board-item-content">
                     <div className="item-board-name">
-                      {item.boardName ? "게시판" : "게시글"}
+                      {infoBoard.kind == 0
+                        ? item.boardTitle
+                        : item.boardName
+                        ? "게시판"
+                        : "게시글"}
                     </div>
                     <div className="item-title">
                       <Link
