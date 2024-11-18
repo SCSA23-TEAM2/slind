@@ -39,4 +39,6 @@ public interface JudgementMapper {
                                              @Param("judgementListSize") int judgementListSize);
 
     Long findTotalRecords();
+    Optional<Long> findPkByArticlePk(@Param("articlePk") Long articlePk);
+
 }

@@ -207,6 +207,9 @@
         b.board_pk AS boardPk,
         a.title AS title,
         a.article_content AS articleContent,
+        a.like_count,
+        a.dislike_count,
+        a.view_count,
         m.nickname AS nickname,
         a.created_dttm
         FROM tbl_article a
@@ -217,8 +220,6 @@
     </select>
 
 
-    <select id="findPkByArticlePk" parameterType="Long" resultType="Long">
-        SELECT article_pk FROM tbl_article WHERE article_pk = #{articlePk} AND is_deleted = 0
-    </select>
+
 
 </mapper>
