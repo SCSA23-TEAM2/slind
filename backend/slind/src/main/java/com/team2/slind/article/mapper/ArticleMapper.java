@@ -45,4 +45,6 @@ public interface ArticleMapper {
                                      @Param("size") int size);
     Optional<ArticleDetailMapperDTO> findArticleDetail(@Param("articlePk") Long articlePk);
 
+    Optional<Long> findPkByArticlePk(@Param("articlePk") Long articlePk);
+
 }
