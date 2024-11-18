@@ -1,5 +1,6 @@
 package com.team2.slind.judgement.dto.response;
 
+import com.team2.slind.judgement.vo.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +28,5 @@ public class JudgementDetailResponse {
     private Boolean isLike;
     private Boolean isDislike;
     private Boolean isMine;
+    private Status status;
 }

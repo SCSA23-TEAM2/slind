@@ -130,6 +130,7 @@ public class JudgementService {
                         .isLike(isLike)
                         .isDislike(isDislike)
                         .isMine(isMine)
+                        .status(judgement.getStatus())
                         .build();
         judgementMapper.updateViewCount(judgementPk);
         return ResponseEntity.ok().body(response);
