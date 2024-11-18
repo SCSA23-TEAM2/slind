@@ -146,6 +146,7 @@ public class ArticleService {
                     logger.info("기존 반응이 존재합니다. 다른 반응으로 교체합니다.");
                     // 기존 반응이 있고, requestIsLike와 isLike가 다르면 반응 바꾸기
                     articleReactionMapper.updateReaction(requestIsLike, memberPk, articlePk);
+
                     logger.info("Finished Reaction Table Update");
                     // 게시글 count 변경 :  기존 반응 count -1
                     changeArticleReactionCount(reaction.getIsLike(), false, articlePk);
@@ -188,7 +189,7 @@ public class ArticleService {
         }
         return ResponseEntity.ok().build();
     }
-
+    @Transactional
     public void changeArticleReactionCount(Boolean isLike, Boolean isUp, Long articlePk){
         Integer upCount = isUp ? 1 : -1;
         Integer result = null;
@@ -276,7 +277,7 @@ public class ArticleService {
         Boolean isLike = reactionOpt.orElse(false);
         Boolean isDislike = !reactionOpt.orElse(true);
         Boolean isMine = article.getMemberPk().equals(memberPk);
-        Optional<Long> judgementPkOpt = articleMapper.findPkByArticlePk(articlePk);
+        Optional<Long> judgementPkOpt = judgementMapper.findPkByArticlePk(articlePk);
         Boolean isJudgement = judgementPkOpt.isPresent();
 
         ArticleDetailResponse response = ArticleDetailResponse.builder()
