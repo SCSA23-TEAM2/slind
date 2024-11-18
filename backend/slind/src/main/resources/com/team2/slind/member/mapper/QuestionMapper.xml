@@ -6,5 +6,8 @@
     <select id="findTextByPk" parameterType="Long" resultType="String">
         SELECT question_text FROM tbl_question WHERE question_pk = #{questionPk}
     </select>
+    <select id="findAll" resultType="Question">
+        SELECT * FROM tbl_question
+    </select>
 
 </mapper>
