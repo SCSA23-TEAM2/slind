@@ -5,10 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.security.core.GrantedAuthority;
 
 @Component
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Getter
 public class Member extends BaseVO {
@@ -19,7 +25,7 @@ public class Member extends BaseVO {
     private String nickname;
     private String answer;
 
-    public Member(Long memberPk){
+    public Member(Long memberPk) {
         this.memberPk = memberPk;
     }
 }
