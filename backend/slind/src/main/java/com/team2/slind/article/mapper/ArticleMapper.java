@@ -34,7 +34,7 @@ public interface ArticleMapper {
     List<Article> findByBoardPkOrderByViewCount(@Param("boardPk") Long boardPk,
                                                 @Param("offset") Integer offset,
                                                 @Param("articleListSize") int articleListSize);
-    List<Article> findByBoardPkOrderByLikeCount(Long boardPk,
+    List<Article> findByBoardPkOrderByLikeCount(@Param("boardPk") Long boardPk,
                                                 @Param("offset") Integer offset,
                                                 @Param("articleListSize") int articleListSize);
 
