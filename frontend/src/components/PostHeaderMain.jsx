@@ -13,6 +13,7 @@ const PostHeaderMain = ({
   isJudgement,
   pi,
   handleLinkClick,
+  gotoSuitForm,
 }) => {
   console.log(pi);
   const ismine = isMine;
@@ -97,7 +98,14 @@ const PostHeaderMain = ({
                 수정하기
               </button>
             ) : (
-              <button className="PostDetail-main-button">소송하기</button>
+              <button
+                className="PostDetail-main-button"
+                onClick={() => {
+                  gotoSuitForm();
+                }}
+              >
+                소송하기
+              </button>
             )
           ) : (
             <div></div>
