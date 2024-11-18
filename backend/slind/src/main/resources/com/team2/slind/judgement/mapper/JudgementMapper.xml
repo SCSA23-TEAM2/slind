@@ -17,7 +17,7 @@
 
     <insert id="saveJudgementBoard" parameterType="Judgement">
         INSERT INTO tbl_judgement (judgement_pk, member_pk, board_pk, title, judgement_content)
-        VALUES (seq_judgement_pk.NEXTVAL, #{memberPk}, #{boardPk}, #{title}, #{judgementContent})
+        VALUES (seq_judgement_pk.NEXTVAL, #{member.memberPk}, #{boardPk}, #{title}, #{judgementContent})
     </insert>
     <update id="updateViewCount" parameterType="Long">
         UPDATE tbl_judgement SET view_count = view_count+1
@@ -70,14 +70,12 @@
 
     <update id="finishJudgementWin" parameterType="Long">
         UPDATE tbl_judgement SET
-        deleted_dttm = SYSDATE,
         status = 'WIN'
         WHERE judgement_pk = #{judgementPk}
     </update>
 
     <update id="finishJudgementLose" parameterType="Long">
         UPDATE tbl_judgement SET
-        deleted_dttm = SYSDATE,
         status = 'LOSE'
         WHERE judgement_pk = #{judgementPk}
     </update>
