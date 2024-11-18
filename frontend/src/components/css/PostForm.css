@@ -1,0 +1,112 @@
+.PostForm-wrapper {
+  width: 700px;
+  height: 600px;
+  position: relative;
+  top: 220px;
+  left: 420px;
+  border: 1px solid #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.PostForm-wrapper h4 {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.PostForm-Header {
+  flex: 0.2;
+  border: 1px solid #f6f6f6;
+  display: flex;
+  flex-direction: column;
+}
+.PostForm-Header .PostForm-title-wrapper {
+  flex: 2;
+  display: flex;
+  border-bottom: 1px solid #f6f6f6;
+}
+.PostForm-title-wrapper .PostForm-title {
+  flex: 0.2;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #f6f6f6;
+  line-height: 95.6px;
+  text-align: center;
+  margin-right: 10px;
+}
+.PostForm-title-wrapper .PostForm-title-value {
+  flex: 0.8;
+}
+.PostForm-title-input {
+  width: 530px;
+  height: 70px;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* background-color: #f6f6f6; */
+  border-radius: 5p;
+}
+
+.PostForm-Header .PostForm-board-wrapper {
+  flex: 1;
+  display: flex;
+}
+.PostForm-board-wrapper .PostForm-board {
+  flex: 0.2;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #f6f6f6;
+  line-height: 39.41px;
+  text-align: center;
+  margin-right: 10px;
+}
+.PostForm-board-wrapper .PostForm-board-value {
+  flex: 0.8;
+  /* line-height: 60px; */
+  white-space: nowrap; /* 한 줄로 표시 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 39.41px;
+}
+.PostForm-content {
+  flex: 0.7;
+  /* border: 1px solid black; */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /* align-items: center; */
+  border-bottom: 2px solid #f6f6f6;
+}
+.PostForm-content .PostForm-content-input {
+  border: none;
+  /* background-color: #f6f6f6; */
+  width: 670px;
+  height: 350px;
+}
+
+.PostForm-content .PostForm-content-input:focus {
+  outline: 0;
+}
+.PostForm-length {
+  color: gray;
+}
+.PostForm-Bottom {
+  flex: 0.1;
+  padding: 20px;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 80px;
+}
+.PostForm-submit-button {
+  cursor: pointer;
+  padding: 5px;
+
+  height: 40px;
+  width: 60px;
+  color: white;
+  background-color: #00b890;
+  border: none;
+  border-radius: 5px;
+}
