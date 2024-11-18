@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 public class JudgementDetailResponse {
     private Long judgementPk;
     private Long articlePk;
+    private String articleTitle;
     private Long boardPk;
+    private String boardName;
     private String title;
-    private String content;
+    private String articleContent; // judgementContent (Not the content of the article)
     private String nickname;
     private int likeCount;
     private int dislikeCount;

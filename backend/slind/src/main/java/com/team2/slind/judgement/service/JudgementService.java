@@ -91,14 +91,40 @@ public class JudgementService {
         Boolean isDislike = !reactionOpt.orElse(true);;
         Boolean isMine = judgement.getMember().getMemberPk().equals(memberPk);
 
+        Article articleOpt = null;
+        String articleTitle = null;
+        if (judgement.getArticlePk() != null) {
+            articleOpt = articleMapper.findByPk(judgement.getArticlePk()).orElseThrow(() ->
+                    new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
+            articleTitle = articleOpt.getTitle();
+        }
+
+        Board boardOpt = null;
+        String boardName = null;
+        if (judgement.getBoardPk() != null) {
+            boardOpt = boardMapper.findByBoardPk(judgement.getBoardPk()).orElseThrow(() ->
+                    new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND));
+            boardName = boardOpt.getTitle();
+        }
+
         JudgementDetailResponse response =
-                JudgementDetailResponse.builder().judgementPk(judgementPk).boardPk(judgement.getBoardPk())
-                        .articlePk(judgement.getArticlePk()).title(judgement.getTitle())
-                        .content(judgement.getJudgementContent()).nickname(judgement.getMember().getNickname())
-                        .likeCount(judgement.getLikeCount()).dislikeCount(judgement.getDislikeCount())
+                JudgementDetailResponse.builder()
+                        .judgementPk(judgementPk)
+                        .boardPk(judgement.getBoardPk())
+                        .boardName(boardName) // TODO
+                        .articlePk(judgement.getArticlePk())
+                        .articleTitle(articleTitle) // TODO
+                        .title(judgement.getTitle())
+                        .articleContent(judgement.getJudgementContent())
+                        .nickname(judgement.getMember().getNickname())
+                        .likeCount(judgement.getLikeCount())
+                        .dislikeCount(judgement.getDislikeCount())
                         .viewCount(judgement.getViewCount())
-                        .createdDttm(judgement.getCreatedDttm()).isLike(isLike)
-                        .isDislike(isDislike).isMine(isMine).build();
+                        .createdDttm(judgement.getCreatedDttm())
+                        .isLike(isLike)
+                        .isDislike(isDislike)
+                        .isMine(isMine)
+                        .build();
         judgementMapper.updateViewCount(judgementPk);
         return ResponseEntity.ok().body(response);
     }
