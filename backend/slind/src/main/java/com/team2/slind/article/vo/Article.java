@@ -1,11 +1,16 @@
 package com.team2.slind.article.vo;
 
+import com.team2.slind.board.vo.Board;
+import com.team2.slind.comment.vo.Comment;
 import com.team2.slind.common.basevo.BaseVO;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @NoArgsConstructor @AllArgsConstructor
@@ -13,12 +18,17 @@ import org.springframework.stereotype.Component;
 @Getter
 public class Article extends BaseVO {
     private Long articlePk;
-    private Long boardPk;
+    private Board articleBoard;
     private Long memberPk;
     private String title;
     private String articleContent;
     private Integer likeCount;
     private Integer dislikeCount;
     private Integer viewCount;
+    private List<Comment> comments;
 
+    public void update(String title, String articleContent) {
+        this.title = title;
+        this.articleContent = articleContent;
+    }
 }

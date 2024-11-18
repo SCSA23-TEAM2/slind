@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.slind.judgement.mapper.JudgementReactionMapper">
+    <insert id="addJudgementReaction">
+        INSERT INTO tbl_judgement_reaction (judgement_reaction_pk, judgement_pk, member_pk, is_like)
+        VALUES (seq_judgement_reaction_pk.NEXTVAL, #{judgementPk}, #{memberPk}, #{isLike})
+    </insert>
+
+    <select id="findByJudgementAndMember" resultType="Boolean">
+        SELECT is_like FROM tbl_judgement_reaction WHERE judgement_pk = #{judgementPk} and member_pk = #{memberPk}
+    </select>
+    <select id="countByJudgementAndMember" resultType="int">
+        SELECT COUNT(*) FROM tbl_judgement_reaction WHERE judgement_pk = #{judgementPk} and member_pk = #{memberPk}
+    </select>
+</mapper>

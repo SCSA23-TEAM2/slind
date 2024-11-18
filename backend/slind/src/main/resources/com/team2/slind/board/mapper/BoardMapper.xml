@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.slind.board.mapper.BoardMapper">
+    <insert id="addBoard" parameterType="Board">
+        INSERT INTO tbl_board (board_pk, member_pk, title)
+        VALUES (seq_board_pk.NEXTVAL, #{memberPk}, #{title})
+    </insert>
+    <select id="findCountByBoardTitle" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM tbl_board WHERE title = #{title} and is_deleted = 0
+    </select>
+
+    <select id="findByBoardPk" parameterType="Long" resultType="Board">
+        SELECT * FROM tbl_board WHERE board_pk = #{boardPk} and is_deleted = 0
+    </select>
+
+    <update id="deleteByBoardPk" parameterType="Long">
+        UPDATE tbl_board
+        SET is_deleted = 1, deleted_dttm = SYSDATE
+        WHERE board_pk = #{boardPk} and is_deleted = 0
+    </update>
+
+    <select id="findAllBoards" resultType="Board">
+        SELECT * FROM tbl_board WHERE is_deleted = 0
+    </select>
+    <select id="findRecentCreatedDate" resultType="LocalDateTime">
+        SELECT created_dttm
+        FROM (
+        SELECT created_dttm
+        FROM tbl_board
+        WHERE member_pk = #{memberPk}
+        ORDER BY created_dttm DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+    <select id="findCountByBoardPk" resultType="int">
+        SELECT COUNT(*) FROM tbl_board WHERE is_deleted =0 AND board_pk=#{boardPk}
+    </select>
+    <select id="findListByMemberPk" resultType="Board">
+        SELECT board_pk, title, created_dttm
+        FROM tbl_board
+        WHERE member_pk = #{memberPk} AND board_pk  &lt; #{lastPk}
+        ORDER BY board_pk DESC
+        FETCH FIRST #{size}+1 ROWS ONLY
+    </select>
+    <select id="findListByMemberPkFirst" resultType="Board">
+        SELECT board_pk, title, created_dttm
+        FROM tbl_board
+        WHERE member_pk = #{memberPk}
+        ORDER BY board_pk DESC
+        FETCH FIRST #{size}+1 ROWS ONLY
+    </select>
+</mapper>

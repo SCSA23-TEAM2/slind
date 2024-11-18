@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.slind.judgement.mapper.JudgementMapper">
+    <resultMap id="judgementMap" type="Judgement" autoMapping="true">
+        <id property="judgementPk" column="judgement_pk"/>
+        <association property="member" javaType="Member" autoMapping="true">
+            <id property="memberPk" column="member_pk"/>
+            <result property="nickname" column="nickname"/>
+        </association>
+    </resultMap>
+    <insert id="saveJudgementArticle" parameterType="Judgement">
+        INSERT INTO tbl_judgement (judgement_pk, member_pk, article_pk, title, judgement_content)
+        VALUES (seq_judgement_pk.NEXTVAL, #{member.memberPk}, #{articlePk}, #{title}, #{judgementContent})
+    </insert>
+
+    <insert id="saveJudgementBoard" parameterType="Judgement">
+        INSERT INTO tbl_judgement (judgement_pk, member_pk, board_pk, title, judgement_content)
+        VALUES (seq_judgement_pk.NEXTVAL, #{memberPk}, #{boardPk}, #{title}, #{judgementContent})
+    </insert>
+    <update id="updateViewCount" parameterType="Long">
+        UPDATE tbl_judgement SET view_count = view_count+1
+        WHERE judgement_pk = #{judgementPk}
+    </update>
+
+    <select id="findCreatedJudgementPk" resultType="Long">
+        SELECT seq_judgement_pk.CURRVAL FROM DUAL
+    </select>
+    <select id="findJudgementByPk" parameterType="Long" resultMap="judgementMap">
+        SELECT * FROM tbl_judgement j
+        LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
+        WHERE j.judgement_pk = #{judgementPk} AND j.is_deleted = 0
+    </select>
+
+    <select id="countByJudgementPk" parameterType="Long" resultType="int">
+        SELECT COUNT(*) FROM tbl_judgement WHERE judgement_pk = #{judgementPk} and is_deleted = 0
+    </select>
+
+    <select id="findListByMemberPk" resultType="Judgement">
+        SELECT * FROM (
+            SELECT judgement_pk, article_pk, board_pk, title, created_dttm
+            FROM tbl_judgement
+            WHERE member_pk = #{memberPk}
+            AND judgement_pk &lt; #{lastPk}
+            ORDER BY judgement_pk DESC
+            )
+        WHERE ROWNUM &lt;= #{size}+1
+    </select>
+    <select id="findListByMemberPkFirst" resultType="Judgement">
+        SELECT * FROM (
+            SELECT judgement_pk, article_pk, board_pk, title, created_dttm
+            FROM (
+                SELECT judgement_pk, article_pk, board_pk, title, created_dttm
+                FROM tbl_judgement
+                WHERE member_pk = #{memberPk}
+                ORDER BY judgement_pk DESC
+                )
+            WHERE ROWNUM &lt;= #{size}+1
+        )
+    </select>
+    <select id="findPkByArticlePk" parameterType="Long" resultType="Long">
+        SELECT judgement_pk FROM tbl_judgement WHERE article_pk = #{articlePk} AND is_deleted = 0
+    </select>
+</mapper>

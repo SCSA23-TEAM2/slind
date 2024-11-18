@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.slind.comment.mapper.CommentReactionMapper">
+    <insert id="saveReaction" parameterType="CommentReaction">
+        INSERT INTO tbl_comment_reaction (comment_reaction_pk, comment_pk, member_pk, is_like)
+        VALUES (seq_comment_reaction_pk.NEXTVAL, #{commentPk}, #{memberPk}, #{isLike})
+    </insert>
+    <update id="updateReaction">
+        UPDATE tbl_comment_reaction
+        SET
+        is_like = #{isLike}
+        WHERE
+        comment_pk = #{commentPk} AND member_pk = #{memberPk}
+    </update>
+    <delete id="deleteReactionByCommentPk">
+        DELETE FROM tbl_comment_reaction
+        WHERE comment_reaction_pk = #{commentReactionPk}
+    </delete>
+
+    <select id="findByCommentPkAndMemberPk" resultType="com.team2.slind.comment.vo.CommentReaction">
+        SELECT * FROM tbl_comment_reaction WHERE comment_pk = #{commentPk} AND member_pk = #{memberPk}
+    </select>
+</mapper>

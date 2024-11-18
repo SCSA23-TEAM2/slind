@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.slind.comment.mapper.CommentMapper">
+    <insert id="createComment">
+        INSERT INTO tbl_comment (comment_pk, article_pk, member_pk, comment_content)
+        VALUES (seq_comment_pk.NEXTVAL, #{articlePk}, #{memberPk}, #{commentContent})
+    </insert>
+    <insert id="createRecomment">
+        INSERT INTO tbl_comment (comment_pk, member_pk, comment_content, originate_comment)
+        VALUES (seq_comment_pk.NEXTVAL, #{memberPk}, #{commentContent}, #{originateComment})
+    </insert>
+    <update id="updateComment">
+        UPDATE tbl_comment
+        SET comment_content = #{commentContent}
+        WHERE comment_pk = #{commentPk}
+    </update>
+    <update id="updateRecomment">
+        UPDATE tbl_comment
+        SET comment_content = #{commentContent}
+        WHERE comment_pk = #{commentPk}
+    </update>
+    <update id="updateLikeCount">
+        UPDATE tbl_comment
+        SET like_count = like_count + #{upCount}
+        WHERE comment_pk = #{commentPk}
+    </update>
+    <update id="updateDislikeCount">
+        UPDATE tbl_comment
+        SET dislike_count = dislike_count + #{upCount}
+        WHERE comment_pk = #{commentPk}
+    </update>
+    <delete id="deleteComment">
+        UPDATE tbl_comment
+        SET is_deleted = 1,
+        deleted_dttm = SYSDATE,
+        comment_content = #{deleteMessage}
+        WHERE comment_pk = #{commentPk}
+    </delete>
+    <select id="findByPk" resultType="Comment" parameterType="Long">
+        SELECT * FROM tbl_comment WHERE comment_pk=#{commentPk}
+    </select>
+    <select id="getCommentList" resultType="com.team2.slind.comment.dto.response.CommentResponse">
+        SELECT * FROM (
+            SELECT
+                c.comment_pk,
+                c.member_pk,
+                m.nickname,
+                c.comment_content,
+                c.like_count,
+                c.dislike_count,
+                c.is_deleted
+            FROM tbl_comment c
+            JOIN tbl_member m ON c.member_pk = m.member_pk
+            WHERE c.article_pk = #{articlePk}
+            AND c.comment_pk > #{lastCommentPk}
+            ORDER BY c.created_dttm
+        )
+        WHERE ROWNUM <![CDATA[<=]]> #{fetchCount} + 1
+    </select>
+    <select id="getBestCommentList" resultType="com.team2.slind.comment.dto.response.CommentResponse">
+        SELECT * FROM (
+            SELECT
+                c.comment_pk,
+                c.member_pk,
+                m.nickname,
+                c.comment_content,
+                c.like_count,
+                c.dislike_count,
+                c.is_deleted
+            FROM tbl_comment c
+            JOIN tbl_member m ON c.member_pk = m.member_pk
+            WHERE c.article_pk = #{articlePk}
+            AND c.like_count > 0
+            ORDER BY c.like_count DESC
+        )
+        WHERE ROWNUM <![CDATA[<=]]> #{fetchCount}
+    </select>
+    <select id="getRecommentList" resultType="com.team2.slind.comment.dto.response.CommentResponse">
+        SELECT * FROM (
+            SELECT
+                c.comment_pk,
+                c.member_pk,
+                m.nickname,
+                c.comment_content,
+                c.like_count,
+                c.dislike_count,
+                c.is_deleted
+            FROM tbl_comment c
+            JOIN tbl_member m ON c.member_pk = m.member_pk
+            WHERE c.originate_comment = #{originateComment}
+            AND c.comment_pk > #{lastCommentPk}
+            ORDER BY c.created_dttm
+        )
+        WHERE ROWNUM <![CDATA[<=]]> #{fetchCount} + 1
+    </select>
+
+
+    <select id="findListByMemberPkFirst" resultType="Comment">
+        SELECT c.comment_pk, c.comment_content, c.created_dttm, c.article_pk
+        FROM tbl_comment c
+        JOIN tbl_article a ON c.article_pk = a.article_pk
+        WHERE c.is_deleted = 0
+        AND c.member_pk = #{memberPk}
+        AND a.is_deleted = 0
+        ORDER BY c.comment_pk DESC
+        FETCH FIRST #{size} + 1 ROWS ONLY
+    </select>
+
+    <select id="findListByMemberPk" resultType="Comment">
+        SELECT c.comment_pk, c.comment_content, c.created_dttm, c.article_pk
+        FROM tbl_comment c
+        JOIN tbl_article a ON c.article_pk = a.article_pk
+        WHERE c.comment_pk &lt; #{lastCommentPk}
+        AND c.member_pk = #{memberPk}
+        AND c.is_deleted = 0
+        AND a.is_deleted = 0
+        ORDER BY c.comment_pk DESC
+        FETCH FIRST #{size} + 1 ROWS ONLY
+    </select>
+
+</mapper>

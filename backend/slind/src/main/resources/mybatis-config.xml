@@ -8,7 +8,34 @@
         <setting name="jdbcTypeForNull" value="NULL" />
     </settings>
     <typeAliases>
+        <!-- article VO -->
         <typeAlias type="com.team2.slind.article.vo.Article" alias="Article"/>
+        <typeAlias type="com.team2.slind.article.vo.ArticleReaction" alias="ArticleReaction"/>
+        <typeAlias type="com.team2.slind.article.vo.Image" alias="Image"/>
+
+        <!-- board VO -->
+        <typeAlias type="com.team2.slind.board.vo.Board" alias="Board"/>
+        <typeAlias type="com.team2.slind.board.vo.Bookmark" alias="Bookmark"/>
+
+        <!-- comment VO -->
+        <typeAlias type="com.team2.slind.comment.vo.Comment" alias="Comment"/>
+        <typeAlias type="com.team2.slind.comment.vo.CommentReaction" alias="CommentReaction"/>
+
+        <!-- judgement VO -->
+        <typeAlias type="com.team2.slind.judgement.vo.Judgement" alias="Judgement"/>
+        <typeAlias type="com.team2.slind.judgement.vo.JudgementReaction" alias="JudgementReaction"/>
+
+        <!-- member VO -->
+        <typeAlias type="com.team2.slind.member.vo.Member" alias="Member"/>
+        <typeAlias type="com.team2.slind.member.vo.Question" alias="Question"/>
+
+        <!--   LocalDateTime     -->
+        <typeAlias type="java.time.LocalDateTime" alias="LocalDateTime"/>
+
+
+        <!--    DTO    -->
+        <typeAlias type="com.team2.slind.article.dto.mapper.ArticleDetailMapperDTO" alias="ArticleDetailMapperDTO"/>
+
 
     </typeAliases>
 
