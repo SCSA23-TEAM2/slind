@@ -64,17 +64,26 @@
     </select>
 
 
-    <select id="findExpiredJudgements" resultType="Judgement">
+    <select id="findByStatus" resultType="Judgement">
         SELECT *
         FROM tbl_judgement
-        WHERE created_dttm &lt;= #{expiryTime}
+        WHERE status = 'ON'
         AND is_deleted = 0
     </select>
 
-    <update id="finishJudgement" parameterType="Long">
+    <update id="finishJudgementWin" parameterType="Long">
         UPDATE tbl_judgement
         SET is_deleted = 1,
-        deleted_dttm = SYSDATE
+        deleted_dttm = SYSDATE,
+        status = 'WIN'
+        WHERE judgement_pk = #{judgementPk}
+    </update>
+
+    <update id="finishJudgementLose" parameterType="Long">
+        UPDATE tbl_judgement
+        SET is_deleted = 1,
+        deleted_dttm = SYSDATE,
+        status = 'LOSE'
         WHERE judgement_pk = #{judgementPk}
     </update>
 </mapper>

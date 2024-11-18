@@ -72,8 +72,8 @@ public class BatchConfig extends DefaultBatchConfiguration {
                 if (judgements == null) {
                     // Load judgements using MyBatis Mapper
                     LocalDateTime createdDttm = LocalDateTime.now().minusMinutes(1);
-                    judgements = judgementMapper.findExpiredJudgements(createdDttm);
-                    logger.info("Loaded {} judgements with createdDttm <= {}", judgements.size(), createdDttm);
+                    judgements = judgementMapper.findByStatus();
+                    logger.info("Loaded {} judgements with status = 'ON'", judgements.size());
                 }
 
                 if (nextIndex < judgements.size()) {
@@ -84,63 +84,12 @@ public class BatchConfig extends DefaultBatchConfiguration {
             }
         };
     }
-//    @Bean
-//    public JdbcPagingItemReader<Judgement> judgementReader() {
-//        JdbcPagingItemReader<Judgement> reader = new JdbcPagingItemReader<>();
-//        reader.setDataSource(dataSource);
-//        reader.setFetchSize(CHUNK_SIZE);
-//        reader.setRowMapper(new BeanPropertyRowMapper<>(Judgement.class));
-//
-//        try {
-//            SqlPagingQueryProviderFactoryBean provider = new SqlPagingQueryProviderFactoryBean();
-//            provider.setDataSource(dataSource);
-//            provider.setSelectClause("SELECT *");
-//            provider.setFromClause("FROM tbl_judgement");
-//            provider.setWhereClause("WHERE created_dttm <= :createdDttm AND is_deleted = 0");
-//            provider.setSortKey("judgement_pk");
-//            reader.setQueryProvider(provider.getObject());
-//
-//            // 정확한 시간값 전달
-//            LocalDateTime createdDttm = LocalDateTime.now().minusMinutes(1);
-//            Map<String, Object> parameters = new HashMap<>();
-//            parameters.put("createdDttm", createdDttm);
-//            reader.setParameterValues(parameters);
-//
-//            logger.info("Reader configured with createdDttm: {}", createdDttm);
-//            logger.info("Reader Parameters: {}", parameters);
-//
-//        } catch (Exception e) {
-//            logger.error("Error configuring JdbcPagingItemReader", e);
-//        }
-//
-//        return reader;
-//    }
-//        return new ItemReader<>() {
-//            @Override
-//            public Judgement read() {
-//                logger.info("Start Batch For Judgement");
-////                List<Judgement> expiredJudgements = judgementMapper.findExpiredJudgements(LocalDateTime.now().minusHours(72));
-//                //test용 1분
-//                List<Judgement> expiredJudgements = judgementMapper.findExpiredJudgements(LocalDateTime.now().minusMinutes(1));
-//                if (expiredJudgements.isEmpty()) {
-//                    return null;
-//                }
-//                return expiredJudgements.remove(0);
-//            }
-//        };
-//    }
 
 
     @Bean
     public ItemProcessor<Judgement, Judgement> judgementProcessor() {
         return judgement -> {
             logger.info("Jugement in Progressor : {}", judgement.getJudgementPk());
-            int likeCount = judgement.getLikeCount();
-            int dislikeCount = judgement.getDislikeCount();
-            int totalVotes = likeCount + dislikeCount;
-            if (totalVotes < 1000){
-                return null;
-            }
             logger.info("Jugement in Progressor Filtering : {}", judgement.getJudgementPk());
 
             // 상태 처리 로직 추가
@@ -152,22 +101,25 @@ public class BatchConfig extends DefaultBatchConfiguration {
     public ItemWriter<Judgement> judgementWriter() {
         return items -> {
             for (Judgement judgement : items) {
-                judgementMapper.finishJudgement(judgement.getJudgementPk());
                 int likeCount = judgement.getLikeCount();
                 int dislikeCount = judgement.getDislikeCount();
                 int totalVotes = likeCount + dislikeCount;
-                double likePercentage = (double) likeCount / totalVotes;
-                if (likePercentage >= 0.6) {
+                if (totalVotes >= 1000 && likeCount >= dislikeCount*2) {
                     logger.info("Judgement {} marked as 승소", judgement.getJudgementPk());
+                    judgementMapper.finishJudgementWin(judgement.getJudgementPk());
                     if (judgement.getArticlePk() != null) {
                         // Article 삭제
                         articleMapper.deleteArticle(judgement.getArticlePk());
                         logger.info("Deleted Article: {}", judgement.getArticlePk());
                     } else if (judgement.getBoardPk() != null) {
                         // Board 삭제
+
                         boardMapper.deleteByBoardPk(judgement.getBoardPk());
                         logger.info("Deleted Board: {}", judgement.getBoardPk());
                     }
+                }else{
+                    judgementMapper.finishJudgementLose(judgement.getJudgementPk());
+
                 }
                 logger.info("Finished Judgement : {}", judgement.getJudgementPk());
             }

@@ -97,19 +97,4 @@ public class BoardService {
         return ResponseEntity.ok().body(responseList);
     }
 
-    @Transactional
-    public ResponseEntity<Void> updateBookmarkList(BookmarkUpdateRequest bookmarkUpdateRequest, Long memberPk) {
-        //기존 북마크 전체 삭제
-        bookmarkMapper.deleteOriginalList(memberPk);
-
-
-
-        //새로운 리스트 insert
-        List<Long> boardPkList = bookmarkUpdateRequest.getBoardPkList();
-        if (boardPkList != null && !boardPkList.isEmpty()) {
-            logger.info("boardPkList:{}", boardPkList);
-            bookmarkMapper.insertBookmark(memberPk, boardPkList);
-        }
-        return ResponseEntity.ok().build();
-    }
 }

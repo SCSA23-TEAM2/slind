@@ -26,6 +26,7 @@ public interface JudgementMapper {
 
     Optional<Long> findPkByArticlePk(@Param("articlePk") Long articlePk);
 
-    void finishJudgement(@Param("judgementPk") Long judgementPk);
-    List<Judgement> findExpiredJudgements(@Param("expiryTime")LocalDateTime expiryTime);
+    void finishJudgementWin(@Param("judgementPk") Long judgementPk);
+    void finishJudgementLose(@Param("judgementPk") Long judgementPk);
+    List<Judgement> findByStatus();
 }
