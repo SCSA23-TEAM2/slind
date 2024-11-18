@@ -28,9 +28,8 @@
         SELECT seq_judgement_pk.CURRVAL FROM DUAL
     </select>
     <select id="findJudgementByPk" parameterType="Long" resultMap="judgementMap">
-        SELECT * FROM tbl_judgement j
-        LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
-        WHERE j.judgement_pk = #{judgementPk} AND j.is_deleted = 0
+        SELECT j.* FROM tbl_judgement j
+        WHERE j.judgement_pk = #{judgementPk}
     </select>
 
     <select id="countByJudgementPk" parameterType="Long" resultType="int">
@@ -70,16 +69,14 @@
     </select>
 
     <update id="finishJudgementWin" parameterType="Long">
-        UPDATE tbl_judgement
-        SET is_deleted = 1,
+        UPDATE tbl_judgement SET
         deleted_dttm = SYSDATE,
         status = 'WIN'
         WHERE judgement_pk = #{judgementPk}
     </update>
 
     <update id="finishJudgementLose" parameterType="Long">
-        UPDATE tbl_judgement
-        SET is_deleted = 1,
+        UPDATE tbl_judgement SET
         deleted_dttm = SYSDATE,
         status = 'LOSE'
         WHERE judgement_pk = #{judgementPk}
@@ -146,6 +143,6 @@
     </select>
 
     <select id="findPkByArticlePk" parameterType="Long" resultType="Long">
-        SELECT judgement_pk FROM tbl_judgement WHERE article_pk = #{articlePk} AND is_deleted = 0
+        SELECT judgement_pk FROM tbl_judgement WHERE article_pk = #{articlePk} AND status = 'ON'
     </select>
 </mapper>
