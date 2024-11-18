@@ -17,7 +17,7 @@ const MainCourtBoard = () => {
     // console.log("여기다")
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/judgement/0/0"
+        "http://localhost:8080/api/judgement/0/1"
       );
       setCourtPosts(response.data.list);
       console.log(response.data);
@@ -31,7 +31,7 @@ const MainCourtBoard = () => {
     AxiosGetCourtPosts();
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
-  }, [axios]);
+  }, []);
 
   return (
     <div className="mainCourtBoard-wrapper">
@@ -62,7 +62,7 @@ const MainCourtBoard = () => {
               <li key={idRef.current++}>
                 <div className="board-item-content">
                   <div className="item-board-name">
-                    <div>{item.boardName}</div>
+                    <div>{item.boardName ? "게시판" : "게시글"}</div>
                   </div>
                   <div className="item-title">
                     <Link

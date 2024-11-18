@@ -31,21 +31,22 @@ const GeneralBoard = () => {
       const { list, ...paginationData } = response.data;
       setLBoardPosts(list);
       setPageData(paginationData);
-
       setIsLoaded(true);
+      console.log(list);
     } catch {
       console.error();
     }
   };
   const CallAxios = (pagenum) => {
-    console.log(infoBoard.kind);
-    console.log(pagenum);
-    console.log(curOption);
+    // console.log(infoBoard.kind);
+    // console.log(pagenum);
+    // console.log(curOption);
     if (infoBoard.kind) {
       AxiosGetapiArticleBoardPkSortPage(
         `http://localhost:8080/api/judgement/${options[curOption]}/${pagenum}`
       );
     } else {
+      console.log("wowow");
       AxiosGetapiArticleBoardPkSortPage(
         `http://localhost:8080/api/article/${infoBoard.boardPk}/${options[curOption]}/${pagenum}`
       );
@@ -56,7 +57,7 @@ const GeneralBoard = () => {
 
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
-  }, [axios]);
+  }, [axios, WhichBoard]);
 
   const SortPage = () => {
     CallAxios(1);
@@ -68,9 +69,11 @@ const GeneralBoard = () => {
   const gotoPostForm = () => {
     navigate(`/board/${infoBoard.boardName}/write`, {
       state: {
-        boardPk: infoBoard.boardPk,
-        boardName: infoBoard.boardName,
+        pk: infoBoard.boardPk,
+        Name: infoBoard.boardName,
         kind: 0,
+        title: "",
+        articleContent: "",
       },
     });
   };
@@ -78,8 +81,11 @@ const GeneralBoard = () => {
   const gotoSuitForm = () => {
     navigate(`/board/PeopleCourt/write`, {
       state: {
-        boardName: "인민 재판소",
+        pk: infoBoard.boardPk,
+        Name: infoBoard.boardName,
         kind: 1,
+        title: "",
+        articleContent: "",
       },
     });
   };
@@ -127,14 +133,16 @@ const GeneralBoard = () => {
               return (
                 <li key={idRef.current++}>
                   <div className="board-item-content">
-                    <div className="item-board-name">{item.boardName}</div>
+                    <div className="item-board-name">
+                      {item.boardName ? "게시판" : "게시글"}
+                    </div>
                     <div className="item-title">
                       <Link
                         to={`/board/${item.boardName}/Post/${item.title}`}
                         state={
                           infoBoard.kind == 0
                             ? {
-                                boardName: item.boardName,
+                                boardName: item.boardTitle,
                                 articlePk: item.articlePk,
 
                                 kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
@@ -145,7 +153,7 @@ const GeneralBoard = () => {
                               }
                         }
                       >
-                        {item.title}
+                        {item.title ? item.title : item.articleTitle}
                       </Link>
                     </div>
                     <div className="item-imoji-wrapper">
@@ -155,20 +163,22 @@ const GeneralBoard = () => {
                       </div>
                       <div className="item-imoji-content">
                         <Like size={20} />
-                        <div className="item-imoji-count">{item.like}</div>
+                        <div className="item-imoji-count">{item.likeCount}</div>
                       </div>
                       <div className="item-imoji-content">
                         <DisLike />
-                        <div className="item-imoji-count">{item.dislike}</div>
+                        <div className="item-imoji-count">
+                          {item.dislikeCount}
+                        </div>
                       </div>
-                      <div className="item-imoji-content">
-                        <Comment />
-                        {infoBoard.kind == 0 && (
+                      {infoBoard.kind == 0 && (
+                        <div className="item-imoji-content">
+                          <Comment />
                           <div className="item-imoji-count">
                             {item.commentCount}
                           </div>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </li>
