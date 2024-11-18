@@ -276,7 +276,7 @@ public class ArticleService {
         Boolean isLike = reactionOpt.orElse(false);
         Boolean isDislike = !reactionOpt.orElse(true);
         Boolean isMine = article.getMemberPk().equals(memberPk);
-        Optional<Long> judgementPkOpt = judgementMapper.findPkByArticlePk(articlePk);
+        Optional<Long> judgementPkOpt = articleMapper.findPkByArticlePk(articlePk);
         Boolean isJudgement = judgementPkOpt.isPresent();
 
         ArticleDetailResponse response = ArticleDetailResponse.builder()
