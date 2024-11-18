@@ -51,7 +51,7 @@ public class ArticleService {
             throw new ContentException(ContentException.EMPTY_TITLE);
         }
 
-        String articleContent = boardPkCreateUpdateRequest.getContent();
+        String articleContent = boardPkCreateUpdateRequest.getArticleContent();
         if (articleContent == null || articleContent.trim().isEmpty() ){
             throw new ContentException(ContentException.EMPTY_CONTENT);
         }
@@ -100,7 +100,7 @@ public class ArticleService {
         if (!article.getMemberPk().equals(memberPk)) {
             throw new UnauthorizedException(UnauthorizedException.UNAUTHORIZED_UPDATE_ARTICLE);
         }
-        article.update(articlePkCreateUpdateRequest.getTitle(), articlePkCreateUpdateRequest.getContent());
+        article.update(articlePkCreateUpdateRequest.getTitle(), articlePkCreateUpdateRequest.getArticleContent());
         articleMapper.updateArticle(article);
         return ResponseEntity.ok().body(new ArticlePkResponse(articlePk));
     }

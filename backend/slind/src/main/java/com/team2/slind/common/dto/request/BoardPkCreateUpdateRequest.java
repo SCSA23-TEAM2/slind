@@ -18,5 +18,5 @@ public class BoardPkCreateUpdateRequest {
     private String title;
     @NotNull @NotBlank
     @Size(min = 1, max = 2000)
-    private String content;
+    private String articleContent;
 }
