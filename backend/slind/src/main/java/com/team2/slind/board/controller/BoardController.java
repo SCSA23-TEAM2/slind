@@ -1,8 +1,11 @@
 package com.team2.slind.board.controller;
 
 import com.team2.slind.board.dto.request.BoardCreateRequest;
+import com.team2.slind.board.dto.request.BookmarkUpdateRequest;
 import com.team2.slind.board.dto.response.BoardResponse;
 import com.team2.slind.board.service.BoardService;
+import com.team2.slind.board.service.BookmarkService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +18,12 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    static Long memberPk = 1L;
+    private final BookmarkService bookmarkService;
 
-    @PostMapping
-    public ResponseEntity<Void> createBoard(@RequestBody BoardCreateRequest boardCreateRequest) {
-        return boardService.createBoard(boardCreateRequest);
+    @PostMapping("/auth")
+    public ResponseEntity<Void> createBoard(@RequestBody @Valid BoardCreateRequest boardCreateRequest) {
+        return boardService.createBoard(boardCreateRequest, memberPk);
 
     }
 
@@ -27,9 +32,9 @@ public class BoardController {
         return boardService.checkDuplicateBoard(title);
     }
 
-    @DeleteMapping("/{boardPk}")
+    @DeleteMapping("/auth/{boardPk}")
     public ResponseEntity<Void> deleteBoard(@PathVariable("boardPk") Long boardPk) {
-        return boardService.deleteBoard(boardPk);
+        return boardService.deleteBoard(boardPk, memberPk);
     }
 
     @GetMapping
@@ -37,6 +42,16 @@ public class BoardController {
         return boardService.getBoardList();
     }
 
+    @GetMapping("/auth/favorite")
+    public ResponseEntity<List<BoardResponse>> getBookmarkList(){
+        return boardService.getBookmarkList(memberPk);
+
+    }
+
+    @PostMapping("/auth/favorite")
+    public ResponseEntity<Void> updateBookmarkList(@RequestBody BookmarkUpdateRequest bookmarkUpdateRequest){
+        return bookmarkService.updateBookmarkList(bookmarkUpdateRequest, memberPk);
+    }
 
 
 

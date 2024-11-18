@@ -1,5 +1,6 @@
 package com.team2.slind.judgement.dto.response;
 
+import com.team2.slind.judgement.vo.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,9 +15,11 @@ import java.time.LocalDateTime;
 public class JudgementDetailResponse {
     private Long judgementPk;
     private Long articlePk;
+    private String articleTitle;
     private Long boardPk;
+    private String boardName;
     private String title;
-    private String content;
+    private String articleContent; // judgementContent (Not the content of the article)
     private String nickname;
     private int likeCount;
     private int dislikeCount;
@@ -25,4 +28,5 @@ public class JudgementDetailResponse {
     private Boolean isLike;
     private Boolean isDislike;
     private Boolean isMine;
+    private Status status;
 }

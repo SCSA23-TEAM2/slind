@@ -14,4 +14,8 @@ public interface ArticleReactionMapper {
                         @Param("memberPk") Long memberPk, @Param("articlePk") Long articlePk);
 
     void saveReaction(ArticleReaction newReaction);
+
+    Optional<Boolean> FindIsLikeByArticlePkAndMemberPk(@Param("articlePk") Long articlePk,
+                                                       @Param("memberPk") Long memberPk);
+
 }

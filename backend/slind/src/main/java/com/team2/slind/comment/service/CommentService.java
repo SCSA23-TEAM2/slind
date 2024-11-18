@@ -6,10 +6,7 @@ import com.team2.slind.comment.mapper.CommentMapper;
 import com.team2.slind.comment.mapper.CommentReactionMapper;
 import com.team2.slind.comment.vo.Comment;
 import com.team2.slind.comment.vo.CommentReaction;
-import com.team2.slind.common.exception.AlreadyDeletedException;
-import com.team2.slind.common.exception.CommentNotFoundException;
-import com.team2.slind.common.exception.ContentException;
-import com.team2.slind.common.exception.UnauthorizedException;
+import com.team2.slind.common.exception.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -191,5 +188,65 @@ public class CommentService {
             throw new CommentNotFoundException(CommentNotFoundException.COMMENT_NOT_FOUND);
         }
         return ResponseEntity.ok().build();
+    }
+
+    @Transactional
+    public ResponseEntity<Void> createReaction(Long memberPk, Long commentPk, Boolean isLike, Boolean isUp) {
+        CommentReaction commentReaction = commentReactionMapper.findByCommentPkAndMemberPk(commentPk, memberPk).orElse(null);
+        Comment comment = commentMapper.findByPk(commentPk).orElseThrow(
+                () -> new CommentNotFoundException(CommentNotFoundException.COMMENT_NOT_FOUND)
+        );
+        if (comment.getIsDeleted().equals(1)) {
+            throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_COMMENT);
+        }
+        if (isUp) {
+            if (commentReaction != null) {
+                if (commentReaction.getIsLike().equals(isLike)) {
+                    throw new AlreadyReactedException(AlreadyReactedException.ALREADY_REACTED_COMMENT);
+                } else {
+                    // 기존 반응이 있고, requestIsLike와 isLike가 다르면 반응 바꾸기
+                    commentReactionMapper.updateReaction(memberPk, isLike, commentPk);
+                    // 게시글 count 변경 :  기존 반응 count -1
+                    changeCommentReactionCount(!isLike, false, commentPk);
+                }
+            } else {
+                // null이면 새로운 반응 save
+                CommentReaction newReaction = CommentReaction.builder()
+                        .commentPk(commentPk)
+                        .memberPk(memberPk)
+                        .isLike(isLike)
+                        .build();
+                commentReactionMapper.saveReaction(newReaction);
+            }
+            //새로운 반응 +1
+            changeCommentReactionCount(isLike, true, commentPk);
+        } else {
+            //down 일때
+            //null이면 nullException 반환 (취소할 반응이 없었던 것)
+            if (commentReaction == null) {
+                throw new NoReactionExcetpion(NoReactionExcetpion.NO_REACTION_FOR_DOWN_IN_COMMENT);
+            }
+            //requestIsLike와 isLike가 같지 않다면 Exception 반환
+            if (isLike != commentReaction.getIsLike()) {
+                throw new NoReactionExcetpion(NoReactionExcetpion.NO_REACTION_FOR_DOWN_IN_COMMENT);
+            }
+            commentReactionMapper.deleteReactionByCommentPk(commentReaction.getCommentReactionPk());
+            changeCommentReactionCount(isLike, false, commentPk);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    protected void changeCommentReactionCount(Boolean isLike, Boolean isUp, Long commentPk) {
+        System.out.println("changeCommentReactionCount");
+        Integer upCount = isUp ? 1 : -1;
+        Integer result = null;
+        if(isLike){
+            result = commentMapper.updateLikeCount(upCount, commentPk);
+        } else {
+            result = commentMapper.updateDislikeCount(upCount, commentPk);
+        }
+        if (result.equals(0)){
+            throw new FailedReactionException(FailedReactionException.FAILED_REACTION);
+        }
     }
 }

@@ -1,15 +1,12 @@
 package com.team2.slind.common.advice;
 
 import com.team2.slind.common.exception.*;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.Set;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,8 +15,10 @@ public class GlobalExceptionHandler {
         BindingResult bindingResult = ex.getBindingResult();
         StringBuilder sb = new StringBuilder();
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            sb.append(fieldError.getField()) // 필드 이름
+            sb.append(fieldError.getField())
                     .append(" : ")
+                    .append(fieldError.getRejectedValue())
+                    .append("(이)가 ")// 필드 이름
                     .append(fieldError.getDefaultMessage()) // 유효성 검사 실패 메시지
                     .append("\n");
         }
@@ -39,6 +38,8 @@ public class GlobalExceptionHandler {
             DuplicateNicknameException.class,
             InvalidNicknameLengthException.class,
             InvalidMemberIdLengthException.class
+            InvalidRequestException.class,
+            CommentNotFoundException.class
     })
     public ResponseEntity<String> handleDuplicateTitleException(Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());
@@ -51,7 +52,8 @@ public class GlobalExceptionHandler {
     }
 
     //401 Error
-    @ExceptionHandler({UnauthorizedException.class})
+    @ExceptionHandler({UnauthorizedException.class,
+            LastMonthCreationException.class})
     public ResponseEntity<String> handleUnauthorizedException(Exception e) {
         return ResponseEntity.status(401).body(e.getMessage());
     }

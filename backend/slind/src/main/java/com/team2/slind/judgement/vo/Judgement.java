@@ -24,4 +24,6 @@ public class Judgement extends BaseVO {
     private int likeCount;
     private int dislikeCount;
     private int viewCount;
+    private Status status;
+
 }

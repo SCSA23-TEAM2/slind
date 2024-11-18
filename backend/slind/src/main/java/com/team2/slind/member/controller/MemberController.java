@@ -3,6 +3,8 @@ package com.team2.slind.member.controller;
 import com.team2.slind.common.exception.InvalidMemberIdLengthException;
 import com.team2.slind.common.exception.InvalidNicknameLengthException;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
+import com.team2.slind.member.dto.request.MyPageUpdateRequest;
+import com.team2.slind.member.dto.response.*;
 import com.team2.slind.member.service.MemberService;
 import com.team2.slind.security.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -12,13 +14,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-    private final JwtService jwtService;
+    static Long memberPk = 1L;
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@RequestBody MemberSignupRequest memberSignupRequest) {
         return memberService.signup(memberSignupRequest);
@@ -44,4 +48,45 @@ public class MemberController {
         }
         return memberService.checkDuplicateNickname(nickname);
     }
+
+
+    @GetMapping("/auth/mypage")
+    public ResponseEntity<MyPageInfoResponse> getMypageInfo(){
+        return memberService.getMyPageInfo(memberPk);
+    }
+
+    @PutMapping("/auth/mypage")
+    public ResponseEntity<Void> updateMypageInfo(@RequestBody @Valid MyPageUpdateRequest myPageUpdateRequest){
+        return memberService.updateMypageInfo(memberPk, myPageUpdateRequest);
+
+    }
+
+    @GetMapping({"/auth/judgement", "/auth/judgement/{lastJudgementPk}"})
+    public ResponseEntity<InfiniteListResponse<JudgementGetResponse>> getMyJudgementList(
+            @PathVariable(value = "lastJudgementPk", required = false) Long lastJudgementPk
+    ){
+        return memberService.getMyJudgementList(memberPk, lastJudgementPk);
+    }
+
+    @GetMapping({"/auth/article", "/auth/article/{lastArticlePk}"})
+    public ResponseEntity<InfiniteListResponse<ArticleGetResponse>> getMyArticleList(
+            @PathVariable(value = "lastArticlePk", required = false) Long lastArticlePk
+    ){
+        return memberService.getMyArticleList(memberPk, lastArticlePk);
+    }
+
+    @GetMapping({"/auth/board", "/auth/board/{lastBoardPk}"})
+    public ResponseEntity<InfiniteListResponse<BoardGetResponse>> getMyBoardList(
+            @PathVariable(value = "lastBoardPk", required = false) Long lastBoardPk
+    ){
+        return memberService.getMyBoardList(memberPk, lastBoardPk);
+    }
+
+    @GetMapping({"/auth/comment", "/auth/comment/{lastCommentPk}"})
+    public ResponseEntity<InfiniteListResponse<CommentGetResponse>> getMyCommentList(
+            @PathVariable(value = "lastCommentPk", required = false) Long lastCommentPk
+    ){
+        return memberService.getMyCommentList(memberPk, lastCommentPk);
+    }
+
 }

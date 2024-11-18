@@ -22,4 +22,7 @@
         SELECT * FROM tbl_article_reaction
         WHERE article_pk = #{articlePk} AND member_pk = #{memberPk}
     </select>
+    <select id="FindIsLikeByArticlePkAndMemberPk" resultType="Boolean">
+        SELECT is_like FROM tbl_article_reaction WHERE article_pk = #{articlePk} and member_pk = #{memberPk}
+    </select>
 </mapper>

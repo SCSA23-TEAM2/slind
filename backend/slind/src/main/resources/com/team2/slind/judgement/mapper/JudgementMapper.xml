@@ -12,7 +12,7 @@
     </resultMap>
     <insert id="saveJudgementArticle" parameterType="Judgement">
         INSERT INTO tbl_judgement (judgement_pk, member_pk, article_pk, title, judgement_content)
-        VALUES (seq_judgement_pk.NEXTVAL, #{memberPk}, #{articlePk}, #{title}, #{judgementContent})
+        VALUES (seq_judgement_pk.NEXTVAL, #{member.memberPk}, #{articlePk}, #{title}, #{judgementContent})
     </insert>
 
     <insert id="saveJudgementBoard" parameterType="Judgement">
@@ -28,12 +28,121 @@
         SELECT seq_judgement_pk.CURRVAL FROM DUAL
     </select>
     <select id="findJudgementByPk" parameterType="Long" resultMap="judgementMap">
-        SELECT * FROM tbl_judgement j
-        LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
-        WHERE j.judgement_pk = #{judgementPk} AND j.is_deleted = 0
+        SELECT j.* FROM tbl_judgement j
+        WHERE j.judgement_pk = #{judgementPk}
     </select>
 
     <select id="countByJudgementPk" parameterType="Long" resultType="int">
         SELECT COUNT(*) FROM tbl_judgement WHERE judgement_pk = #{judgementPk} and is_deleted = 0
+    </select>
+
+    <select id="findListByMemberPk" resultType="Judgement">
+        SELECT * FROM (
+            SELECT judgement_pk, article_pk, board_pk, title, created_dttm
+            FROM tbl_judgement
+            WHERE member_pk = #{memberPk}
+            AND judgement_pk &lt; #{lastPk}
+            ORDER BY judgement_pk DESC
+            )
+        WHERE ROWNUM &lt;= #{size}+1
+    </select>
+    <select id="findListByMemberPkFirst" resultType="Judgement">
+        SELECT * FROM (
+            SELECT judgement_pk, article_pk, board_pk, title, created_dttm
+            FROM (
+                SELECT judgement_pk, article_pk, board_pk, title, created_dttm
+                FROM tbl_judgement
+                WHERE member_pk = #{memberPk}
+                ORDER BY judgement_pk DESC
+                )
+            WHERE ROWNUM &lt;= #{size}+1
+        )
+    </select>
+
+
+
+    <select id="findByStatus" resultType="Judgement">
+        SELECT *
+        FROM tbl_judgement
+        WHERE status = 'ON'
+        AND is_deleted = 0
+    </select>
+
+    <update id="finishJudgementWin" parameterType="Long">
+        UPDATE tbl_judgement SET
+        deleted_dttm = SYSDATE,
+        status = 'WIN'
+        WHERE judgement_pk = #{judgementPk}
+    </update>
+
+    <update id="finishJudgementLose" parameterType="Long">
+        UPDATE tbl_judgement SET
+        deleted_dttm = SYSDATE,
+        status = 'LOSE'
+        WHERE judgement_pk = #{judgementPk}
+    </update>
+    <select id="findList" resultMap="judgementMap">
+        SELECT *
+        FROM (
+            SELECT subquery.*, ROWNUM AS rnum
+            FROM (
+                SELECT
+                    j.judgement_pk, j.article_pk, j.board_pk, j.title, j.judgement_content,
+                    j.view_count, j.like_count, j.dislike_count, j.created_dttm,
+                    m.member_pk AS member_pk, m.nickname AS nickname
+                FROM tbl_judgement j
+                LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
+                WHERE j.is_deleted = 0
+                ORDER BY j.created_dttm DESC, j.judgement_pk DESC
+            ) subquery
+            WHERE ROWNUM &lt;= #{offset} + #{judgementListSize}
+        )
+        WHERE rnum > #{offset}
+        ORDER BY created_dttm DESC, judgement_pk DESC
+    </select>
+    <select id="findListOrderByViewCount" resultMap="judgementMap">
+        SELECT *
+        FROM (
+            SELECT subquery.*, ROWNUM AS rnum
+            FROM (
+                SELECT
+                    j.judgement_pk, j.article_pk, j.board_pk, j.title, j.judgement_content,
+                    j.view_count, j.like_count, j.dislike_count, j.created_dttm,
+                    m.member_pk AS member_pk, m.nickname AS nickname
+                FROM tbl_judgement j
+                LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
+                WHERE j.is_deleted = 0
+                ORDER BY j.view_count DESC, j.judgement_pk DESC
+            ) subquery
+            WHERE ROWNUM &lt;= #{offset} + #{judgementListSize}
+        )
+        WHERE rnum > #{offset}
+        ORDER BY view_count DESC, judgement_pk DESC
+    </select>
+    <select id="findListOrderByLikeCount" resultMap="judgementMap">
+        SELECT *
+        FROM (
+            SELECT subquery.*, ROWNUM AS rnum
+            FROM (
+                SELECT
+                    j.judgement_pk, j.article_pk, j.board_pk, j.title, j.judgement_content,
+                    j.view_count, j.like_count, j.dislike_count, j.created_dttm,
+                    m.member_pk AS member_pk, m.nickname AS nickname
+                FROM tbl_judgement j
+                LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
+                WHERE j.is_deleted = 0
+                ORDER BY j.like_count DESC, j.judgement_pk DESC
+            ) subquery
+            WHERE ROWNUM &lt;= #{offset} + #{judgementListSize}
+        )
+        WHERE rnum > #{offset}
+        ORDER BY like_count DESC, judgement_pk DESC
+    </select>
+    <select id="findTotalRecords" resultType="Long">
+        SELECT COUNT(*) FROM tbl_judgement WHERE is_deleted = 0
+    </select>
+
+    <select id="findPkByArticlePk" parameterType="Long" resultType="Long">
+        SELECT judgement_pk FROM tbl_judgement WHERE article_pk = #{articlePk} AND status = 'ON'
     </select>
 </mapper>

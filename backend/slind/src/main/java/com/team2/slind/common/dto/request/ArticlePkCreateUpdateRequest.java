@@ -18,7 +18,7 @@ public class ArticlePkCreateUpdateRequest {
     String title;
     @NotNull @NotBlank
     @Size(min = 1, max = 2000)
-    String content;
+    String articleContent;
 
 
 

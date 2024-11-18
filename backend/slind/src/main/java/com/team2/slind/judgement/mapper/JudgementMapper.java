@@ -3,6 +3,8 @@ package com.team2.slind.judgement.mapper;
 import com.team2.slind.judgement.vo.Judgement;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface JudgementMapper {
@@ -15,4 +17,28 @@ public interface JudgementMapper {
 
     void updateViewCount(@Param("judgementPk") Long judgementPk);
     int countByJudgementPk(@Param("judgementPk") Long judgementPk);
+    List<Judgement> findListByMemberPk(@Param("memberPk") Long memberPk,
+                                       @Param("lastPk") Long lastPk,
+                                       @Param("size") int size);
+
+    List<Judgement> findListByMemberPkFirst(@Param("memberPk") Long memberPk,
+                                            @Param("size") int size);
+
+
+    void finishJudgementWin(@Param("judgementPk") Long judgementPk);
+    void finishJudgementLose(@Param("judgementPk") Long judgementPk);
+    List<Judgement> findByStatus();
+
+    List<Judgement> findList(@Param("offset") Integer offset,
+                             @Param("judgementListSize") int judgementListSize);
+
+    List<Judgement> findListOrderByViewCount(@Param("offset") Integer offset,
+                                             @Param("judgementListSize") int judgementListSize);
+
+    List<Judgement> findListOrderByLikeCount(@Param("offset") Integer offset,
+                                             @Param("judgementListSize") int judgementListSize);
+
+    Long findTotalRecords();
+    Optional<Long> findPkByArticlePk(@Param("articlePk") Long articlePk);
+
 }

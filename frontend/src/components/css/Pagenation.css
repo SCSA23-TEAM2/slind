@@ -1,0 +1,22 @@
+.pagenation-content {
+  margin-top: 10px;
+  display: flex;
+  list-style: none;
+  gap: 10px;
+}
+
+.pagenation-icon-button {
+  background-color: transparent;
+  color: gray;
+  border: none;
+}
+.pagenation-icon-button:hover {
+  color: #00b890;
+  text-decoration: underline;
+}
+
+.active {
+  background-color: transparent;
+  color: black;
+  border: none;
+}

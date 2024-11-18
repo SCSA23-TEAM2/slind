@@ -6,11 +6,25 @@
     <insert id="addMember" parameterType="Member">
         INSERT INTO tbl_member (member_pk, question_pk, member_id, member_password, nickname, answer) VALUES (seq_member_pk.NEXTVAL, #{questionPk}, #{memberId}, #{memberPassword}, #{nickname}, #{answer})
     </insert>
+    <update id="updateMemberInfo">
+        UPDATE tbl_member
+        SET nickname = #{nickname},
+            question_pk = #{questionPk},
+            answer = #{answer}
+        WHERE member_pk =#{memberPk}
+    </update>
 
     <select id="findByMemberId" parameterType="string" resultType="Member">
-        SELECT * FROM tbl_member WHERE member_id = #{memberId}
+        SELECT * FROM tbl_member WHERE member_id = #{memberId} AND is_deleted = 0
     </select>
     <select id="findByNickname" parameterType="string" resultType="Member">
-        SELECT * FROM tbl_member WHERE nickname = #{nickname}
+        SELECT * FROM tbl_member WHERE nickname = #{nickname} AND is_deleted = 0
     </select>
+    <select id="findByMemberPk" parameterType="Long" resultType="Member">
+        SELECT * FROM tbl_member WHERE member_pk = #{memberPk} AND is_deleted = 0
+    </select>
+    <select id="findCountByPk" parameterType="Long" resultType="int">
+        SELECT COUNT(*) FROM tbl_member WHERE member_pk = #{memberPk} AND is_deleted = 0
+    </select>
+
 </mapper>

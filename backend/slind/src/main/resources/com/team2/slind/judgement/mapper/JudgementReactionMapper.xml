@@ -8,7 +8,7 @@
         VALUES (seq_judgement_reaction_pk.NEXTVAL, #{judgementPk}, #{memberPk}, #{isLike})
     </insert>
 
-    <select id="findByJudgementAndMemebr" resultType="Boolean">
+    <select id="findByJudgementAndMember" resultType="Boolean">
         SELECT is_like FROM tbl_judgement_reaction WHERE judgement_pk = #{judgementPk} and member_pk = #{memberPk}
     </select>
     <select id="countByJudgementAndMember" resultType="int">
