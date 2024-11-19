@@ -27,7 +27,6 @@ public class GlobalExceptionHandler {
     }
     //400 Error
     @ExceptionHandler({
-            DuplicateTitleException.class,
             AlreadyDeletedException.class,
             ContentException.class,
             NoReactionExcetpion.class,
@@ -56,5 +55,10 @@ public class GlobalExceptionHandler {
             LastMonthCreationException.class})
     public ResponseEntity<String> handleUnauthorizedException(Exception e) {
         return ResponseEntity.status(401).body(e.getMessage());
+    }
+
+    @ExceptionHandler({DuplicateTitleException.class})
+    public ResponseEntity<String> handleDuplicateException(Exception e) {
+        return ResponseEntity.status(409).body(e.getMessage());
     }
 }
