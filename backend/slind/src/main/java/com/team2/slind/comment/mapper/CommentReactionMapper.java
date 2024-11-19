@@ -1,15 +1,19 @@
 package com.team2.slind.comment.mapper;
 
 import com.team2.slind.comment.vo.CommentReaction;
+import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.Optional;
 
 public interface CommentReactionMapper {
-    Optional<CommentReaction> findByCommentPkAndMemberPk(Long commentPk, Long memberPk);
+    Optional<CommentReaction> findByCommentPkAndMemberPk(@Param("commentPk") Long commentPk,
+                                                         @Param("memberPk") Long memberPk);
 
-    void updateReaction(Long memberPk, Boolean isLike, Long commentPk);
+    void updateReaction(@Param("memberPk") Long memberPk,
+                        @Param("isLike") Boolean isLike,
+                        @Param("commentPk") Long commentPk);
 
-    void saveReaction(CommentReaction newReaction);
+    void saveReaction(@Param("newReaction") CommentReaction newReaction);
 
-    void deleteReactionByCommentPk(Long commentReactionPk);
+    void deleteReactionByCommentPk(@Param("commentReactionPk") Long commentReactionPk);
 }
