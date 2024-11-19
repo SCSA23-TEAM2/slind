@@ -11,7 +11,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // URL 경로 "/uploads/"를 파일 시스템 경로 "/var/www/uploads/"로 매핑
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:/home/kimjunha/slind/image/");
+                .addResourceLocations("file:./uploads/");
     }
 }
-
