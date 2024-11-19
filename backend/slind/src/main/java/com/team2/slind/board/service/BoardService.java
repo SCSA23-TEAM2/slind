@@ -43,7 +43,7 @@ public class BoardService {
         String title = boardCreateRequest.getTitle();
         logger.info("memberPk:{}",memberPk);
         logger.info("title:{}",title);
-        if (checkDuplicate(title)){
+        if (checkDuplicate(title)) {
             throw new DuplicateTitleException(DuplicateTitleException.DUPLICATE_BOARD_TITLE);
         }
 

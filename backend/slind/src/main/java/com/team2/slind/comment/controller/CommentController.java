@@ -29,7 +29,7 @@ public class CommentController {
 
     @GetMapping("/{articlePk}/best")
     public ResponseEntity<List<CommentResponse>> getBestCommentList(
-            @PathVariable Long articlePk
+            @PathVariable("articlePk") Long articlePk
             ) {
         return commentService.getBestCommentList(articlePk, 3);
     }
