@@ -9,7 +9,6 @@ import com.team2.slind.comment.mapper.CommentMapper;
 import com.team2.slind.comment.vo.Comment;
 import com.team2.slind.common.exception.*;
 import com.team2.slind.judgement.mapper.JudgementMapper;
-import com.team2.slind.judgement.vo.Judgement;
 import com.team2.slind.member.dto.mapper.MyJudgementResponse;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
@@ -163,12 +162,6 @@ public class MemberService {
         }else {
             list = judgementMapper.findListByMemberPk(memberPk, lastJudgementPk, size);
         }
-//        List<JudgementGetResponse> responseList = list.stream()
-//                .map(judgement -> JudgementGetResponse.builder().judgementPk(judgement.getJudgementPk())
-//                        .articlePk(judgement.getArticlePk())
-//                        .boardPk(judgement.getBoardPk()).title(judgement.getTitle())
-//                        .createdDttm(judgement.getCreatedDttm()).build())
-//                .toList();
 
         Boolean hasNext = list.size() > size;
         if (hasNext){

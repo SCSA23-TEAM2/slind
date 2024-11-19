@@ -37,14 +37,6 @@
     </select>
 
     <select id="findListByMemberPk" resultType="MyJudgementResponse">
-<!--        SELECT * FROM (-->
-<!--            SELECT judgement_pk, article_pk, board_pk, title, created_dttm-->
-<!--            FROM tbl_judgement-->
-<!--            WHERE member_pk = #{memberPk}-->
-<!--            AND judgement_pk &lt; #{lastPk}-->
-<!--            ORDER BY judgement_pk DESC-->
-<!--            )-->
-<!--        WHERE ROWNUM &lt;= #{size}+1-->
         SELECT *
         FROM (
         SELECT
