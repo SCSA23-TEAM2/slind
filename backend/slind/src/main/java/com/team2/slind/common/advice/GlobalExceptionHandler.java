@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
             DuplicateMemberIdException.class,
             DuplicateNicknameException.class,
             InvalidNicknameLengthException.class,
-            InvalidMemberIdLengthException.class
+            InvalidMemberIdLengthException.class,
             InvalidRequestException.class,
             CommentNotFoundException.class
     })

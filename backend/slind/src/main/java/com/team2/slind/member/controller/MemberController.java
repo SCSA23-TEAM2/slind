@@ -7,6 +7,7 @@ import com.team2.slind.member.dto.request.MyPageUpdateRequest;
 import com.team2.slind.member.dto.response.*;
 import com.team2.slind.member.service.MemberService;
 import com.team2.slind.security.jwt.service.JwtService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
