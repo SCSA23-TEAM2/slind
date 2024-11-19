@@ -19,7 +19,7 @@
         WHERE comment_reaction_pk = #{commentReactionPk}
     </delete>
 
-    <select id="findByCommentPkAndMemberPk" resultType="com.team2.slind.comment.vo.CommentReaction">
+    <select id="findByCommentPkAndMemberPk" resultType="CommentReaction">
         SELECT * FROM tbl_comment_reaction WHERE comment_pk = #{commentPk} AND member_pk = #{memberPk}
     </select>
 </mapper>

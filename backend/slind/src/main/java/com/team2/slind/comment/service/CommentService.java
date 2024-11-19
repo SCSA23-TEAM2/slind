@@ -37,7 +37,8 @@ public class CommentService {
                 continue;
             }
             commentResponse.setIsMine(true);
-            CommentReaction commentReaction = commentReactionMapper.findByCommentPkAndMemberPk(commentResponse.getCommentPk(), memberPk).orElse(null);
+            Long commentPk = commentResponse.getCommentPk();
+            CommentReaction commentReaction = commentReactionMapper.findByCommentPkAndMemberPk(commentPk, memberPk).orElse(null);
             if (commentReaction == null) {
                 commentResponse.setIsLike(false);
                 commentResponse.setIsDislike(false);
@@ -237,7 +238,6 @@ public class CommentService {
     }
 
     protected void changeCommentReactionCount(Boolean isLike, Boolean isUp, Long commentPk) {
-        System.out.println("changeCommentReactionCount");
         Integer upCount = isUp ? 1 : -1;
         Integer result = null;
         if(isLike){
