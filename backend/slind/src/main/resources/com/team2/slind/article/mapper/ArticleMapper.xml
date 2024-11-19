@@ -59,7 +59,7 @@
     </select>
 
     <select id="findByPk" resultMap="ArticleMap" parameterType="Long">
-        SELECT * FROM tbl_article WHERE article_pk=#{pk} and is_deleted = 0
+        SELECT a.* FROM tbl_article a LEFT JOIN tbl_board b ON a.board_pk = b.board_pk WHERE a.article_pk=#{pk} and a.is_deleted = 0 AND b.is_deleted=0
     </select>
     <select id="findRecentArticles" resultMap="ArticleMap">
         SELECT a.article_pk, a.board_pk, a.title, a.view_count, a.like_count, a.dislike_count,
@@ -67,21 +67,23 @@
         FROM tbl_article a
         LEFT JOIN tbl_board b ON a.board_pk = b.board_pk
         LEFT JOIN tbl_comment c ON a.article_pk = c.article_pk
-        WHERE a.article_pk IN (
-        SELECT article_pk
-        FROM tbl_article
-        WHERE is_deleted =0
-        ORDER BY created_dttm DESC
-        FETCH FIRST 10 ROWS ONLY
-        )
+        WHERE b.is_deleted = 0 AND a.article_pk IN (
+            SELECT article_pk
+            FROM tbl_article
+            WHERE is_deleted =0
+            ORDER BY created_dttm DESC
+            FETCH FIRST 10 ROWS ONLY
+            )
         ORDER BY a.created_dttm DESC
     </select>
     <select id="findTotalRecords" resultType="java.lang.Long">
         SELECT COUNT(*)
-        FROM tbl_article
+        FROM tbl_article a
+        LEFT JOIN tbl_board b ON a.board_pk = b.board_pk
         WHERE
-            is_deleted = 0 AND
-            board_pk = #{boardPk}
+            b.is_deleted = 0 AND
+            a.is_deleted = 0 AND
+            a.board_pk = #{boardPk}
     </select>
     <select id="findByBoardPk" resultMap="ArticleMap">
         SELECT *
@@ -93,7 +95,7 @@
             FROM tbl_article a
             LEFT JOIN tbl_board b ON a.board_pk = b.board_pk
             LEFT JOIN tbl_comment c ON a.article_pk = c.article_pk
-            WHERE a.article_pk IN
+            WHERE b.is_deleted = 0 AND a.article_pk IN
             (
                 SELECT article_pk FROM
                 (
@@ -113,17 +115,19 @@
         ORDER BY created_dttm DESC, article_pk DESC
     </select>
     <select id="findCountByPk" resultType="Integer">
-        SELECT COUNT(*) FROM tbl_article WHERE article_pk = #{articlePk}
+        SELECT COUNT(*) FROM tbl_article a JOIN tbl_board b ON a.board_pk = b.board_pk
+        WHERE b.is_deleted = 0 AND article_pk = #{articlePk}
     </select>
     <select id="findMemberByPk" resultType="Long">
-        SELECT member_pk FROM tbl_article WHERE article_pk = #{articlePk}
+        SELECT a.member_pk FROM tbl_article a JOIN tbl_board b ON a.board_pk = b.board_pk
+        WHERE b.is_deleted = 0 AND article_pk = #{articlePk}
     </select>
     <select id="findListByMemberPkFirst" resultMap="ArticleMap">
         SELECT a.article_pk, a.title, a.created_dttm,
         b.board_pk, b.title AS board_title
         FROM tbl_article a
         JOIN tbl_board b ON a.board_pk = b.board_pk
-        WHERE a.member_pk = #{memberPk}
+        WHERE b.is_deleted = 0 AND a.member_pk = #{memberPk}
         AND a.is_deleted = 0
         ORDER BY a.article_pk DESC
         FETCH FIRST #{size}+1 ROWS ONLY
@@ -137,6 +141,7 @@
         WHERE a.member_pk = #{memberPk}
         AND a.article_pk  &lt; #{lastPk}
         AND a.is_deleted = 0
+        AND b.is_deleted = 0
         ORDER BY a.article_pk DESC
         FETCH FIRST #{size}+1 ROWS ONLY
     </select>
@@ -150,16 +155,17 @@
             FROM tbl_article a
             LEFT JOIN tbl_board b ON a.board_pk = b.board_pk
             LEFT JOIN tbl_comment c ON a.article_pk = c.article_pk
-            WHERE a.article_pk IN
+            WHERE b.is_deleted = 0 AND a.article_pk IN
             (
                 SELECT article_pk FROM
                 (
                     SELECT article_pk, ROWNUM AS rnum
                     FROM
                     (
-                        SELECT article_pk
-                        FROM tbl_article
-                        WHERE is_deleted = 0 AND board_pk = #{boardPk}
+                        SELECT ta.article_pk
+                        FROM tbl_article ta
+                        LEFT JOIN tbl_board bo ON ta.board_pk = bo.board_pk
+                        WHERE ta.is_deleted = 0 AND ta.board_pk = #{boardPk} AND bo.is_deleted = 0
                         ORDER BY view_count DESC, article_pk DESC
                     )
                 WHERE ROWNUM <![CDATA[<=]]> #{offset} + #{articleListSize}
@@ -179,7 +185,7 @@
             FROM tbl_article a
             LEFT JOIN tbl_board b ON a.board_pk = b.board_pk
             LEFT JOIN tbl_comment c ON a.article_pk = c.article_pk
-            WHERE a.article_pk IN
+            WHERE b.is_deleted = 0 AND a.article_pk IN
             (
                 SELECT article_pk FROM
                 (
@@ -215,7 +221,7 @@
         FROM tbl_article a
         JOIN tbl_board b ON a.board_pk = b.board_pk
         JOIN tbl_member m ON a.member_pk = m.member_pk
-        WHERE a.article_pk = #{articlePk}
+        WHERE b.is_deleted=0 AND a.article_pk = #{articlePk}
         AND a.is_deleted = 0
     </select>
 

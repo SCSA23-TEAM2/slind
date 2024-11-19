@@ -205,17 +205,19 @@ public class JudgementService {
         for (Judgement judgement : judgementList) {
             String boardName = null;
             if (judgement.getBoardPk() != null) {
+                //여기 이미 삭제된 게시판도 뜨게 하려면 다른 Mapper함수 만들어서 써야함
                 Board board = boardMapper.findByBoardPk(judgement.getBoardPk()).orElseThrow(() ->
                         new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND));
                 boardName = board.getTitle();
             }
             String articleTitle = null;
             if (judgement.getArticlePk() != null) {
+                //여기 이미 삭제된 게시판도 뜨게 하려면 다른 Mapper함수 만들어서 써야함
+
                 Article article = articleMapper.findByPk(judgement.getArticlePk()).orElseThrow(() ->
                         new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
                 articleTitle = article.getTitle();
             }
-            System.out.println(judgement.getMember());
             list.add(JudgementMainResponse.builder()
                     .judgementPk(judgement.getJudgementPk())
                     .nickname(judgement.getMember().getNickname())
