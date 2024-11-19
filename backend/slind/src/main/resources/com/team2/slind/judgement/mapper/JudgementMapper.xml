@@ -90,7 +90,14 @@
                     m.member_pk AS member_pk, m.nickname AS nickname
                 FROM tbl_judgement j
                 LEFT JOIN tbl_member m ON j.member_pk = m.member_pk
-                WHERE j.is_deleted = 0
+                LEFT JOIN tbl_article a ON j.article_pk = a.article_pk
+                LEFT JOIN tbl_board b ON j.board_pk = b.board_pk
+                WHERE
+                    j.is_deleted = 0 AND
+                    (
+                        a.is_deleted = 0 OR
+                        b.is_deleted = 0
+                    )
                 ORDER BY j.created_dttm DESC, j.judgement_pk DESC
             ) subquery
             WHERE ROWNUM &lt;= #{offset} + #{judgementListSize}
@@ -137,7 +144,16 @@
         ORDER BY like_count DESC, judgement_pk DESC
     </select>
     <select id="findTotalRecords" resultType="Long">
-        SELECT COUNT(*) FROM tbl_judgement WHERE is_deleted = 0
+        SELECT COUNT(*)
+        FROM tbl_judgement j
+        LEFT JOIN tbl_article a ON j.article_pk = a.article_pk
+        LEFT JOIN tbl_board b ON j.board_pk = b.board_pk
+        WHERE
+            j.is_deleted = 0 AND
+            (
+                a.is_deleted = 0 OR
+                b.is_deleted = 0
+            )
     </select>
 
     <select id="findPkByArticlePk" parameterType="Long" resultType="Long">
