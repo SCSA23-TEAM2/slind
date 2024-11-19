@@ -2,6 +2,7 @@ package com.team2.slind.security.jwt.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team2.slind.common.exception.InvalidAccessTokenException;
 import com.team2.slind.common.exception.InvalidRefreshTokenException;
 import com.team2.slind.member.mapper.MemberMapper;
@@ -17,7 +18,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -104,9 +108,20 @@ public class JwtService {
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken){
         response.setStatus(HttpServletResponse.SC_OK);
 
-        setAccessTokenHeader(response, accessToken);
-        setRefreshTokenHeader(response, refreshToken);
-        log.info("Access Token, Refresh Token 헤더 설정 완료");
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("access_token", accessToken);
+        // JSON 객체를 만들기 위한 Map 생성
+        tokens.put("refresh_token", refreshToken);
+
+        try {
+            String jsonResponse = new ObjectMapper().writeValueAsString(tokens);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse);
+            log.info("Access Token, Refresh Token 리스폰스 바디에 설정 완료");
+        } catch (IOException e) {
+            log.error("토큰을 JSON으로 변환 중 오류 발생: {}", e.getMessage());
+        }
     }
 
     public Optional<String> extractRefreshToken(HttpServletRequest request){
