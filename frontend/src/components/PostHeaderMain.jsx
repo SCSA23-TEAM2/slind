@@ -14,6 +14,7 @@ const PostHeaderMain = ({
   pi,
   handleLinkClick,
   gotoSuitForm,
+  status,
 }) => {
   console.log(pi);
   const ismine = isMine;
@@ -26,6 +27,7 @@ const PostHeaderMain = ({
   const kind = pi.kind;
   const BoardPk = boardPk;
   const ArticlePk = articlePk;
+  const Status = status;
   console.log(
     ismine,
     Title,
@@ -34,13 +36,23 @@ const PostHeaderMain = ({
     boardName,
     Content,
     IsJudgement,
-    kind
+    kind,
+    "status",
+    Status
   );
   return (
     <>
       <div className="PostDetail-main-Header">
         <div className="PostDetail-main-Header-left">
-          <div className="PostDetail-main-title">{Title}</div>
+          <div className="PostDetail-main-title">
+            {Title}{" "}
+            {Status &&
+              (Status == "LOSE"
+                ? "<패소>"
+                : Status == "ON"
+                ? "<재판 중>"
+                : "<승소>")}
+          </div>
           <div className="PostDetail-main-boardName">
             {kind == 0 ? (
               <Link

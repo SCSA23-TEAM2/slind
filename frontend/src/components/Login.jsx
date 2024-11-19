@@ -28,6 +28,7 @@ const Login = () => {
       );
 
       const tokens = response.data; // Assumes the response contains access_token and refresh_token
+      console.log(tokens);
       login(tokens); // Set the tokens in context and localStorage
 
       // Redirect or do something after login
