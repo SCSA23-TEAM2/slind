@@ -1,5 +1,6 @@
 import "./css/Nav.css";
 import { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import useAxios from "../useAxios";
 // import BookMark from "./icon/BookMark";
 import Modal from "./Modal/CreateBoardModal";

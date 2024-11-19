@@ -2,6 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./css/PostForm.css";
 import { useState } from "react";
 import useAxios from "../useAxios";
+import Images from "./Images";
+
 const PostForm = () => {
   const navigate = useNavigate();
   const axios = useAxios();
@@ -14,7 +16,7 @@ const PostForm = () => {
   const [title, setTitle] = useState(PostFormInfo.state.title);
 
   const contentLengthLimit = 2000;
-  console.log(PostFormInfo.state);
+  // console.log(PostFormInfo.state);
   const onChange = (e) => {
     console.log(e.target.value);
     setContent(e.target.value);
@@ -85,6 +87,7 @@ const PostForm = () => {
             },
           });
         } else {
+          console.log(PostFormInfo.state);
           const response = await axios.post(
             "http://localhost:8080/api/judgement/auth/board",
             {
@@ -146,6 +149,7 @@ const PostForm = () => {
           id=""
           placeholder="본문 작성(최대 4000자)"
         ></textarea>
+        {/* <Images /> */}
         <div className="PostForm-length">
           {contentLength}/{contentLengthLimit}
         </div>

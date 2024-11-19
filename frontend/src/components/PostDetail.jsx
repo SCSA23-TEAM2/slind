@@ -2,8 +2,15 @@ import "./css/PostDetail.css";
 
 import PostHeaderMain from "./PostHeaderMain";
 import PostCountsInfo from "./PostCountsInfo";
+import InputComment from "./InputComment";
+import BestComments from "./BestComments";
+import NormalComments from "./NormalComments";
+import Images from "./Images";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+
+import { useInView } from "react-intersection-observer";
 import useAxios from "../useAxios";
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -14,6 +21,14 @@ const PostDetail = () => {
   const [PI, setPI] = useState(PostInfo);
   const [postInfo, setPostInfo] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
+  const [stateBestComments, setStateBestComments] = useState([]);
+  const [stateNormalComments, setStateNormalComments] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  const { ref, inView } = useInView({
+    threshold: 0.5, // 요소가 10% 보일 때 트리거
+  });
+
   const AxiosGetapiApiArticleDetailArticlePk = async (address) => {
     // console.log("여기다")
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
@@ -26,6 +41,41 @@ const PostDetail = () => {
       console.error();
     }
   };
+
+  const AxiosGetapiApiCommentArticlePkBest = async () => {
+    // console.log("여기다")
+    // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/comment/${PI.articlePk}/best`
+      );
+      const BestCommentsList = response.data;
+      setStateBestComments(BestCommentsList);
+      setIsLoaded(true);
+    } catch {
+      console.error();
+    }
+  };
+
+  const AxiosGetapiApiCommentArticlePklastCommentPk = async (lastnum) => {
+    // console.log("여기다")
+    // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/comment/${PI.articlePk}?lastCommentPk=${lastnum}`
+      );
+      const NomalCommentsList = response.data;
+      setStateNormalComments((prevData) => [
+        ...prevData,
+        ...NomalCommentsList.list,
+      ]);
+      setHasMore(NomalCommentsList.hasNext);
+      setIsLoaded(true);
+    } catch {
+      console.error();
+    }
+  };
+
   const CallAxios = () => {
     if (PI.kind) {
       AxiosGetapiApiArticleDetailArticlePk(
@@ -37,6 +87,14 @@ const PostDetail = () => {
       );
     }
   };
+  const CallBestCommentsAxios = () => {
+    AxiosGetapiApiCommentArticlePkBest();
+  };
+  const CallNormalCommentsAxios = (lastnum) => {
+    if (!hasMore) return;
+    AxiosGetapiApiCommentArticlePklastCommentPk(lastnum);
+  };
+
   const handleLinkClick = (state) => {
     setPI(state);
   };
@@ -65,11 +123,19 @@ const PostDetail = () => {
   };
 
   useEffect(() => {
+    if (inView && hasMore) {
+      CallNormalCommentsAxios(
+        stateNormalComments.length == 0
+          ? 0
+          : stateNormalComments[stateNormalComments.length - 1].commentPk
+      );
+    }
     CallAxios();
+    CallBestCommentsAxios();
     console.log(PI);
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
-  }, [PI]);
+  }, [PI, inView]);
   console.log(postInfo);
 
   const ILike = async () => {
@@ -87,6 +153,7 @@ const PostDetail = () => {
       }
     );
     CallAxios();
+    CallBestCommentsAxios();
   };
   const IDisike = async () => {
     const response = await axios.post(
@@ -98,6 +165,7 @@ const PostDetail = () => {
       }
     );
     CallAxios();
+    CallBestCommentsAxios();
   };
   const CancelLike = async () => {
     const response = await axios.post(
@@ -109,6 +177,7 @@ const PostDetail = () => {
       }
     );
     CallAxios();
+    CallBestCommentsAxios();
   };
   const CancelDisLike = async () => {
     const response = await axios.post(
@@ -120,6 +189,7 @@ const PostDetail = () => {
       }
     );
     CallAxios();
+    CallBestCommentsAxios();
   };
   const Agree = async () => {
     const response = await axios.post(
@@ -130,6 +200,7 @@ const PostDetail = () => {
       }
     );
     CallAxios();
+    CallBestCommentsAxios();
   };
 
   const Oppose = async () => {
@@ -141,6 +212,68 @@ const PostDetail = () => {
       }
     );
     CallAxios();
+    CallBestCommentsAxios();
+  };
+
+  const onSubmitComment = async (commentContent) => {
+    console.log("content: ", commentContent);
+    const response = await axios.post(
+      "http://localhost:8080/api/comment/auth",
+      {
+        articlePk: postInfo.articlePk,
+        content: commentContent,
+      }
+    );
+    CallAxios();
+    CallBestCommentsAxios();
+  };
+  const commentLike = async (CommentPk) => {
+    const response = await axios.post(
+      "http://localhost:8080/api/comment/auth/reaction",
+      {
+        commentPk: CommentPk,
+        isLike: true,
+        isUp: true,
+      }
+    );
+    CallAxios();
+    CallBestCommentsAxios();
+  };
+  const commentDislike = async (CommentPk) => {
+    const response = await axios.post(
+      "http://localhost:8080/api/comment/auth/reaction",
+      {
+        commentPk: CommentPk,
+        isLike: false,
+        isUp: true,
+      }
+    );
+    CallAxios();
+    CallBestCommentsAxios();
+  };
+  const commentCancelLike = async (CommentPk) => {
+    const response = await axios.post(
+      "http://localhost:8080/api/comment/auth/reaction",
+      {
+        commentPk: CommentPk,
+        isLike: true,
+        isUp: false,
+      }
+    );
+    CallAxios();
+    CallBestCommentsAxios();
+  };
+  const commentCancelDislike = async (CommentPk) => {
+    const response = await axios.post(
+      "http://localhost:8080/api/comment/auth/reaction",
+      {
+        commentPk: CommentPk,
+        isLike: false,
+        isUp: false,
+      }
+    );
+    CallAxios();
+    CallBestCommentsAxios();
   };
 
   return (
@@ -164,8 +297,43 @@ const PostDetail = () => {
         Agree={Agree}
         Oppose={Oppose}
       />
-
-      {/* 게시글 하단에 댓글쓰기,댓글 들 컴포넌트화 */}
+      {!PI.kind && (
+        <>
+          {/* 게시글 하단에 댓글쓰기,댓글 들 컴포넌트화 */}
+          <InputComment postComment={onSubmitComment} />
+          {stateBestComments.map((item) => {
+            return (
+              <BestComments
+                item={item}
+                commentLike={commentLike}
+                commentDislike={commentDislike}
+                commentCancelLike={commentCancelLike}
+                commentCancelDislike={commentCancelDislike}
+                axios={axios}
+              />
+            );
+          })}
+          <div className="comment-content">
+            <ul className="comment-list">
+              {stateNormalComments.map((item) => {
+                return (
+                  <NormalComments
+                    item={item}
+                    commentLike={commentLike}
+                    commentDislike={commentDislike}
+                    commentCancelLike={commentCancelLike}
+                    commentCancelDislike={commentCancelDislike}
+                    axios={axios}
+                  />
+                );
+              })}
+              <div ref={ref} style={{ height: "1px" }}></div>
+            </ul>
+          </div>
+          {/* <BestComments /> */}
+          {/* <NormalComments /> */}{" "}
+        </>
+      )}
     </div>
   );
 };
