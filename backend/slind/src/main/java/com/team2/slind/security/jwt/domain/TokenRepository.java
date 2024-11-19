@@ -14,9 +14,10 @@ public class TokenRepository {
 
     @Value("${jwt.refresh.expiration}")
     private Long refreshTokenExpirationPeriod;
-    RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
-    public TokenRepository(final RedisTemplate redisTemplate) {
+
+    public TokenRepository(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
