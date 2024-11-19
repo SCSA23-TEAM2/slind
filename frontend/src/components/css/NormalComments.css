@@ -1,0 +1,68 @@
+.NormalComments-wrapper {
+  padding: 10px;
+  display: flex;
+  border: 1px solid #f6f6f6;
+  flex-direction: column;
+  gap: 15px;
+}
+.NormalComments-header {
+  width: 100%;
+  display: flex;
+}
+.NormalComments-header-left {
+  flex: 0.8;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.NormalComments-author {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.NormalComments-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.NormalComments-leftbutton-wrapper {
+  display: flex;
+  gap: 10px;
+}
+.NormalComments-preference-button-wrapper {
+  display: flex;
+  gap: 15px;
+}
+.NormalComments-preference-button-wrapper button {
+  background-color: white;
+}
+.NormalComments-preference-button-wrapper button:hover {
+  color: #00b890;
+}
+.NormalComments-reply-button-wrapper button {
+  cursor: pointer;
+  padding: 5px;
+  height: 30px;
+  width: 60px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  background-color: #00b890;
+}
+.NormalComments-Modify-button-wrapper button {
+  cursor: pointer;
+  padding: 5px;
+  height: 30px;
+  width: 60px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  background-color: #00b890;
+}
+.NormalComments-like-wrapper,
+.NormalComments-dislike-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  gap: 10px;
+}

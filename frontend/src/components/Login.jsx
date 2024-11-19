@@ -8,8 +8,8 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [input, setInput] = useState({
-    id: "",
-    password: "",
+    memberId: "",
+    memberPassword: "",
   });
   const onChange = (e) => {
     console.log(e.target.name, e.target.value);
@@ -20,9 +20,10 @@ const Login = () => {
   };
 
   const Login = async () => {
+    console.log(input);
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/member/signin",
+        "http://localhost:8080/api/login",
         input
       );
 
@@ -30,6 +31,8 @@ const Login = () => {
       login(tokens); // Set the tokens in context and localStorage
 
       // Redirect or do something after login
+
+      navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -57,15 +60,15 @@ const Login = () => {
         <div className="login-warning"></div>
         <div className="login-form-wrapper">
           <input
-            name="id"
-            value={input.id}
+            name="memberId"
+            value={input.memberId}
             onChange={onChange}
             type="text"
             placeholder="아이디 입력"
           />
           <input
-            name="password"
-            value={input.password}
+            name="memberPassword"
+            value={input.memberPassword}
             onChange={onChange}
             type="password"
             placeholder="비밀번호 입력"
