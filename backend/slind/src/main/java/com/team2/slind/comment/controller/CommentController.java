@@ -128,8 +128,7 @@ public class CommentController {
         Long commentPk = request.getCommentPk();
         Boolean isLike = request.getIsLike();
         Boolean isUp = request.getIsUp();
-        System.out.println("commentPk: " + commentPk + ", isLike: " + isLike);
-        System.out.println("isUp: " + isUp);
+
         if (commentPk == null || isLike == null || isUp == null) {
             throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
         }
