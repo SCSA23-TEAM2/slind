@@ -34,7 +34,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
             tokenRepository.deleteByAccessToken(accessToken);
         }
 
-        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken); // 응답 헤더에 AccessToken, RefreshToken 실어서 응답
+        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken); // 응답에 AccessToken, RefreshToken 실어서 응답
 
         memberMapper.findByMemberId(memberId)
                 .ifPresent(memeber -> {

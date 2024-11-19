@@ -13,7 +13,11 @@
             answer = #{answer}
         WHERE member_pk =#{memberPk}
     </update>
-
+    <update id="deleteByMemberPk" parameterType="Long">
+        UPDATE tbl_member
+        SET is_deleted = 1, deleted_dttm = SYSDATE
+        WHERE member_pk = #{memberPk} and is_deleted = 0
+    </update>
     <select id="findByMemberId" parameterType="string" resultType="Member">
         SELECT * FROM tbl_member WHERE member_id = #{memberId} AND is_deleted = 0
     </select>

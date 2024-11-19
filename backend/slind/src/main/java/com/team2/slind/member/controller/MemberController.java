@@ -6,16 +6,12 @@ import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
 import com.team2.slind.member.dto.response.*;
 import com.team2.slind.member.service.MemberService;
-import com.team2.slind.security.jwt.service.JwtService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -40,6 +36,10 @@ public class MemberController {
             throw new InvalidMemberIdLengthException(InvalidMemberIdLengthException.INVALID_MEMBERID_LENGTH);
         }
         return memberService.checkDuplicateMemberId(memberId);
+    }
+    @DeleteMapping("/auth")
+    public ResponseEntity<Void> deleteMember(){
+        return memberService.deleteMember();
     }
 
     @GetMapping("/check-nickname")

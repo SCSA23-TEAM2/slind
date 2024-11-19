@@ -7,15 +7,13 @@ import com.team2.slind.board.mapper.BoardMapper;
 import com.team2.slind.board.vo.Board;
 import com.team2.slind.comment.mapper.CommentMapper;
 import com.team2.slind.comment.vo.Comment;
-import com.team2.slind.common.exception.AlreadyDeletedException;
-import com.team2.slind.common.exception.ArticleNotFoundException;
-import com.team2.slind.common.exception.DuplicateMemberIdException;
-import com.team2.slind.common.exception.DuplicateNicknameException;
+import com.team2.slind.common.exception.*;
 import com.team2.slind.judgement.mapper.JudgementMapper;
 import com.team2.slind.judgement.vo.Judgement;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
 import com.team2.slind.member.dto.response.*;
+import com.team2.slind.member.login.service.CustomMemberDetails;
 import com.team2.slind.member.mapper.MemberMapper;
 import com.team2.slind.member.mapper.QuestionMapper;
 import com.team2.slind.member.vo.Member;
@@ -111,7 +109,24 @@ public class MemberService {
         return member.isPresent();
     }
 
+    public ResponseEntity<Void> deleteMember() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        CustomMemberDetails memberDetails = (CustomMemberDetails) authentication.getPrincipal();
+        Long memberPk = memberDetails.getMemberPk();
+
+        Member member = memberMapper.findByMemberPk(memberPk).orElseThrow(()->
+                new MemberNotFoundException(MemberNotFoundException.MEMBER_NOT_FOUND));
+
+        memberMapper.deleteByMemberPk(memberPk);
+
+        if (authentication.getCredentials() instanceof String) {
+            String accessToken = (String) authentication.getCredentials();
+            jwtService.saveBlackList(accessToken);
+        }
+
+        return ResponseEntity.ok().build();
+    }
     public ResponseEntity<MyPageInfoResponse> getMyPageInfo(Long memberPk) {
         Member member = memberMapper.findByMemberPk(memberPk).orElse(null);
         if (member == null || member.getIsDeleted() == 1) {
