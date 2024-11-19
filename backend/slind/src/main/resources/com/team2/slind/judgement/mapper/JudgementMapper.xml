@@ -36,27 +36,41 @@
         SELECT COUNT(*) FROM tbl_judgement WHERE judgement_pk = #{judgementPk} and is_deleted = 0
     </select>
 
-    <select id="findListByMemberPk" resultType="Judgement">
-        SELECT * FROM (
-            SELECT judgement_pk, article_pk, board_pk, title, created_dttm
-            FROM tbl_judgement
-            WHERE member_pk = #{memberPk}
-            AND judgement_pk &lt; #{lastPk}
-            ORDER BY judgement_pk DESC
-            )
-        WHERE ROWNUM &lt;= #{size}+1
-    </select>
-    <select id="findListByMemberPkFirst" resultType="Judgement">
-        SELECT * FROM (
-            SELECT judgement_pk, article_pk, board_pk, title, created_dttm
-            FROM (
-                SELECT judgement_pk, article_pk, board_pk, title, created_dttm
-                FROM tbl_judgement
-                WHERE member_pk = #{memberPk}
-                ORDER BY judgement_pk DESC
-                )
-            WHERE ROWNUM &lt;= #{size}+1
+    <select id="findListByMemberPk" resultType="MyJudgementResponse">
+<!--        SELECT * FROM (-->
+<!--            SELECT judgement_pk, article_pk, board_pk, title, created_dttm-->
+<!--            FROM tbl_judgement-->
+<!--            WHERE member_pk = #{memberPk}-->
+<!--            AND judgement_pk &lt; #{lastPk}-->
+<!--            ORDER BY judgement_pk DESC-->
+<!--            )-->
+<!--        WHERE ROWNUM &lt;= #{size}+1-->
+        SELECT *
+        FROM (
+        SELECT
+        j.judgement_pk, j.article_pk, a.title AS article_title, j.board_pk,
+        b.title AS board_title, j.title, j.created_dttm
+        FROM tbl_judgement j
+        LEFT JOIN tbl_article a ON j.article_pk = a.article_pk
+        LEFT JOIN tbl_board b ON j.board_pk = b.board_pk
+        WHERE j.member_pk = #{memberPk}
+        AND j.judgement_pk  &lt; #{lastPk}
+        ORDER BY j.judgement_pk DESC
         )
+        WHERE ROWNUM  &lt;= #{size} + 1
+    </select>
+    <select id="findListByMemberPkFirst" resultType="MyJudgementResponse">
+        SELECT *
+        FROM (
+            SELECT j.judgement_pk, j.article_pk, a.title AS article_title, j.board_pk,
+            b.title AS board_title, j.title, j.created_dttm
+            FROM tbl_judgement j
+            LEFT JOIN tbl_article a ON j.article_pk = a.article_pk
+            LEFT JOIN tbl_board b ON j.board_pk = b.board_pk
+            WHERE j.member_pk = #{memberPk}
+            ORDER BY j.judgement_pk DESC
+        )
+        WHERE ROWNUM  &lt;= #{size} + 1
     </select>
 
 

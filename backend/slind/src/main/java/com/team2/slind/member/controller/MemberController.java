@@ -2,6 +2,7 @@ package com.team2.slind.member.controller;
 
 import com.team2.slind.common.exception.InvalidMemberIdLengthException;
 import com.team2.slind.common.exception.InvalidNicknameLengthException;
+import com.team2.slind.member.dto.mapper.MyJudgementResponse;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
 import com.team2.slind.member.dto.response.*;
@@ -63,7 +64,7 @@ public class MemberController {
     }
 
     @GetMapping({"/auth/judgement", "/auth/judgement/{lastJudgementPk}"})
-    public ResponseEntity<InfiniteListResponse<JudgementGetResponse>> getMyJudgementList(
+    public ResponseEntity<InfiniteListResponse<MyJudgementResponse>> getMyJudgementList(
             @PathVariable(value = "lastJudgementPk", required = false) Long lastJudgementPk
     ){
         return memberService.getMyJudgementList(memberPk, lastJudgementPk);

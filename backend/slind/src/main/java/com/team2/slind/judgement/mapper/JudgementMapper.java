@@ -1,6 +1,7 @@
 package com.team2.slind.judgement.mapper;
 
 import com.team2.slind.judgement.vo.Judgement;
+import com.team2.slind.member.dto.mapper.MyJudgementResponse;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
@@ -17,12 +18,12 @@ public interface JudgementMapper {
 
     void updateViewCount(@Param("judgementPk") Long judgementPk);
     int countByJudgementPk(@Param("judgementPk") Long judgementPk);
-    List<Judgement> findListByMemberPk(@Param("memberPk") Long memberPk,
+    List<MyJudgementResponse> findListByMemberPk(@Param("memberPk") Long memberPk,
                                        @Param("lastPk") Long lastPk,
                                        @Param("size") int size);
 
-    List<Judgement> findListByMemberPkFirst(@Param("memberPk") Long memberPk,
-                                            @Param("size") int size);
+    List<MyJudgementResponse> findListByMemberPkFirst(@Param("memberPk") Long memberPk,
+                                                      @Param("size") int size);
 
 
     void finishJudgementWin(@Param("judgementPk") Long judgementPk);
