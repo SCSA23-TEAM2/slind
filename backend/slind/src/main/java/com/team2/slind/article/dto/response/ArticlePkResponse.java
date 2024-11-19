@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ArticlePkResponse {
 
-    private Long articleId;
+    private Long articlePk;
 }
