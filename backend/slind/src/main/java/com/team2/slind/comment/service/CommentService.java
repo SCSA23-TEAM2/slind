@@ -25,11 +25,13 @@ public class CommentService {
     public ResponseEntity<CommentListResponse> getCommentList(Long articlePk, Long lastCommentPk, int fetchCount) {
         CommentListResponse response = new CommentListResponse();
         List<CommentResponse> comments = commentMapper.getCommentList(articlePk, lastCommentPk, fetchCount);
+        System.out.println("comments : "+comments.size());
         response.setHasNext(comments.size() > fetchCount);
         if (response.getHasNext()) {
             comments.remove(comments.size() - 1);
         }
         for (CommentResponse commentResponse : comments) {
+            System.out.println("commentResponse : "+commentResponse.getCommentContent());
             if (!commentResponse.getMemberPk().equals(memberPk)) {
                 commentResponse.setIsMine(false);
                 commentResponse.setIsLike(false);
@@ -37,7 +39,9 @@ public class CommentService {
                 continue;
             }
             commentResponse.setIsMine(true);
-            CommentReaction commentReaction = commentReactionMapper.findByCommentPkAndMemberPk(commentResponse.getCommentPk(), memberPk).orElse(null);
+            System.out.println("commentPk : "+ commentResponse.getCommentPk());
+            Long commentPk = commentResponse.getCommentPk();
+            CommentReaction commentReaction = commentReactionMapper.findByCommentPkAndMemberPk(commentPk, memberPk).orElse(null);
             if (commentReaction == null) {
                 commentResponse.setIsLike(false);
                 commentResponse.setIsDislike(false);

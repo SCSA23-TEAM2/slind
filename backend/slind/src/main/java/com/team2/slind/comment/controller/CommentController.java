@@ -21,9 +21,10 @@ public class CommentController {
 
     @GetMapping("/{articlePk}")
     public ResponseEntity<CommentListResponse> getCommentList(
-            @PathVariable Long articlePk,
-            @RequestParam(value = "lastCommentPk", defaultValue = "0L") Long lastCommentPk
+            @PathVariable("articlePk") Long articlePk,
+            @RequestParam(value = "lastCommentPk", required = false) Long lastCommentPk
             ) {
+        if (lastCommentPk == null) {lastCommentPk=0L;}
         return commentService.getCommentList(articlePk, lastCommentPk, 10);
     }
 
@@ -127,6 +128,8 @@ public class CommentController {
         Long commentPk = request.getCommentPk();
         Boolean isLike = request.getIsLike();
         Boolean isUp = request.getIsUp();
+        System.out.println("commentPk: " + commentPk + ", isLike: " + isLike);
+        System.out.println("isUp: " + isUp);
         if (commentPk == null || isLike == null || isUp == null) {
             throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
         }
