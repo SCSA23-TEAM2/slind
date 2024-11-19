@@ -81,7 +81,7 @@ public class JudgementService {
 
         Judgement articleJudgement =
                 Judgement.builder().member(new Member(memberPk))
-                        .articlePk(boardPk).title(title).judgementContent(content).build();
+                        .boardPk(boardPk).title(title).judgementContent(content).build();
         judgementMapper.saveJudgementBoard(articleJudgement);
         Long judgementPk = judgementMapper.findCreatedJudgementPk();
         return ResponseEntity.ok().body(new JudgementPkResponse(judgementPk));
