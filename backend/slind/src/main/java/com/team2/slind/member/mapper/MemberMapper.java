@@ -22,4 +22,5 @@ public interface MemberMapper {
                           @Param("memberPk") Long memberPk);
     int findCountByPk(@Param("memberPk") Long memberPk);
 
+    void deleteByMemberPk(Long memberPk);
 }
