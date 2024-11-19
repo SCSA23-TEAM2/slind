@@ -14,7 +14,7 @@ public class ImageController {
      static Long memberPk = 1L;
 
      @PostMapping("/auth")
-     public ResponseEntity<String> createImage(@RequestParam MultipartFile file) {
+     public ResponseEntity<Void> createImage(@RequestParam MultipartFile file) {
             return imageService.createImage(file, memberPk);
      }
 }

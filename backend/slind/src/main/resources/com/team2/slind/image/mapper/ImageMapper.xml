@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team2.slind.image.mapper.ImageMapper">
+    <select id="findByArticlePk" resultType="java.lang.String">
+        SELECT image_url
+        FROM tbl_image
+        WHERE article_pk = #{articlePk}
+    </select>
+    <insert id="insertImage">
+        INSERT INTO tbl_image (image_pk, article_pk, file_title, file_directory)
+        VALUES (seq_image_pk.NEXTVAL, #{articlePk}, #{title}, #{url})
+    </insert>
+</mapper>
