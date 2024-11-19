@@ -278,3 +278,7 @@ $RECYCLE.BIN/
 
 # Frontend React
 /frontend/node_modules
+/frontend/.vite
+
+# Backend
+/backend/slind/uploads
