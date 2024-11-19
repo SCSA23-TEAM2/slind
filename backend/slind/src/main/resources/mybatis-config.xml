@@ -35,6 +35,7 @@
 
         <!--    DTO    -->
         <typeAlias type="com.team2.slind.article.dto.mapper.ArticleDetailMapperDTO" alias="ArticleDetailMapperDTO"/>
+        <typeAlias type="com.team2.slind.member.dto.mapper.MyJudgementResponse" alias="MyJudgementResponse"/>
 
 
     </typeAliases>

@@ -10,6 +10,7 @@ import com.team2.slind.comment.vo.Comment;
 import com.team2.slind.common.exception.*;
 import com.team2.slind.judgement.mapper.JudgementMapper;
 import com.team2.slind.judgement.vo.Judgement;
+import com.team2.slind.member.dto.mapper.MyJudgementResponse;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
 import com.team2.slind.member.dto.response.*;
@@ -149,12 +150,12 @@ public class MemberService {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<InfiniteListResponse<JudgementGetResponse>> getMyJudgementList(
+    public ResponseEntity<InfiniteListResponse<MyJudgementResponse>> getMyJudgementList(
             Long memberPk, Long lastJudgementPk) {
         logger.info("Start : Get My Judgement List ");
         logger.info("memberPk : " + memberPk);
         logger.info("lastJudgementPk : " + lastJudgementPk);
-        List<Judgement> list;
+        List<MyJudgementResponse> list;
 
 
         if (lastJudgementPk == null){
@@ -162,21 +163,21 @@ public class MemberService {
         }else {
             list = judgementMapper.findListByMemberPk(memberPk, lastJudgementPk, size);
         }
-        List<JudgementGetResponse> responseList = list.stream()
-                .map(judgement -> JudgementGetResponse.builder().judgementPk(judgement.getJudgementPk())
-                        .articlePk(judgement.getArticlePk())
-                        .boardPk(judgement.getBoardPk()).title(judgement.getTitle())
-                        .createdDttm(judgement.getCreatedDttm()).build())
-                .toList();
+//        List<JudgementGetResponse> responseList = list.stream()
+//                .map(judgement -> JudgementGetResponse.builder().judgementPk(judgement.getJudgementPk())
+//                        .articlePk(judgement.getArticlePk())
+//                        .boardPk(judgement.getBoardPk()).title(judgement.getTitle())
+//                        .createdDttm(judgement.getCreatedDttm()).build())
+//                .toList();
 
         Boolean hasNext = list.size() > size;
         if (hasNext){
-            responseList = responseList.subList(0, size);
+            list = list.subList(0, size);
         }
         logger.info("End : Get My Judgement List ");
 
-        return ResponseEntity.ok().body(InfiniteListResponse.<JudgementGetResponse>builder().
-                list(responseList).hasNext(hasNext).build());
+        return ResponseEntity.ok().body(InfiniteListResponse.<MyJudgementResponse>builder().
+                list(list).hasNext(hasNext).build());
     }
 
     public ResponseEntity<InfiniteListResponse<ArticleGetResponse>> getMyArticleList(Long memberPk, Long lastArticlePk) {
