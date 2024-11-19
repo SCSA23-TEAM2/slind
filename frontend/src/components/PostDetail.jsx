@@ -224,8 +224,14 @@ const PostDetail = () => {
         content: commentContent,
       }
     );
-    CallAxios();
-    CallBestCommentsAxios();
+    
+    const newComment = {
+      articlePk: postInfo.articlePk,
+      content: commentContent,
+    }
+    setStateNormalComments((prevComments) => [newComment, ...prevComments]);
+    // CallAxios();
+    // CallBestCommentsAxios();
   };
   const commentLike = async (CommentPk) => {
     const response = await axios.post(
