@@ -6,11 +6,11 @@ const mockitem1 = {
   myPagePk: 1,
   boardTitle: "마이페이지",
 };
-const mockitem2 = {
-  id: 2,
-  myPagePk: 2,
-  boardTitle: "즐겨찾기 편집",
-};
+// const mockitem2 = {
+//   id: 2,
+//   myPagePk: 2,
+//   boardTitle: "즐겨찾기 편집",
+// };
 const mockitem3 = {
   id: 3,
   myPagePk: 3,
@@ -36,7 +36,7 @@ const wholeMock = [];
 //   wholeMock.push(mockitem);
 // }
 wholeMock.push(mockitem1);
-wholeMock.push(mockitem2);
+// wholeMock.push(mockitem2);
 wholeMock.push(mockitem3);
 wholeMock.push(mockitem4);
 wholeMock.push(mockitem5);

@@ -2,7 +2,7 @@ import Header from "../Header";
 import MyPageNav from "../MyPageNav";
 import MyPage from "../MyPage";
 import MyContent from "../MyContent"
-import EditBookmark from "../EditBookmark"
+// import EditBookmark from "../EditBookmark"
 import {useLocation} from "react-router-dom"
 import NotFoundPage from "./NotFoundPage";
 // import EditBookmark from "./components/EditBookmark";
@@ -19,9 +19,9 @@ const MyPagePage = () => {
             case (1): { //마이페이지
                 return <MyPage/>
             }
-            case (2): { //즐겨찾기 편집
-                return <EditBookmark/>
-            }
+            // case (2): { //즐겨찾기 편집
+            //     return <EditBookmark/>
+            // }
             case 3: // 내가 만든 게시판
             case 4: // 내가 쓴 글
             case 5: // 내가 쓴 댓글
