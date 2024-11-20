@@ -29,12 +29,12 @@ public class ArticleController {
     private final ArticleService articleService;
     @PostMapping("/auth")
     public ResponseEntity<ArticlePkResponse> createArticle(@RequestBody BoardPkCreateUpdateRequest boardPkCreateUpdateRequest) {
-        return articleService.createArticle(boardPkCreateUpdateRequest, SecurityUtil.getMemberPk());
+        return articleService.createArticle(boardPkCreateUpdateRequest, SecurityUtil.getMemberPk(true));
     }
 
     @PutMapping("/auth")
     public ResponseEntity<ArticlePkResponse> updateArticle(@RequestBody ArticlePkCreateUpdateRequest articlePkCreateUpdateRequest) {
-        return articleService.updateArticle(articlePkCreateUpdateRequest, SecurityUtil.getMemberPk());
+        return articleService.updateArticle(articlePkCreateUpdateRequest, SecurityUtil.getMemberPk(true));
     }
 
     @GetMapping("/detail/{articlePk}")
@@ -50,7 +50,7 @@ public class ArticleController {
 
     @DeleteMapping("/auth/{articlePk}")
     public ResponseEntity<Void> deleteArticle(@PathVariable("articlePk") Long articlePk){
-        return articleService.deleteArticle(articlePk, SecurityUtil.getMemberPk());
+        return articleService.deleteArticle(articlePk, SecurityUtil.getMemberPk(true));
     }
 
     @GetMapping("/main")
@@ -60,7 +60,7 @@ public class ArticleController {
 
     @PostMapping("/auth/reaction")
     public ResponseEntity<Void> createReaction(@RequestBody @Valid ArticleReactionRequest articleReactionRequest) {
-        return articleService.createReaction(articleReactionRequest, SecurityUtil.getMemberPk());
+        return articleService.createReaction(articleReactionRequest, SecurityUtil.getMemberPk(true));
     }
 
     @GetMapping("/{boardPk}/{sort}/{page}")

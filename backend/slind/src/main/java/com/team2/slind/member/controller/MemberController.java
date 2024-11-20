@@ -54,13 +54,13 @@ public class MemberController {
 
     @GetMapping("/auth/mypage")
     public ResponseEntity<MyPageInfoResponse> getMypageInfo(){
-        return memberService.getMyPageInfo(SecurityUtil.getMemberPk());
+        return memberService.getMyPageInfo(SecurityUtil.getMemberPk(true));
     }
 
     @PutMapping("/auth/mypage")
     public ResponseEntity<Void> updateMypageInfo(@RequestBody @Valid MyPageUpdateRequest myPageUpdateRequest){
 
-        return memberService.updateMypageInfo(SecurityUtil.getMemberPk(), myPageUpdateRequest);
+        return memberService.updateMypageInfo(SecurityUtil.getMemberPk(true), myPageUpdateRequest);
 
     }
 
@@ -68,27 +68,27 @@ public class MemberController {
     public ResponseEntity<InfiniteListResponse<MyJudgementResponse>> getMyJudgementList(
             @PathVariable(value = "lastJudgementPk", required = false) Long lastJudgementPk
     ){
-        return memberService.getMyJudgementList(SecurityUtil.getMemberPk(), lastJudgementPk);
+        return memberService.getMyJudgementList(SecurityUtil.getMemberPk(true), lastJudgementPk);
     }
 
     @GetMapping({"/auth/article", "/auth/article/{lastArticlePk}"})
     public ResponseEntity<InfiniteListResponse<ArticleGetResponse>> getMyArticleList(
             @PathVariable(value = "lastArticlePk", required = false) Long lastArticlePk
     ){
-        return memberService.getMyArticleList(SecurityUtil.getMemberPk(), lastArticlePk);
+        return memberService.getMyArticleList(SecurityUtil.getMemberPk(true), lastArticlePk);
     }
 
     @GetMapping({"/auth/board", "/auth/board/{lastBoardPk}"})
     public ResponseEntity<InfiniteListResponse<BoardGetResponse>> getMyBoardList(
             @PathVariable(value = "lastBoardPk", required = false) Long lastBoardPk
     ){
-        return memberService.getMyBoardList(SecurityUtil.getMemberPk(), lastBoardPk);
+        return memberService.getMyBoardList(SecurityUtil.getMemberPk(true), lastBoardPk);
     }
 
     @GetMapping({"/auth/comment", "/auth/comment/{lastCommentPk}"})
     public ResponseEntity<InfiniteListResponse<CommentGetResponse>> getMyCommentList(
             @PathVariable(value = "lastCommentPk", required = false) Long lastCommentPk
     ){
-        return memberService.getMyCommentList(SecurityUtil.getMemberPk(), lastCommentPk);
+        return memberService.getMyCommentList(SecurityUtil.getMemberPk(true), lastCommentPk);
     }
 }

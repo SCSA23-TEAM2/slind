@@ -40,13 +40,13 @@ public class JudgementController {
     @PostMapping("/auth/article")
     public ResponseEntity<JudgementPkResponse> createJudgementArticle(
             @RequestBody @Valid ArticlePkCreateUpdateRequest articlePkCreateUpdateRequest) {
-        return judgementService.addJudgementArticle(articlePkCreateUpdateRequest, SecurityUtil.getMemberPk());
+        return judgementService.addJudgementArticle(articlePkCreateUpdateRequest, SecurityUtil.getMemberPk(true));
     }
 
     @PostMapping("/auth/board")
     public ResponseEntity<JudgementPkResponse> createJudgementBoard(
             @RequestBody @Valid BoardPkCreateUpdateRequest boardPkCreateUpdateRequest) {
-        return judgementService.addJudgementBoard(boardPkCreateUpdateRequest, SecurityUtil.getMemberPk());
+        return judgementService.addJudgementBoard(boardPkCreateUpdateRequest, SecurityUtil.getMemberPk(true));
     }
 
     @GetMapping("/{judgementPk}")
@@ -65,6 +65,6 @@ public class JudgementController {
     @PostMapping("/auth/reaction")
     public ResponseEntity<Void> createJudgementReaction(
             @RequestBody JudgementReactionRequest judgementReactionRequest){
-        return judgementService.createJudgementReaction(judgementReactionRequest, SecurityUtil.getMemberPk());
+        return judgementService.createJudgementReaction(judgementReactionRequest, SecurityUtil.getMemberPk(true));
     }
 }

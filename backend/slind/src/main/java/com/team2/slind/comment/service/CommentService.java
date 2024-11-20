@@ -26,7 +26,7 @@ public class CommentService {
     private final CommentReactionMapper commentReactionMapper;
 
     public ResponseEntity<CommentListResponse> getCommentList(Long articlePk, Long lastCommentPk, int fetchCount) {
-        Long memberPk = SecurityUtil.getMemberPk();
+        Long memberPk = SecurityUtil.getMemberPk(false);
         CommentListResponse response = new CommentListResponse();
         List<CommentResponse> comments = commentMapper.getCommentList(articlePk, lastCommentPk, fetchCount);
         response.setHasNext(comments.size() > fetchCount);
@@ -56,7 +56,7 @@ public class CommentService {
     }
 
     public ResponseEntity<List<CommentResponse>> getBestCommentList(Long articlePk, int fetchCount) {
-        Long memberPk = SecurityUtil.getMemberPk();
+        Long memberPk = SecurityUtil.getMemberPk(false);
         List<CommentResponse> comment = commentMapper.getBestCommentList(articlePk, fetchCount);
         for (CommentResponse commentResponse : comment) {
             if (!commentResponse.getMemberPk().equals(memberPk)) {
@@ -79,7 +79,7 @@ public class CommentService {
     }
 
     public ResponseEntity<CommentListResponse> getRecomment(Long commentPk, Long lastCommentPk, int fetchCount) {
-        Long memberPk = SecurityUtil.getMemberPk();
+        Long memberPk = SecurityUtil.getMemberPk(true);
         CommentListResponse response = new CommentListResponse();
         List<CommentResponse> comments = commentMapper.getRecommentList(commentPk, lastCommentPk, fetchCount);
         response.setHasNext(comments.size() > fetchCount);

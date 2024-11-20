@@ -26,7 +26,7 @@ public class BoardController {
 
     @PostMapping("/auth")
     public ResponseEntity<Void> createBoard(@RequestBody @Valid BoardCreateRequest boardCreateRequest) {
-        return boardService.createBoard(boardCreateRequest, SecurityUtil.getMemberPk());
+        return boardService.createBoard(boardCreateRequest, SecurityUtil.getMemberPk(true));
 
     }
 
@@ -53,13 +53,13 @@ public class BoardController {
 
     @GetMapping("/auth/favorite")
     public ResponseEntity<List<BoardResponse>> getBookmarkList(){
-        return boardService.getBookmarkList(SecurityUtil.getMemberPk());
+        return boardService.getBookmarkList(SecurityUtil.getMemberPk(true));
 
     }
 
     @PostMapping("/auth/favorite")
     public ResponseEntity<Void> updateBookmarkList(@RequestBody BookmarkUpdateRequest bookmarkUpdateRequest){
-        return bookmarkService.updateBookmarkList(bookmarkUpdateRequest, SecurityUtil.getMemberPk());
+        return bookmarkService.updateBookmarkList(bookmarkUpdateRequest, SecurityUtil.getMemberPk(true));
     }
 
 

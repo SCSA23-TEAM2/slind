@@ -59,7 +59,7 @@ public class CommentController {
         } else if (content.isEmpty() || content.trim().isEmpty()) {
             throw new ContentException(ContentException.EMPTY_CONTENT);
         }
-        return commentService.createComment(SecurityUtil.getMemberPk(), articlePk, content);
+        return commentService.createComment(SecurityUtil.getMemberPk(true), articlePk, content);
     }
 
     @PostMapping("/auth/re")
@@ -75,7 +75,7 @@ public class CommentController {
         } else if (content.isEmpty() || content.trim().isEmpty()) {
             throw new ContentException(ContentException.EMPTY_CONTENT);
         }
-        return commentService.createRecomment(SecurityUtil.getMemberPk(), commentPk, content);
+        return commentService.createRecomment(SecurityUtil.getMemberPk(true), commentPk, content);
     }
 
     @PutMapping("/auth")
@@ -91,7 +91,7 @@ public class CommentController {
         } else if (content.length() > 1000) {
             throw new ContentException(ContentException.CONTENT_TOO_LONG);
         }
-        return commentService.updateComment(SecurityUtil.getMemberPk(), commentPk, content);
+        return commentService.updateComment(SecurityUtil.getMemberPk(true), commentPk, content);
     }
 
     @PutMapping("/auth/re")
@@ -107,21 +107,21 @@ public class CommentController {
         } else if (content.length() > 1000) {
             throw new ContentException(ContentException.CONTENT_TOO_LONG);
         }
-        return commentService.updateRecomment(SecurityUtil.getMemberPk(), commentPk, content);
+        return commentService.updateRecomment(SecurityUtil.getMemberPk(true), commentPk, content);
     }
 
     @DeleteMapping("/auth/{commentPk}")
     public ResponseEntity<Void> deleteComment(
             @PathVariable Long commentPk
             ) {
-        return commentService.deleteComment(SecurityUtil.getMemberPk(), commentPk);
+        return commentService.deleteComment(SecurityUtil.getMemberPk(true), commentPk);
     }
 
     @DeleteMapping("/auth/re/{commentPk}")
     public ResponseEntity<Void> deleteRecomment(
             @PathVariable Long commentPk
             ) {
-        return commentService.deleteRecomment(SecurityUtil.getMemberPk(), commentPk);
+        return commentService.deleteRecomment(SecurityUtil.getMemberPk(true), commentPk);
     }
 
     @PostMapping("/auth/reaction")
@@ -135,6 +135,6 @@ public class CommentController {
         if (commentPk == null || isLike == null || isUp == null) {
             throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
         }
-        return commentService.createReaction(SecurityUtil.getMemberPk(), commentPk, isLike, isUp);
+        return commentService.createReaction(SecurityUtil.getMemberPk(true), commentPk, isLike, isUp);
     }
 }
