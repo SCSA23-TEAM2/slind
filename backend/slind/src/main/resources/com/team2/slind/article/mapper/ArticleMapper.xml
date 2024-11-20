@@ -251,6 +251,22 @@
         ORDER BY c.created_dttm
     </select>
 
+    <select id="findHotArticleResponses" resultType="com.team2.slind.article.dto.response.HotArticleResponse" parameterType="Long">
+        SELECT
+        b.title AS boardTitle,
+        a.article_pk AS articlePk,
+        a.title AS articleTitle
+        FROM tbl_article a
+        JOIN tbl_board b ON a.board_pk = b.board_pk AND b.is_deleted = 0
+        WHERE a.article_pk = #{articlePk}
+        AND a.is_deleted = 0
+        AND b.is_deleted = 0
+    </select>
+    <select id="findAllByBoardPk" parameterType="Long" resultType="Article">
+        SELECT article_pk
+        FROM tbl_article
+        WHERE board_pk = #{articlePk}
 
+    </select>
 
 </mapper>
