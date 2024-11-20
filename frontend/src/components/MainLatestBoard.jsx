@@ -1,15 +1,15 @@
 import "./css/MainLatestBoard.css";
-// import axios from "axios";
+import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import useAxios from "../useAxios";
+// import useAxios from "../useAxios";
 import New from "./iconFolder/New";
 import Like from "./iconFolder/Like";
 import DisLike from "./iconFolder/DisLike";
 import Comment from "./iconFolder/Comment";
 import View from "./iconFolder/View";
 const MainLatestBoard = () => {
-  const axios = useAxios();
+  // const axios = useAxios();
   const idRef = useRef(0);
   const [latestPost, setLatestPost] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);

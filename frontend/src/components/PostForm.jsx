@@ -37,9 +37,9 @@ const PostForm = () => {
             articleContent: content,
           }
         );
-        navigate(`/board/${board}/Post/${title}`, {
+        navigate(`/board/${board}`, {
           state: {
-            articlePk: response.data.articlePk,
+            boardPk: PostFormInfo.state.pk,
             boardName: board,
             kind: 0,
           },

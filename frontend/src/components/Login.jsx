@@ -18,7 +18,11 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  const handlePwdKeyDown = (e) => {
+    if (e.key === "Enter") {
+      Login();
+    }
+  };
   const Login = async () => {
     console.log(input);
     try {
@@ -35,6 +39,11 @@ const Login = () => {
 
       navigate("/");
     } catch (error) {
+      alert("아이디나 비밀번호 정보가 일치하지 않습니다!");
+      setInput({
+        memberId: "",
+        memberPassword: "",
+      });
       console.error("Login failed:", error);
     }
   };
@@ -73,6 +82,7 @@ const Login = () => {
             onChange={onChange}
             type="password"
             placeholder="비밀번호 입력"
+            onKeyDown={handlePwdKeyDown}
           />
           <button onClick={chechValueForLogin}>로그인</button>
         </div>
