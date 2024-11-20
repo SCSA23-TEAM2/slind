@@ -38,9 +38,7 @@ const Header = () => {
           </li></>) : (<li className="header-nav-list">
             <Link to="/Login">로그인</Link>
           </li>)}
-          <li className="header-nav-list">
-            <Link to="/MyPage" state= {{pageNum: 1}}>마이페이지</Link>
-          </li>  <li className="header-nav-list"></li>
+          <li className="header-nav-list"></li>
 
         </ul>
       </div>
