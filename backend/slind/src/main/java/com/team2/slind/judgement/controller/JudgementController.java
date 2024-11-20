@@ -8,9 +8,13 @@ import com.team2.slind.judgement.dto.response.JudgementDetailResponse;
 import com.team2.slind.judgement.dto.response.JudgementListResponse;
 import com.team2.slind.judgement.dto.response.JudgementPkResponse;
 import com.team2.slind.judgement.service.JudgementService;
+import com.team2.slind.member.login.service.CustomMemberDetails;
+import com.team2.slind.security.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +26,6 @@ public class JudgementController {
 
     private final JudgementService judgementService;
 
-    //JWT적용된 후 지우기
-    static Long memberPk = 1L;
 
     @GetMapping("/{sort}/{page}")
     public ResponseEntity<JudgementListResponse> getJudgementList(
@@ -38,25 +40,25 @@ public class JudgementController {
     @PostMapping("/auth/article")
     public ResponseEntity<JudgementPkResponse> createJudgementArticle(
             @RequestBody @Valid ArticlePkCreateUpdateRequest articlePkCreateUpdateRequest) {
-        return judgementService.addJudgementArticle(articlePkCreateUpdateRequest, memberPk);
+        return judgementService.addJudgementArticle(articlePkCreateUpdateRequest, SecurityUtil.getMemberPk(true));
     }
 
     @PostMapping("/auth/board")
     public ResponseEntity<JudgementPkResponse> createJudgementBoard(
             @RequestBody @Valid BoardPkCreateUpdateRequest boardPkCreateUpdateRequest) {
-        return judgementService.addJudgementBoard(boardPkCreateUpdateRequest, memberPk);
+        return judgementService.addJudgementBoard(boardPkCreateUpdateRequest, SecurityUtil.getMemberPk(true));
     }
 
     @GetMapping("/{judgementPk}")
     public ResponseEntity<JudgementDetailResponse> getJudgementDetail(
             @PathVariable("judgementPk") Long judgementPk) {
-        return judgementService.getJudgementDetail(judgementPk, memberPk);
+        return judgementService.getJudgementDetail(judgementPk, SecurityUtil.getMemberPk(false));
 
     }
 
     @PostMapping("/auth/reaction")
     public ResponseEntity<Void> createJudgementReaction(
             @RequestBody JudgementReactionRequest judgementReactionRequest){
-        return judgementService.createJudgementReaction(judgementReactionRequest, memberPk);
+        return judgementService.createJudgementReaction(judgementReactionRequest, SecurityUtil.getMemberPk(true));
     }
 }

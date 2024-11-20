@@ -6,8 +6,12 @@ import com.team2.slind.comment.dto.response.CommentResponse;
 import com.team2.slind.comment.service.CommentService;
 import com.team2.slind.common.exception.ContentException;
 import com.team2.slind.common.exception.InvalidRequestException;
+import com.team2.slind.member.login.service.CustomMemberDetails;
+import com.team2.slind.security.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentController {
     private final CommentService commentService;
-    private static final Long memberPk = 1L;
 
     @GetMapping("/{articlePk}")
     public ResponseEntity<CommentListResponse> getCommentList(
@@ -56,7 +59,7 @@ public class CommentController {
         } else if (content.isEmpty() || content.trim().isEmpty()) {
             throw new ContentException(ContentException.EMPTY_CONTENT);
         }
-        return commentService.createComment(memberPk, articlePk, content);
+        return commentService.createComment(SecurityUtil.getMemberPk(true), articlePk, content);
     }
 
     @PostMapping("/auth/re")
@@ -72,7 +75,7 @@ public class CommentController {
         } else if (content.isEmpty() || content.trim().isEmpty()) {
             throw new ContentException(ContentException.EMPTY_CONTENT);
         }
-        return commentService.createRecomment(memberPk, commentPk, content);
+        return commentService.createRecomment(SecurityUtil.getMemberPk(true), commentPk, content);
     }
 
     @PutMapping("/auth")
@@ -88,7 +91,7 @@ public class CommentController {
         } else if (content.length() > 1000) {
             throw new ContentException(ContentException.CONTENT_TOO_LONG);
         }
-        return commentService.updateComment(memberPk, commentPk, content);
+        return commentService.updateComment(SecurityUtil.getMemberPk(true), commentPk, content);
     }
 
     @PutMapping("/auth/re")
@@ -104,21 +107,21 @@ public class CommentController {
         } else if (content.length() > 1000) {
             throw new ContentException(ContentException.CONTENT_TOO_LONG);
         }
-        return commentService.updateRecomment(memberPk, commentPk, content);
+        return commentService.updateRecomment(SecurityUtil.getMemberPk(true), commentPk, content);
     }
 
     @DeleteMapping("/auth/{commentPk}")
     public ResponseEntity<Void> deleteComment(
             @PathVariable Long commentPk
             ) {
-        return commentService.deleteComment(memberPk, commentPk);
+        return commentService.deleteComment(SecurityUtil.getMemberPk(true), commentPk);
     }
 
     @DeleteMapping("/auth/re/{commentPk}")
     public ResponseEntity<Void> deleteRecomment(
             @PathVariable Long commentPk
             ) {
-        return commentService.deleteRecomment(memberPk, commentPk);
+        return commentService.deleteRecomment(SecurityUtil.getMemberPk(true), commentPk);
     }
 
     @PostMapping("/auth/reaction")
@@ -132,6 +135,6 @@ public class CommentController {
         if (commentPk == null || isLike == null || isUp == null) {
             throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
         }
-        return commentService.createReaction(memberPk, commentPk, isLike, isUp);
+        return commentService.createReaction(SecurityUtil.getMemberPk(true), commentPk, isLike, isUp);
     }
 }
