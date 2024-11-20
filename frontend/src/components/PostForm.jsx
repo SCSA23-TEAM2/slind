@@ -1,7 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./css/PostForm.css";
 import { useState } from "react";
+<<<<<<< HEAD
 import useAxios from "../api/useAxios";
+=======
+import useAxios from "../useAxios";
+>>>>>>> c1d0dc29173550d38910ce44cb6974d7ed84122c
 import ImageUploader from "./Images";
 
 const PostForm = () => {
@@ -35,16 +39,22 @@ const PostForm = () => {
   };
   const ImageSave = async (fd) => {
     console.log(fd);
+<<<<<<< HEAD
     const response2 = await axios.post("/api/image/auth", fd, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+=======
+    const response2 = await axios.post("http://localhost:8080/api/image/auth", {
+      fd,
+>>>>>>> c1d0dc29173550d38910ce44cb6974d7ed84122c
     });
     console.log(response2);
   };
   const SubmitPost = async () => {
     if (PostFormInfo.state.kind == 0) {
       try {
+<<<<<<< HEAD
         const response1 = await axios.post("/api/article/auth", {
           boardPk: PostFormInfo.state.pk,
           title: title,
@@ -63,6 +73,27 @@ const PostForm = () => {
           for (const [key, value] of formData.entries()) {
             console.log(key, value);
           }
+=======
+        const response1 = await axios.post(
+          "http://localhost:8080/api/article/auth",
+          {
+            boardPk: PostFormInfo.state.pk,
+            title: title,
+            articleContent: content,
+          }
+        );
+        const Data = response1.data;
+        console.log(uploadedImages);
+        uploadedImages.map((image) => {
+          const formData = new FormData();
+          formData.append("hi", "yes");
+          formData.append("file", image);
+          formData.append("articlePk", Data.articlePk);
+          console.log("FormData entries:");
+          for (const [key, value] of formData.entries()) {
+            console.log(key, value);
+          }
+>>>>>>> c1d0dc29173550d38910ce44cb6974d7ed84122c
           ImageSave(formData);
         });
 
