@@ -35,8 +35,10 @@ const PostForm = () => {
   };
   const ImageSave = async (fd) => {
     console.log(fd);
-    const response2 = await axios.post("http://localhost:8080/api/image/auth", {
-      fd,
+    const response2 = await axios.post("/api/image/auth", fd, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     console.log(response2);
   };
@@ -55,6 +57,8 @@ const PostForm = () => {
           formData.append("hi", "yes");
           formData.append("file", image);
           formData.append("articlePk", Data.articlePk);
+          console.log(image);
+          console.log(Data.articlePk);
           console.log("FormData entries:");
           for (const [key, value] of formData.entries()) {
             console.log(key, value);
