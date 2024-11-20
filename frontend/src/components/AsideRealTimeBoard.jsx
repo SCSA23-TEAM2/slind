@@ -1,16 +1,18 @@
 import "./css/AsideRealTimeBoard.css";
 import Info from "./iconFolder/Info";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import httpAxios from "../api/httpAxios";
 import { useState, useRef, useEffect } from "react";
 const AsideRealTimeBoard = () => {
+  const axios = httpAxios;
+  const idRef = useRef(0);
   const [currentTop10, setCurrentTop10] = useState([]);
 
   const AxiosGetTop10 = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/board");
+      const response = await axios.get("/api/article/hot");
       //response 데이터를 받아서 currentTop10에 넣음
-
+      setCurrentTop10(response.data);
       //item당 받아야할 정보
       // boardName: item.boardTitle,
       // articlePk: item.articlePk,
@@ -34,11 +36,10 @@ const AsideRealTimeBoard = () => {
       <div className="realtimeboard-content">
         <ul className="board-content-wrapper">
           {currentTop10.map((item, index) => (
-            <li className="content-item">
+            <li key={idRef.current++} className="content-item">
               <div className="item-order">{index + 1}</div>
               <div className="item-value">
                 <Link
-                  key={idRef.current++}
                   className="Nav-board-item"
                   to={`/board/${item.boardTitle}`}
                   state={{
@@ -47,7 +48,7 @@ const AsideRealTimeBoard = () => {
                     kind: 0,
                   }}
                 >
-                  <li>{item.articleTitle}</li>
+                  <div>{item.articleTitle}</div>
                 </Link>
               </div>
             </li>
