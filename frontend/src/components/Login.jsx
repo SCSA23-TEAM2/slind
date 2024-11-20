@@ -3,8 +3,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/RealLogoWithoutBackground.png";
 import { useAuth } from "../AuthContext";
-import axios from "axios";
+import httpAxios from "../api/httpAxios";
 const Login = () => {
+  const axios = httpAxios;
   const { login } = useAuth();
   const navigate = useNavigate();
   const [input, setInput] = useState({
@@ -12,7 +13,6 @@ const Login = () => {
     memberPassword: "",
   });
   const onChange = (e) => {
-    console.log(e.target.name, e.target.value);
     setInput({
       ...input,
       [e.target.name]: e.target.value,
@@ -24,7 +24,6 @@ const Login = () => {
     }
   };
   const Login = async () => {
-    console.log(input);
     try {
       const response = await axios.post(
         "/api/login",
@@ -32,7 +31,6 @@ const Login = () => {
       );
 
       const tokens = response.data; // Assumes the response contains access_token and refresh_token
-      console.log(tokens);
       login(tokens); // Set the tokens in context and localStorage
 
       // Redirect or do something after login

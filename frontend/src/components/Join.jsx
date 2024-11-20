@@ -1,5 +1,5 @@
 import "./css/Join.css";
-import axios from "axios";
+import httpAxios from "../api/httpAxios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate  } from "react-router-dom";
 import Logo from "../assets/RealLogoWithoutBackground.png";
@@ -8,6 +8,7 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 
 const Join = () => {
+  const axios = httpAxios;
   const navigate = useNavigate(); 
 
   const [curOption, setCurOption] = useState("선택하세요");

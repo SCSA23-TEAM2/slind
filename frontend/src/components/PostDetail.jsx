@@ -13,8 +13,13 @@ import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import useAxios from "../api/useAxios";
 import axios from "../api/httpAxios";
+import { useAuth } from "../AuthContext"; // AuthContext import 추가
+
 const PostDetail = () => {
   const navigate = useNavigate();
+  const { accessToken } = useAuth(); // accessToken 가져오기
+
+
   const customAxios = useAxios();
   const PostLocation = useLocation();
   const PostInfo = PostLocation.state;
@@ -112,6 +117,12 @@ const PostDetail = () => {
   };
   const gotoSuitForm = () => {
     console.log(postInfo);
+    if (!accessToken) {
+      // accessToken이 없으면 로그인 페이지로 이동
+      alert("로그인이 필요합니다.");
+      navigate("/Login");
+      return;
+    }
     navigate(`/board/PeopleCourt/write`, {
       state: {
         pk: postInfo.articlePk,
@@ -217,6 +228,12 @@ const PostDetail = () => {
   };
 
   const onSubmitComment = async (commentContent) => {
+    if (!accessToken) {
+      // accessToken이 없으면 로그인 페이지로 이동
+      alert("로그인이 필요합니다.");
+      navigate("/Login");
+      return;
+    }
     console.log("content: ", commentContent);
     const response = await customAxios.post(
       "/api/comment/auth",

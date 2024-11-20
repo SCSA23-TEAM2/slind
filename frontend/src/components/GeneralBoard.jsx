@@ -12,9 +12,13 @@ import View from "./iconFolder/View";
 import Pagenation from "./Pagenation";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import { useAuth } from "../AuthContext"; // AuthContext 추가
+
 
 const GeneralBoard = () => {
   const axios = httpAxios;
+  const { accessToken } = useAuth(); // JWT 토큰 가져오기
+
   const navigate = useNavigate();
   const WhichBoard = useLocation();
   const infoBoard = WhichBoard.state;
@@ -69,6 +73,12 @@ const GeneralBoard = () => {
 
   // console.log(BoardPosts)
   const gotoPostForm = () => {
+    if (!accessToken) {
+      // JWT 토큰이 없으면 로그인 페이지로 이동
+      alert("로그인이 필요합니다.");
+      navigate("/Login");
+      return;
+    }
     navigate(`/board/${infoBoard.boardName}/write`, {
       state: {
         pk: infoBoard.boardPk,
@@ -81,6 +91,12 @@ const GeneralBoard = () => {
   };
 
   const gotoSuitForm = () => {
+    if (!accessToken) {
+      // JWT 토큰이 없으면 로그인 페이지로 이동
+      alert("로그인이 필요합니다.");
+      navigate("/Login");
+      return;
+    }
     navigate(`/board/PeopleCourt/write`, {
       state: {
         pk: infoBoard.boardPk,
