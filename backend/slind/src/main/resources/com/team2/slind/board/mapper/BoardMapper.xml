@@ -40,14 +40,14 @@
     <select id="findListByMemberPk" resultType="Board">
         SELECT board_pk, title, created_dttm
         FROM tbl_board
-        WHERE member_pk = #{memberPk} AND board_pk  &lt; #{lastPk}
+        WHERE member_pk = #{memberPk} AND board_pk  &lt; #{lastPk} and is_deleted = 0
         ORDER BY board_pk DESC
         FETCH FIRST #{size}+1 ROWS ONLY
     </select>
     <select id="findListByMemberPkFirst" resultType="Board">
         SELECT board_pk, title, created_dttm
         FROM tbl_board
-        WHERE member_pk = #{memberPk}
+        WHERE member_pk = #{memberPk} and is_deleted = 0
         ORDER BY board_pk DESC
         FETCH FIRST #{size}+1 ROWS ONLY
     </select>

@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -266,20 +265,20 @@ public class ArticleService {
                 .hasNext(hasNext)
                 .build());
     }
-
+    @Transactional
     public ResponseEntity<ArticleDetailResponse> getArticleDetail(Long articlePk, Long memberPk) {
         ArticleDetailMapperDTO article = articleMapper.findArticleDetail(articlePk).orElseThrow(()->
                 new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
-        Collections Collections;
         int size = article.getComments() != null ?article.getComments().size():0;
-
+        logger.info("viewCnt : {}", article.getViewCnt());
+        logger.info("comments Size : {}", article.getComments().size());
         Optional<Boolean> reactionOpt = articleReactionMapper.FindIsLikeByArticlePkAndMemberPk(articlePk, memberPk);
         Boolean isLike = reactionOpt.orElse(false);
         Boolean isDislike = !reactionOpt.orElse(true);
         Boolean isMine = article.getMemberPk().equals(memberPk);
         Optional<Long> judgementPkOpt = judgementMapper.findPkByArticlePk(articlePk);
         Boolean isJudgement = judgementPkOpt.isPresent();
-
+        updateViewCount(articlePk);
         ArticleDetailResponse response = ArticleDetailResponse.builder()
                 .articlePk(articlePk)
                 .boardPk(article.getBoardPk()).title(article.getTitle())
@@ -290,5 +289,8 @@ public class ArticleService {
                 .isLike(isLike).isDislike(isDislike).isMine(isMine)
                 .isJudgement(isJudgement).judgementPk(judgementPkOpt.orElse(null)).build();
         return ResponseEntity.ok().body(response);
+    }
+    public void updateViewCount(Long articlePk){
+        articleMapper.updateViewCount(articlePk);
     }
 }

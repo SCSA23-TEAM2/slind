@@ -46,4 +46,5 @@ public interface ArticleMapper {
     Optional<ArticleDetailMapperDTO> findArticleDetail(@Param("articlePk") Long articlePk);
 
 
+    void updateViewCount(@Param("articlePk") Long articlePk);
 }

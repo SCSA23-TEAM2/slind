@@ -270,7 +270,7 @@ public class MemberService {
                             .articlePk(article.getArticlePk())
                             .articleTitle(article.getTitle())
                             .commentPk(comment.getCommentPk())
-                            .articleContent(comment.getCommentContent())
+                            .commentContent(comment.getCommentContent())
                             .createdDttm(comment.getCreatedDttm())
                             .build();
                 })

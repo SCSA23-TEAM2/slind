@@ -16,6 +16,6 @@ public class CommentGetResponse {
     private Long articlePk;
     private String articleTitle;
     private Long commentPk;
-    private String articleContent;
+    private String commentContent;
     private LocalDateTime createdDttm;
 }
