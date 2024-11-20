@@ -1,52 +1,95 @@
-const Images = () => {
-  const [showImages, setShowImages] = useState([]);
+import React, { useState } from "react";
 
-  // 이미지 상대경로 저장
-  const handleAddImages = (event) => {
-    const imageLists = event.target.files;
-    let imageUrlLists = [...showImages];
+const ImageUploader = ({ onImagesChange }) => {
+  const [images, setImages] = useState([]);
 
-    for (let i = 0; i < imageLists.length; i++) {
-      const currentImageUrl = URL.createObjectURL(imageLists[i]);
-      imageUrlLists.push(currentImageUrl);
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const files = Array.from(event.dataTransfer.files);
+
+    const newImages = files.filter((file) => file.type.startsWith("image/"));
+    if (images.length + newImages.length > 5) {
+      alert("최대 5개의 이미지만 업로드할 수 있습니다.");
+      return;
     }
 
-    if (imageUrlLists.length > 10) {
-      imageUrlLists = imageUrlLists.slice(0, 10);
-    }
-
-    setShowImages(imageUrlLists);
+    const imageUrls = newImages.map((file) =>
+      Object.assign(file, { preview: URL.createObjectURL(file) })
+    );
+    const updatedImages = [...images, ...imageUrls].slice(0, 5);
+    setImages(updatedImages);
+    onImagesChange(updatedImages);
   };
 
-  // X버튼 클릭 시 이미지 삭제
-  const handleDeleteImage = (id) => {
-    setShowImages(showImages.filter((_, index) => index !== id));
+  const handleRemove = (index) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+    setImages(updatedImages);
+    onImagesChange(updatedImages);
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
   };
 
   return (
-    <div className={classes.addPicture}>
-      <label
-        htmlFor="input-file"
-        className={classes.addButton}
-        onChange={handleAddImages}
+    <div>
+      <div
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        style={{
+          border: "2px dashed #ccc",
+          padding: "20px",
+          textAlign: "center",
+          cursor: "pointer",
+          marginBottom: "10px",
+        }}
       >
-        <input
-          type="file"
-          id="input-file"
-          multiple
-          className={classes.addButton}
-        />
-        <Plus fill="#646F7C" />
-        <span>사진추가</span>
-      </label>
+        이미지를 드래그 앤 드롭 하세요 (최대 5개)
+      </div>
 
-      {showImages.map((image, id) => (
-        <div className={classes.imageContainer} key={id}>
-          <img src={image} alt={`${image}-${id}`} />
-          <Delete onClick={() => handleDeleteImage(id)} />
-        </div>
-      ))}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+        {images.map((image, index) => (
+          <div
+            key={index}
+            style={{
+              position: "relative",
+              display: "inline-block",
+              width: "100px",
+              height: "100px",
+            }}
+          >
+            <img
+              src={image.preview}
+              alt={`Uploaded ${index}`}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "5px",
+              }}
+            />
+            <button
+              onClick={() => handleRemove(index)}
+              style={{
+                position: "absolute",
+                top: "-5px",
+                right: "-5px",
+                backgroundColor: "red",
+                color: "white",
+                border: "none",
+                borderRadius: "50%",
+                width: "20px",
+                height: "20px",
+                cursor: "pointer",
+              }}
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
-export default Images;
+
+export default ImageUploader;

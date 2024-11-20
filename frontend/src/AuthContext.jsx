@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   );
   console.log("처음으로 돌아간다!");
   const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("refresh_token") || null
+    localStorage.getItem("isAuthenticated") || null
   );
   // Set the tokens when the user logs in
   const login = (tokens) => {

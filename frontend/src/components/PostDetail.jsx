@@ -5,8 +5,7 @@ import PostCountsInfo from "./PostCountsInfo";
 import InputComment from "./InputComment";
 import BestComments from "./BestComments";
 import NormalComments from "./NormalComments";
-import Images from "./Images";
-
+import ImageListDisplay from "./ImageListDisplay";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -52,9 +51,7 @@ const PostDetail = () => {
     // console.log("여기다")
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
     try {
-      const response = await axios.get(
-        `/api/comment/${PI.articlePk}/best`
-      );
+      const response = await axios.get(`/api/comment/${PI.articlePk}/best`);
       const BestCommentsList = response.data;
       setStateBestComments(BestCommentsList);
       setIsLoaded(true);
@@ -84,9 +81,7 @@ const PostDetail = () => {
 
   const CallAxios = () => {
     if (PI.kind) {
-      AxiosGetapiApiArticleDetailArticlePk(
-        `/api/judgement/${PI.judgementPk}`
-      );
+      AxiosGetapiApiArticleDetailArticlePk(`/api/judgement/${PI.judgementPk}`);
     } else {
       AxiosGetapiApiArticleDetailArticlePk(
         `/api/article/detail/${PI.articlePk}`
@@ -156,73 +151,55 @@ const PostDetail = () => {
       isLike: true,
       isUp: true,
     });
-    const response = await customAxios.post(
-      "/api/article/auth/reaction",
-      {
-        articlePk: postInfo.articlePk,
-        isLike: true,
-        isUp: true,
-      }
-    );
+    const response = await customAxios.post("/api/article/auth/reaction", {
+      articlePk: postInfo.articlePk,
+      isLike: true,
+      isUp: true,
+    });
     CallAxios();
     CallBestCommentsAxios();
   };
   const IDisike = async () => {
-    const response = await customAxios.post(
-      "/api/article/auth/reaction",
-      {
-        articlePk: postInfo.articlePk,
-        isLike: false,
-        isUp: true,
-      }
-    );
+    const response = await customAxios.post("/api/article/auth/reaction", {
+      articlePk: postInfo.articlePk,
+      isLike: false,
+      isUp: true,
+    });
     CallAxios();
     CallBestCommentsAxios();
   };
   const CancelLike = async () => {
-    const response = await customAxios.post(
-      "/api/article/auth/reaction",
-      {
-        articlePk: postInfo.articlePk,
-        isLike: true,
-        isUp: false,
-      }
-    );
+    const response = await customAxios.post("/api/article/auth/reaction", {
+      articlePk: postInfo.articlePk,
+      isLike: true,
+      isUp: false,
+    });
     CallAxios();
     CallBestCommentsAxios();
   };
   const CancelDisLike = async () => {
-    const response = await customAxios.post(
-      "/api/article/auth/reaction",
-      {
-        articlePk: postInfo.articlePk,
-        isLike: false,
-        isUp: false,
-      }
-    );
+    const response = await customAxios.post("/api/article/auth/reaction", {
+      articlePk: postInfo.articlePk,
+      isLike: false,
+      isUp: false,
+    });
     CallAxios();
     CallBestCommentsAxios();
   };
   const Agree = async () => {
-    const response = await customAxios.post(
-      "/api/judgement/auth/reaction",
-      {
-        judgementPk: postInfo.judgementPk,
-        isLike: true,
-      }
-    );
+    const response = await customAxios.post("/api/judgement/auth/reaction", {
+      judgementPk: postInfo.judgementPk,
+      isLike: true,
+    });
     CallAxios();
     CallBestCommentsAxios();
   };
 
   const Oppose = async () => {
-    const response = await customAxios.post(
-      "/api/judgement/auth/reaction",
-      {
-        judgementPk: postInfo.judgementPk,
-        isLike: false,
-      }
-    );
+    const response = await customAxios.post("/api/judgement/auth/reaction", {
+      judgementPk: postInfo.judgementPk,
+      isLike: false,
+    });
     CallAxios();
     CallBestCommentsAxios();
   };
@@ -235,13 +212,10 @@ const PostDetail = () => {
       return;
     }
     console.log("content: ", commentContent);
-    const response = await customAxios.post(
-      "/api/comment/auth",
-      {
-        articlePk: postInfo.articlePk,
-        content: commentContent,
-      }
-    );
+    const response = await customAxios.post("/api/comment/auth", {
+      articlePk: postInfo.articlePk,
+      content: commentContent,
+    });
 
     const newComment = {
       articlePk: postInfo.articlePk,
@@ -252,53 +226,41 @@ const PostDetail = () => {
     // CallBestCommentsAxios();
   };
   const commentLike = async (CommentPk) => {
-    const response = await customAxios.post(
-      "/api/comment/auth/reaction",
-      {
-        commentPk: CommentPk,
-        isLike: true,
-        isUp: true,
-      }
-    );
+    const response = await customAxios.post("/api/comment/auth/reaction", {
+      commentPk: CommentPk,
+      isLike: true,
+      isUp: true,
+    });
     CallAxios();
     CallBestCommentsAxios();
     CallNormalCommentsAxios();
   };
   const commentDislike = async (CommentPk) => {
-    const response = await customAxios.post(
-      "/api/comment/auth/reaction",
-      {
-        commentPk: CommentPk,
-        isLike: false,
-        isUp: true,
-      }
-    );
+    const response = await customAxios.post("/api/comment/auth/reaction", {
+      commentPk: CommentPk,
+      isLike: false,
+      isUp: true,
+    });
     CallAxios();
     CallBestCommentsAxios();
     CallNormalCommentsAxios();
   };
   const commentCancelLike = async (CommentPk) => {
-    const response = await customAxios.post(
-      "/api/comment/auth/reaction",
-      {
-        commentPk: CommentPk,
-        isLike: true,
-        isUp: false,
-      }
-    );
+    const response = await customAxios.post("/api/comment/auth/reaction", {
+      commentPk: CommentPk,
+      isLike: true,
+      isUp: false,
+    });
     CallAxios();
     CallBestCommentsAxios();
     CallNormalCommentsAxios();
   };
   const commentCancelDislike = async (CommentPk) => {
-    const response = await customAxios.post(
-      "/api/comment/auth/reaction",
-      {
-        commentPk: CommentPk,
-        isLike: false,
-        isUp: false,
-      }
-    );
+    const response = await customAxios.post("/api/comment/auth/reaction", {
+      commentPk: CommentPk,
+      isLike: false,
+      isUp: false,
+    });
     CallAxios();
     CallBestCommentsAxios();
     CallNormalCommentsAxios();
@@ -314,6 +276,9 @@ const PostDetail = () => {
         gotoPostModifyForm={gotoPostModifyForm}
         gotoSuitForm={gotoSuitForm}
       />
+      {/* 사진 렌더링 */}
+      {!PI.kind && <ImageListDisplay aPk={PI.articlePk} />}
+
       {/* 하단, 조회수, 좋아요수,싫어요수,댓글수는 컴포넌트화 */}
       <PostCountsInfo
         {...postInfo}

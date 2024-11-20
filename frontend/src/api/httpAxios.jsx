@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const httpAxios = axios.create({
   baseURL: "http://10.10.0.160:8080/",

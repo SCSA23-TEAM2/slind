@@ -66,7 +66,10 @@ const PostCountsInfo = ({
               }
             }}
           >
-            <Like size={40} color={stateIsLike ? "red" : "#A7A9AD"}></Like>
+            <Like
+              size={stateLikeCount > 100 ? 500 : stateLikeCount * 3 + 40}
+              color={stateIsLike ? "red" : "#A7A9AD"}
+            ></Like>
           </button>
           <div>{stateLikeCount}</div>
         </div>
@@ -85,7 +88,7 @@ const PostCountsInfo = ({
             }}
           >
             <DisLike
-              size={40}
+              size={stateDislikeCount > 100 ? 500 : stateDislikeCount * 3 + 40}
               color={stateIsDislike ? "red" : "#A7A9AD"}
             ></DisLike>
           </button>
