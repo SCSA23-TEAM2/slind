@@ -276,6 +276,7 @@ public class ArticleService {
         Optional<Boolean> reactionOpt = articleReactionMapper.FindIsLikeByArticlePkAndMemberPk(articlePk, memberPk);
         Boolean isLike = reactionOpt.orElse(false);
         Boolean isDislike = !reactionOpt.orElse(true);
+        System.out.println(memberPk);
         Boolean isMine = article.getMemberPk().equals(memberPk);
         Optional<Long> judgementPkOpt = judgementMapper.findPkByArticlePk(articlePk);
         Boolean isJudgement = judgementPkOpt.isPresent();

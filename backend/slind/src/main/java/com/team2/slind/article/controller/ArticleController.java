@@ -9,9 +9,14 @@ import com.team2.slind.article.dto.response.ArticlePkResponse;
 import com.team2.slind.article.dto.response.ArticleMainResponse;
 import com.team2.slind.article.service.ArticleService;
 import com.team2.slind.common.exception.InvalidRequestException;
+import com.team2.slind.member.login.service.CustomMemberDetails;
+import com.team2.slind.security.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,29 +24,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/article")
 @RequiredArgsConstructor
+@Slf4j
 public class ArticleController {
     private final ArticleService articleService;
-    static Long memberPk = 1L;
-
     @PostMapping("/auth")
     public ResponseEntity<ArticlePkResponse> createArticle(@RequestBody BoardPkCreateUpdateRequest boardPkCreateUpdateRequest) {
-        return articleService.createArticle(boardPkCreateUpdateRequest, memberPk);
-
+        return articleService.createArticle(boardPkCreateUpdateRequest, SecurityUtil.getMemberPk());
     }
 
     @PutMapping("/auth")
     public ResponseEntity<ArticlePkResponse> updateArticle(@RequestBody ArticlePkCreateUpdateRequest articlePkCreateUpdateRequest) {
-        return articleService.updateArticle(articlePkCreateUpdateRequest, memberPk);
+        return articleService.updateArticle(articlePkCreateUpdateRequest, SecurityUtil.getMemberPk());
     }
 
     @GetMapping("/detail/{articlePk}")
     public ResponseEntity<ArticleDetailResponse> getArticleDetail(@PathVariable("articlePk") Long articlePk) {
+        Long memberPk = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            CustomMemberDetails memberDetails = (CustomMemberDetails) authentication.getPrincipal();
+            memberPk = memberDetails.getMemberPk();
+        }
         return articleService.getArticleDetail(articlePk, memberPk);
     }
 
     @DeleteMapping("/auth/{articlePk}")
     public ResponseEntity<Void> deleteArticle(@PathVariable("articlePk") Long articlePk){
-        return articleService.deleteArticle(articlePk, memberPk);
+        return articleService.deleteArticle(articlePk, SecurityUtil.getMemberPk());
     }
 
     @GetMapping("/main")
@@ -51,7 +60,7 @@ public class ArticleController {
 
     @PostMapping("/auth/reaction")
     public ResponseEntity<Void> createReaction(@RequestBody @Valid ArticleReactionRequest articleReactionRequest) {
-        return articleService.createReaction(articleReactionRequest, memberPk);
+        return articleService.createReaction(articleReactionRequest, SecurityUtil.getMemberPk());
     }
 
     @GetMapping("/{boardPk}/{sort}/{page}")

@@ -65,7 +65,7 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-//                        .requestMatchers("/**/auth/**").authenticated()
+                        .requestMatchers("/board/auth/**").authenticated()
                         .anyRequest().permitAll(    )
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -5,9 +5,13 @@ import com.team2.slind.board.dto.request.BookmarkUpdateRequest;
 import com.team2.slind.board.dto.response.BoardResponse;
 import com.team2.slind.board.service.BoardService;
 import com.team2.slind.board.service.BookmarkService;
+import com.team2.slind.member.login.service.CustomMemberDetails;
+import com.team2.slind.security.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +22,11 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    static Long memberPk = 1L;
     private final BookmarkService bookmarkService;
 
     @PostMapping("/auth")
     public ResponseEntity<Void> createBoard(@RequestBody @Valid BoardCreateRequest boardCreateRequest) {
-        return boardService.createBoard(boardCreateRequest, memberPk);
+        return boardService.createBoard(boardCreateRequest, SecurityUtil.getMemberPk());
 
     }
 
@@ -34,6 +37,12 @@ public class BoardController {
 
     @DeleteMapping("/auth/{boardPk}")
     public ResponseEntity<Void> deleteBoard(@PathVariable("boardPk") Long boardPk) {
+        Long memberPk = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication == null || !(authentication.getPrincipal() instanceof CustomMemberDetails))) {
+            CustomMemberDetails memberDetails = (CustomMemberDetails) authentication.getPrincipal();
+            memberPk = memberDetails.getMemberPk();
+        }
         return boardService.deleteBoard(boardPk, memberPk);
     }
 
@@ -44,13 +53,13 @@ public class BoardController {
 
     @GetMapping("/auth/favorite")
     public ResponseEntity<List<BoardResponse>> getBookmarkList(){
-        return boardService.getBookmarkList(memberPk);
+        return boardService.getBookmarkList(SecurityUtil.getMemberPk());
 
     }
 
     @PostMapping("/auth/favorite")
     public ResponseEntity<Void> updateBookmarkList(@RequestBody BookmarkUpdateRequest bookmarkUpdateRequest){
-        return bookmarkService.updateBookmarkList(bookmarkUpdateRequest, memberPk);
+        return bookmarkService.updateBookmarkList(bookmarkUpdateRequest, SecurityUtil.getMemberPk());
     }
 
 

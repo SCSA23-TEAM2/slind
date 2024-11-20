@@ -7,8 +7,12 @@ import com.team2.slind.comment.mapper.CommentReactionMapper;
 import com.team2.slind.comment.vo.Comment;
 import com.team2.slind.comment.vo.CommentReaction;
 import com.team2.slind.common.exception.*;
+import com.team2.slind.member.login.service.CustomMemberDetails;
+import com.team2.slind.security.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +24,9 @@ import java.util.Objects;
 public class CommentService {
     private final CommentMapper commentMapper;
     private final CommentReactionMapper commentReactionMapper;
-    private static final Long memberPk = 1L;
 
     public ResponseEntity<CommentListResponse> getCommentList(Long articlePk, Long lastCommentPk, int fetchCount) {
+        Long memberPk = SecurityUtil.getMemberPk();
         CommentListResponse response = new CommentListResponse();
         List<CommentResponse> comments = commentMapper.getCommentList(articlePk, lastCommentPk, fetchCount);
         response.setHasNext(comments.size() > fetchCount);
@@ -52,6 +56,7 @@ public class CommentService {
     }
 
     public ResponseEntity<List<CommentResponse>> getBestCommentList(Long articlePk, int fetchCount) {
+        Long memberPk = SecurityUtil.getMemberPk();
         List<CommentResponse> comment = commentMapper.getBestCommentList(articlePk, fetchCount);
         for (CommentResponse commentResponse : comment) {
             if (!commentResponse.getMemberPk().equals(memberPk)) {
@@ -74,6 +79,7 @@ public class CommentService {
     }
 
     public ResponseEntity<CommentListResponse> getRecomment(Long commentPk, Long lastCommentPk, int fetchCount) {
+        Long memberPk = SecurityUtil.getMemberPk();
         CommentListResponse response = new CommentListResponse();
         List<CommentResponse> comments = commentMapper.getRecommentList(commentPk, lastCommentPk, fetchCount);
         response.setHasNext(comments.size() > fetchCount);
