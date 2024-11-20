@@ -125,7 +125,7 @@ const Join = () => {
     setNicknameCheck(false);
 
     if (validateNickname(value)) {
-      setNicknameValidMessage("닉네임 중복확사를 해주세요.");
+      setNicknameValidMessage("닉네임 중복확인을 해주세요.");
     } else {
       setNicknameValidMessage("닉네임은 4~16자, 한글/영어/숫자만 가능합니다.");
     }
@@ -212,7 +212,7 @@ const Join = () => {
                 onBlur={() => setIsIdFocused(false)}
                 placeholder="4자~16자 (영어,숫자만)"
               />
-              <button onClick={handleIdCheck}>중복체크</button>
+              <button onClick={handleIdCheck}>중복확인</button>
             </div>
             <div className="Join-warning">{idValidMessage}</div>
           </div>
