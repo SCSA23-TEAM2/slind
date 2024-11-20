@@ -1,6 +1,7 @@
 package com.team2.slind.article.mapper;
 
 import com.team2.slind.article.dto.mapper.ArticleDetailMapperDTO;
+import com.team2.slind.article.dto.response.HotArticleResponse;
 import com.team2.slind.article.vo.Article;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
@@ -31,6 +32,7 @@ public interface ArticleMapper {
     List<Article> findByBoardPk(@Param("boardPk") Long boardPk,
                                 @Param("offset") Integer offset,
                                 @Param("articleListSize") int articleListSize);
+    List<Article> findAllByBoardPk(@Param("boardPk") Long boardPk);
     List<Article> findByBoardPkOrderByViewCount(@Param("boardPk") Long boardPk,
                                                 @Param("offset") Integer offset,
                                                 @Param("articleListSize") int articleListSize);
@@ -47,4 +49,6 @@ public interface ArticleMapper {
 
 
     void updateViewCount(@Param("articlePk") Long articlePk);
+
+    Optional<HotArticleResponse> findHotArticleResponses(@Param("articlePk") Long articlePk);
 }

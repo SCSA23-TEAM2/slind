@@ -1,5 +1,7 @@
 package com.team2.slind.board.service;
 
+import com.team2.slind.article.mapper.ArticleMapper;
+import com.team2.slind.article.vo.Article;
 import com.team2.slind.board.dto.request.BoardCreateRequest;
 import com.team2.slind.board.dto.request.BookmarkUpdateRequest;
 import com.team2.slind.board.dto.response.BoardResponse;
@@ -11,12 +13,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +29,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardMapper boardMapper;
-    private final BookmarkMapper bookmarkMapper;
+    private final ArticleMapper articleMapper;
+    private final RedisTemplate<String, String> redisTemplate;
+
     private final Logger logger = LoggerFactory.getLogger(BoardService.class);
     public ResponseEntity<Void> createBoard(BoardCreateRequest boardCreateRequest, Long memberPk) {
         logger.info("Start createBoard in BoardService");
@@ -77,6 +84,17 @@ public class BoardService {
         if (result == 0L){
             throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_BOARD);
         }
+
+        //Redis 랭킹 정리
+        // Board와 연관된 모든 Article 가져오기
+        List<Article> articles = articleMapper.findAllByBoardPk(boardPk);
+        String redisKey = "ranking:" + LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        articles.forEach(article -> {
+            String articlePk = String.valueOf(article.getArticlePk());
+            redisTemplate.opsForZSet().remove(redisKey, articlePk);
+            logger.info("Board 삭제 시 Redis Sorted Set 삭제 작업, Key : {} ", redisKey);
+        });
+
         return ResponseEntity.ok().build();
     }
 
