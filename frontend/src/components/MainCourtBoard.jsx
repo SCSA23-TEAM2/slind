@@ -1,15 +1,17 @@
 import "./css/MainCourtBoard.css";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import useAxios from "../useAxios";
+// import useAxios from "../useAxios";
 import Court from "./iconFolder/Court";
 
 import Like from "./iconFolder/Like";
 import DisLike from "./iconFolder/DisLike";
 // import Comment from "./iconFolder/Comment";
 import View from "./iconFolder/View";
+import axios from "axios";
+
 const MainCourtBoard = () => {
-  const axios = useAxios();
+  // const axios = useAxios();
   const idRef = useRef(0);
   const [courtPosts, setCourtPosts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);

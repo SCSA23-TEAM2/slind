@@ -1,10 +1,12 @@
 import "./css/MyContent.css";
 import MyContentItem from "./MyContentItem";
-import axios from "axios";
-import { useState, useEffect, } from "react";
+// import axios from "axios";
+import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import useAxios from "../useAxios";
 
-const MyContent = ({pageNum}) => {
+const MyContent = ({ pageNum }) => {
+  const axios = useAxios();
   // const [page, setPage] = useState(1); // 페이지 번호
   const [data, setData] = useState([]); // 데이터 리스트
   const [hasNext, setHasNext] = useState(true);
@@ -21,15 +23,23 @@ const MyContent = ({pageNum}) => {
   const fetchUrlByPageNum = () => {
     switch (pageNum) {
       case 3: // 내가 만든 게시판
-      return lastId ? `http://localhost:8080/api/member/auth/board/${lastId}` : `http://localhost:8080/api/member/auth/board`;
-    case 4: // 내가 쓴 글
-      return lastId ? `http://localhost:8080/api/member/auth/article/${lastId}` : `http://localhost:8080/api/member/auth/article`;
-    case 5: // 내가 쓴 댓글
-      return lastId ? `http://localhost:8080/api/member/auth/comment/${lastId}` : `http://localhost:8080/api/member/auth/comment`;
-    case 6: // 내가 쓴 댓글
-      return lastId ? `http://localhost:8080/api/member/auth/judgement/${lastId}` : `http://localhost:8080/api/member/auth/judgement`;
-    default:
-      return null;
+        return lastId
+          ? `http://localhost:8080/api/member/auth/board/${lastId}`
+          : `http://localhost:8080/api/member/auth/board`;
+      case 4: // 내가 쓴 글
+        return lastId
+          ? `http://localhost:8080/api/member/auth/article/${lastId}`
+          : `http://localhost:8080/api/member/auth/article`;
+      case 5: // 내가 쓴 댓글
+        return lastId
+          ? `http://localhost:8080/api/member/auth/comment/${lastId}`
+          : `http://localhost:8080/api/member/auth/comment`;
+      case 6: // 내가 쓴 댓글
+        return lastId
+          ? `http://localhost:8080/api/member/auth/judgement/${lastId}`
+          : `http://localhost:8080/api/member/auth/judgement`;
+      default:
+        return null;
     }
   };
 
@@ -37,7 +47,7 @@ const MyContent = ({pageNum}) => {
   const fetchData = async () => {
     if (!hasNext) return;
     const url = fetchUrlByPageNum();
-    console.log("url : " , url);
+    console.log("url : ", url);
     if (!url) return;
     // const response = await fetch(`/api/data?page=${page}`);
     // const newData = await response.json();
@@ -54,20 +64,20 @@ const MyContent = ({pageNum}) => {
         // pageNum에 따라 적절한 PK 설정
         let newLastId = null;
         switch (pageNum) {
-            case 3:
-                newLastId = lastItem.boardPk;
-                break;
-            case 4:
-                newLastId = lastItem.articlePk;
-                break;
-            case 5:
-                newLastId = lastItem.commentPk;
-                break;
-            case 6:
-                newLastId = lastItem.judgementPk;
-                break;
-            default:
-                newLastId = null;
+          case 3:
+            newLastId = lastItem.boardPk;
+            break;
+          case 4:
+            newLastId = lastItem.articlePk;
+            break;
+          case 5:
+            newLastId = lastItem.commentPk;
+            break;
+          case 6:
+            newLastId = lastItem.judgementPk;
+            break;
+          default:
+            newLastId = null;
         }
         setLastId(newLastId);
       }
@@ -78,9 +88,8 @@ const MyContent = ({pageNum}) => {
     }
   };
 
-
-   // pageNum이 변경될 때 데이터를 초기화하고 다시 가져오기
-   useEffect(() => {
+  // pageNum이 변경될 때 데이터를 초기화하고 다시 가져오기
+  useEffect(() => {
     setData([]); // 데이터 초기화
     setHasNext(true); // hasNext 초기화
     setLastId(null); // lastId 초기화
@@ -109,25 +118,41 @@ const MyContent = ({pageNum}) => {
     }
   };
 
-
   return (
     <div className="MyContent-wrapper">
       <div className="MyContent-header">
-        <h1>{pageNum===3 ? "내가 만든 게시판" : pageNum===4 ? "내가 쓴 글" : pageNum===5 ? "내가 쓴 댓글" : pageNum==6?"내가 소송한 재판":""}</h1>
+        <h1>
+          {pageNum === 3
+            ? "내가 만든 게시판"
+            : pageNum === 4
+            ? "내가 쓴 글"
+            : pageNum === 5
+            ? "내가 쓴 댓글"
+            : pageNum == 6
+            ? "내가 소송한 재판"
+            : ""}
+        </h1>
       </div>
       <div className="MyContent-content">
-      {data.length === 0 && !isLoading ? ( // 데이터가 없고 로딩 중이 아닐 때 메시지 표시
+        {data.length === 0 && !isLoading ? ( // 데이터가 없고 로딩 중이 아닐 때 메시지 표시
           <div className="empty-message">{getEmptyMessage()}</div>
         ) : (
-        <ul className="content-list">
-          {data.map((item, index) => (
-            <MyContentItem key={index} item={item} pageNum={pageNum} onDelete={(deletedItem) => {
-              setData((prevData) => prevData.filter((d) => d !== deletedItem));
-            }}/>
-          ))}
-          <div ref={ref} style={{ height: "1px" }}></div>
-        </ul>
-         )}
+          <ul className="content-list">
+            {data.map((item, index) => (
+              <MyContentItem
+                key={index}
+                item={item}
+                pageNum={pageNum}
+                onDelete={(deletedItem) => {
+                  setData((prevData) =>
+                    prevData.filter((d) => d !== deletedItem)
+                  );
+                }}
+              />
+            ))}
+            <div ref={ref} style={{ height: "1px" }}></div>
+          </ul>
+        )}
       </div>
     </div>
   );

@@ -12,14 +12,19 @@ export const AuthProvider = ({ children }) => {
   const [refreshToken, setRefreshToken] = useState(
     localStorage.getItem("refresh_token") || null
   );
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  console.log("처음으로 돌아간다!");
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("refresh_token") || null
+  );
   // Set the tokens when the user logs in
   const login = (tokens) => {
+    console.log(tokens);
     setAccessToken(tokens.access_token);
     setRefreshToken(tokens.refresh_token);
     setIsAuthenticated(true);
     localStorage.setItem("access_token", tokens.access_token);
     localStorage.setItem("refresh_token", tokens.refresh_token);
+    localStorage.setItem("isAuthenticated", true);
   };
 
   // Remove tokens on logout
@@ -29,6 +34,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    localStorage.removeItem("isAuthenticated");
   };
 
   // Return the provider wrapping the children

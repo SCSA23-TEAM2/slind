@@ -31,7 +31,7 @@ import { Link } from "react-router-dom";
 // wholeMock.push(mockitem3);
 // wholeMock.push(mockitem4);
 const Nav = () => {
-  const axios = useAxios();
+  const customAxiosaxios = useAxios();
   const idRef = useRef(0);
 
   const [originalBoardList, setOriginalBoardList] = useState([]);

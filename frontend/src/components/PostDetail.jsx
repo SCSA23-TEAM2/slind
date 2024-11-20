@@ -12,9 +12,10 @@ import { useState, useEffect } from "react";
 
 import { useInView } from "react-intersection-observer";
 import useAxios from "../useAxios";
+import axios from "axios";
 const PostDetail = () => {
   const navigate = useNavigate();
-  const axios = useAxios();
+  const customAxios = useAxios();
   const PostLocation = useLocation();
   const PostInfo = PostLocation.state;
   console.log(PostInfo);
@@ -144,7 +145,7 @@ const PostDetail = () => {
       isLike: true,
       isUp: true,
     });
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/article/auth/reaction",
       {
         articlePk: postInfo.articlePk,
@@ -156,7 +157,7 @@ const PostDetail = () => {
     CallBestCommentsAxios();
   };
   const IDisike = async () => {
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/article/auth/reaction",
       {
         articlePk: postInfo.articlePk,
@@ -168,7 +169,7 @@ const PostDetail = () => {
     CallBestCommentsAxios();
   };
   const CancelLike = async () => {
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/article/auth/reaction",
       {
         articlePk: postInfo.articlePk,
@@ -180,7 +181,7 @@ const PostDetail = () => {
     CallBestCommentsAxios();
   };
   const CancelDisLike = async () => {
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/article/auth/reaction",
       {
         articlePk: postInfo.articlePk,
@@ -192,7 +193,7 @@ const PostDetail = () => {
     CallBestCommentsAxios();
   };
   const Agree = async () => {
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/judgement/auth/reaction",
       {
         judgementPk: postInfo.judgementPk,
@@ -204,7 +205,7 @@ const PostDetail = () => {
   };
 
   const Oppose = async () => {
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/judgement/auth/reaction",
       {
         judgementPk: postInfo.judgementPk,
@@ -217,24 +218,24 @@ const PostDetail = () => {
 
   const onSubmitComment = async (commentContent) => {
     console.log("content: ", commentContent);
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/comment/auth",
       {
         articlePk: postInfo.articlePk,
         content: commentContent,
       }
     );
-    
+
     const newComment = {
       articlePk: postInfo.articlePk,
       content: commentContent,
-    }
-    setStateNormalComments((prevComments) => [newComment, ...prevComments]);
+    };
+    // setStateNormalComments((prevComments) => [newComment, ...prevComments]);
     // CallAxios();
     // CallBestCommentsAxios();
   };
   const commentLike = async (CommentPk) => {
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/comment/auth/reaction",
       {
         commentPk: CommentPk,
@@ -246,7 +247,7 @@ const PostDetail = () => {
     CallBestCommentsAxios();
   };
   const commentDislike = async (CommentPk) => {
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/comment/auth/reaction",
       {
         commentPk: CommentPk,
@@ -258,7 +259,7 @@ const PostDetail = () => {
     CallBestCommentsAxios();
   };
   const commentCancelLike = async (CommentPk) => {
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/comment/auth/reaction",
       {
         commentPk: CommentPk,
@@ -270,7 +271,7 @@ const PostDetail = () => {
     CallBestCommentsAxios();
   };
   const commentCancelDislike = async (CommentPk) => {
-    const response = await axios.post(
+    const response = await customAxios.post(
       "http://localhost:8080/api/comment/auth/reaction",
       {
         commentPk: CommentPk,
