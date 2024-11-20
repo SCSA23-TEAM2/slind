@@ -61,7 +61,7 @@ const NormalComments = ({
     console.log(lastReplyPk, item.commentPk);
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/comment/re/${item.commentPk}?lastCommentPk=${lastReplyPk}`
+        `/api/comment/re/${item.commentPk}?lastCommentPk=${lastReplyPk}`
       );
 
       const { list, hasNext } = response.data;
@@ -98,7 +98,7 @@ const NormalComments = ({
 
     try {
       const response = await customAxios.post(
-        `http://localhost:8080/api/comment/auth/re`,
+        `/api/comment/auth/re`,
         {
           originateComment: item.commentPk,
           content: reComment,

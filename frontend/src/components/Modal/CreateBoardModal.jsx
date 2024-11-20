@@ -23,12 +23,12 @@ const Modal = (props) => {
     try {
       console.log(document.querySelector("input").value);
       const response = await axios.get(
-        "http://localhost:8080/api/board/check?title=" + document.querySelector("input").value,
+        "/api/board/check?title=" + document.querySelector("input").value,
       )
       if (response.status == 200) {
         try {
           const create_response = await axios.post(
-          "http://localhost:8080/api/board/auth",
+          "/api/board/auth",
           {
             title: document.querySelector("input").value,
           });

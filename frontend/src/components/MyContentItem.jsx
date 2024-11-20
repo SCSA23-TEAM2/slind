@@ -1,6 +1,6 @@
 import "./css/MyContentItem.css";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import useAxios from "../api/useAxios";
 import { useState } from "react";
 
 const MyContentItem = ({ pageNum, index, item, onDelete }) => {
@@ -9,6 +9,7 @@ const MyContentItem = ({ pageNum, index, item, onDelete }) => {
     if (!dateString) return "Invalid Date";
 
     const date = new Date(dateString);
+    const axios = useAxios();
 
     // 년, 월, 일, 시간, 분 추출
     const year = date.getFullYear();
@@ -31,13 +32,13 @@ const MyContentItem = ({ pageNum, index, item, onDelete }) => {
     // URL 설정
     switch (pageNum) {
       case 3:
-        url = `http://localhost:8080/api/board/auth/${item.boardPk}`;
+        url = `/api/board/auth/${item.boardPk}`;
         break;
       case 4:
-        url = `http://localhost:8080/api/article/auth/${item.articlePk}`;
+        url = `/api/article/auth/${item.articlePk}`;
         break;
       case 5:
-        url = `http://localhost:8080/api/comment/auth/${item.commentPk}`;
+        url = `/api/comment/auth/${item.commentPk}`;
         break;
       default:
         console.error("Invalid pageNum");

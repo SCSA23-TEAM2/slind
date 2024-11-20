@@ -27,7 +27,7 @@ const Login = () => {
     console.log(input);
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/login",
+        "/api/login",
         input
       );
 

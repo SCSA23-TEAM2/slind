@@ -1,5 +1,5 @@
 import "./css/MainLatestBoard.css";
-import axios from "axios";
+import httpAxios from "../api/httpAxios";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 // import useAxios from "../useAxios";
@@ -9,7 +9,7 @@ import DisLike from "./iconFolder/DisLike";
 import Comment from "./iconFolder/Comment";
 import View from "./iconFolder/View";
 const MainLatestBoard = () => {
-  // const axios = useAxios();
+  const axios = httpAxios;
   const idRef = useRef(0);
   const [latestPost, setLatestPost] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -17,7 +17,7 @@ const MainLatestBoard = () => {
     // console.log("여기다")
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/article/main"
+        "/api/article/main"
       );
       setLatestPost(response.data);
       console.log(response.data);

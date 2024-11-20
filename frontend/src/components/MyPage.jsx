@@ -2,7 +2,7 @@ import { useState, useEffect, } from "react";
 import "./css/MyPage.css";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import useAxios from "../useAxios";
+import useAxios from "../api/useAxios";
 
 const MyPage = () => {
   const [memberId, setMemberId] = useState("");
@@ -25,7 +25,7 @@ const MyPage = () => {
   // 초기 개인정보 불러오기
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/member/auth/mypage")
+      .get("api/member/auth/mypage")
       .then((response) => {
         const { memberId, nickname, question, answer } = response.data;
         setMemberId(memberId);
@@ -34,7 +34,7 @@ const MyPage = () => {
 
         // 초기 질문 데이터를 설정
         axios
-          .get("http://localhost:8080/api/question")
+          .get("/api/question")
           .then((questionResponse) => {
             const questionList = questionResponse.data;
             setQuestions(questionList);
@@ -87,7 +87,7 @@ const MyPage = () => {
   
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/member/check-nickname?nickname=${nickname}`
+          `/api/member/check-nickname?nickname=${nickname}`
         );
         if (response.status === 200) {
           setNicknameMessage("사용 가능한 닉네임입니다.");
@@ -140,7 +140,7 @@ const MyPage = () => {
       answer,
     };
     axios
-      .put("http://localhost:8080/api/member/auth/mypage", payload)
+      .put("/api/member/auth/mypage", payload)
       .then(() => {
         alert("내 정보 변경이 완료되었습니다.");
       })

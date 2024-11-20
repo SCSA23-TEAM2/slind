@@ -1,7 +1,8 @@
 import "./css/Nav.css";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import useAxios from "../useAxios";
+import httpAxios from "../api/httpAxios";
+import useAxios from "../api/useAxios";
 // import BookMark from "./icon/BookMark";
 import Modal from "./Modal/CreateBoardModal";
 import { Link } from "react-router-dom";
@@ -41,7 +42,7 @@ const Nav = () => {
   const AxiosGetApiBoard = async () => {
     console.log("여기다");
     try {
-      const response = await axios.get("http://localhost:8080/api/board");
+      const response = await httpAxios.get("/api/board");
       setOriginalBoardList(response.data);
       console.log(response.data);
       setViewBoard(response.data);
