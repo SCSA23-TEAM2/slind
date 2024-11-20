@@ -5,7 +5,6 @@ import PostCountsInfo from "./PostCountsInfo";
 import InputComment from "./InputComment";
 import BestComments from "./BestComments";
 import NormalComments from "./NormalComments";
-import Images from "./Images";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";

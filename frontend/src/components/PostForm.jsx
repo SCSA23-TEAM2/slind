@@ -2,9 +2,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./css/PostForm.css";
 import { useState } from "react";
 import useAxios from "../api/useAxios";
-import Images from "./Images";
+import ImageUploader from "./Images";
 
 const PostForm = () => {
+  const [uploadedImages, setUploadedImages] = useState([]);
   const navigate = useNavigate();
   const axios = useAxios();
   const PostFormInfo = useLocation();
@@ -14,6 +15,12 @@ const PostForm = () => {
   const [content, setContent] = useState(PostFormInfo.state.articleContent);
   const [board, setBoard] = useState(PostFormInfo.state.Name);
   const [title, setTitle] = useState(PostFormInfo.state.title);
+
+  const handleImagesChange = (images) => {
+    setUploadedImages(images);
+    // console.log(images);
+    // console.log(uploadedImages);
+  };
 
   const contentLengthLimit = 2000;
   // console.log(PostFormInfo.state);
@@ -26,17 +33,35 @@ const PostForm = () => {
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
   };
+  const ImageSave = async (fd) => {
+    console.log(fd);
+    const response2 = await axios.post("http://localhost:8080/api/image/auth", {
+      fd,
+    });
+    console.log(response2);
+  };
   const SubmitPost = async () => {
     if (PostFormInfo.state.kind == 0) {
       try {
-        const response = await axios.post(
-          "/api/article/auth",
-          {
-            boardPk: PostFormInfo.state.pk,
-            title: title,
-            articleContent: content,
+        const response1 = await axios.post("/api/article/auth", {
+          boardPk: PostFormInfo.state.pk,
+          title: title,
+          articleContent: content,
+        });
+        const Data = response1.data;
+        console.log(uploadedImages);
+        uploadedImages.map((image) => {
+          const formData = new FormData();
+          formData.append("hi", "yes");
+          formData.append("file", image);
+          formData.append("articlePk", Data.articlePk);
+          console.log("FormData entries:");
+          for (const [key, value] of formData.entries()) {
+            console.log(key, value);
           }
-        );
+          ImageSave(formData);
+        });
+
         navigate(`/board/${board}`, {
           state: {
             boardPk: PostFormInfo.state.pk,
@@ -51,14 +76,11 @@ const PostForm = () => {
       console.log(content);
       console.log(title);
       try {
-        const response = await axios.put(
-          "/api/article/auth",
-          {
-            articlePk: PostFormInfo.state.pk,
-            title: title,
-            articleContent: content,
-          }
-        );
+        const response = await axios.put("/api/article/auth", {
+          articlePk: PostFormInfo.state.pk,
+          title: title,
+          articleContent: content,
+        });
         navigate(`/board/${board}/Post/${title}`, {
           state: {
             articlePk: response.data.articlePk,
@@ -73,14 +95,11 @@ const PostForm = () => {
       console.log(PostFormInfo.state);
       try {
         if (PostFormInfo.state.kind == 1) {
-          const response = await axios.post(
-            "/api/judgement/auth/article",
-            {
-              articlePk: PostFormInfo.state.pk,
-              title: title,
-              articleContent: content,
-            }
-          );
+          const response = await axios.post("/api/judgement/auth/article", {
+            articlePk: PostFormInfo.state.pk,
+            title: title,
+            articleContent: content,
+          });
           navigate("/board/PeopleCourt", {
             state: {
               kind: 1,
@@ -88,14 +107,11 @@ const PostForm = () => {
           });
         } else {
           console.log(PostFormInfo.state);
-          const response = await axios.post(
-            "/api/judgement/auth/board",
-            {
-              boardPk: PostFormInfo.state.pk,
-              title: title,
-              articleContent: content,
-            }
-          );
+          const response = await axios.post("/api/judgement/auth/board", {
+            boardPk: PostFormInfo.state.pk,
+            title: title,
+            articleContent: content,
+          });
           navigate("/board/PeopleCourt", {
             state: {
               kind: 1,
@@ -149,7 +165,9 @@ const PostForm = () => {
           id=""
           placeholder="본문 작성(최대 4000자)"
         ></textarea>
-        {/* <Images /> */}
+        {PostFormInfo.state.kind % 2 == 0 && (
+          <ImageUploader onImagesChange={handleImagesChange} />
+        )}
         <div className="PostForm-length">
           {contentLength}/{contentLengthLimit}
         </div>
