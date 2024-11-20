@@ -17,7 +17,7 @@ public class SecurityUtil {
     }
 
     // memberPk 가져오기
-    public static Long getMemberPk(@Nullable Boolean isNeeded) {
+    public static Long getMemberPk(Boolean isNeeded) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !(authentication.getPrincipal() instanceof CustomMemberDetails)) {
             if (isNeeded) {

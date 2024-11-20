@@ -37,13 +37,7 @@ public class BoardController {
 
     @DeleteMapping("/auth/{boardPk}")
     public ResponseEntity<Void> deleteBoard(@PathVariable("boardPk") Long boardPk) {
-        Long memberPk = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication == null || !(authentication.getPrincipal() instanceof CustomMemberDetails))) {
-            CustomMemberDetails memberDetails = (CustomMemberDetails) authentication.getPrincipal();
-            memberPk = memberDetails.getMemberPk();
-        }
-        return boardService.deleteBoard(boardPk, memberPk);
+        return boardService.deleteBoard(boardPk, SecurityUtil.getMemberPk(true));
     }
 
     @GetMapping

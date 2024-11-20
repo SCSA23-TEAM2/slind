@@ -39,12 +39,7 @@ public class ArticleController {
 
     @GetMapping("/detail/{articlePk}")
     public ResponseEntity<ArticleDetailResponse> getArticleDetail(@PathVariable("articlePk") Long articlePk) {
-        Long memberPk = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            CustomMemberDetails memberDetails = (CustomMemberDetails) authentication.getPrincipal();
-            memberPk = memberDetails.getMemberPk();
-        }
+        Long memberPk = SecurityUtil.getMemberPk(false);
         return articleService.getArticleDetail(articlePk, memberPk);
     }
 

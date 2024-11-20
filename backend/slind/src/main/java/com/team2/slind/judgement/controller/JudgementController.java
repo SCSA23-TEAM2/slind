@@ -52,13 +52,7 @@ public class JudgementController {
     @GetMapping("/{judgementPk}")
     public ResponseEntity<JudgementDetailResponse> getJudgementDetail(
             @PathVariable("judgementPk") Long judgementPk) {
-        Long memberPk = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CustomMemberDetails) {
-            CustomMemberDetails memberDetails = (CustomMemberDetails) authentication.getPrincipal();
-            memberPk = memberDetails.getMemberPk();
-        }
-        return judgementService.getJudgementDetail(judgementPk, memberPk);
+        return judgementService.getJudgementDetail(judgementPk, SecurityUtil.getMemberPk(false));
 
     }
 
