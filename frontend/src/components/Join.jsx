@@ -33,7 +33,7 @@ const Join = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/question");
+        const response = await axios.get("/api/question");
         const questionData = response.data;
 
         const questionTexts = questionData.map((item) => item.questionText);
@@ -92,7 +92,7 @@ const Join = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/member/check-id?memberId=${memberId}`
+        `/api/member/check-id?memberId=${memberId}`
       );
       if (response.status === 200) {
         setIdValidMessage("사용 가능한 아이디입니다.");
@@ -139,7 +139,7 @@ const Join = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/member/check-nickname?nickname=${nickname}`
+        `/api/member/check-nickname?nickname=${nickname}`
       );
       if (response.status === 200) {
         setNicknameValidMessage("사용 가능한 닉네임입니다.");
@@ -176,7 +176,7 @@ const Join = () => {
           answer: pwdAnswer,
           questionPk: Number(questionPk),
         };
-        const response = await axios.post("http://localhost:8080/api/member/signup", data);
+        const response = await axios.post("/api/member/signup", data);
         if (response.status === 200) {
           alert("회원가입 성공!");
           navigate("/Login");

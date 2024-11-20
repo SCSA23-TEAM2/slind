@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./css/PostForm.css";
 import { useState } from "react";
-import useAxios from "../useAxios";
+import useAxios from "../api/useAxios";
 import Images from "./Images";
 
 const PostForm = () => {
@@ -30,7 +30,7 @@ const PostForm = () => {
     if (PostFormInfo.state.kind == 0) {
       try {
         const response = await axios.post(
-          "http://localhost:8080/api/article/auth",
+          "/api/article/auth",
           {
             boardPk: PostFormInfo.state.pk,
             title: title,
@@ -52,7 +52,7 @@ const PostForm = () => {
       console.log(title);
       try {
         const response = await axios.put(
-          "http://localhost:8080/api/article/auth",
+          "/api/article/auth",
           {
             articlePk: PostFormInfo.state.pk,
             title: title,
@@ -74,7 +74,7 @@ const PostForm = () => {
       try {
         if (PostFormInfo.state.kind == 1) {
           const response = await axios.post(
-            "http://localhost:8080/api/judgement/auth/article",
+            "/api/judgement/auth/article",
             {
               articlePk: PostFormInfo.state.pk,
               title: title,
@@ -89,7 +89,7 @@ const PostForm = () => {
         } else {
           console.log(PostFormInfo.state);
           const response = await axios.post(
-            "http://localhost:8080/api/judgement/auth/board",
+            "/api/judgement/auth/board",
             {
               boardPk: PostFormInfo.state.pk,
               title: title,

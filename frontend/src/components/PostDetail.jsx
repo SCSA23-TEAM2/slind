@@ -11,8 +11,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import { useInView } from "react-intersection-observer";
-import useAxios from "../useAxios";
-import axios from "axios";
+import useAxios from "../api/useAxios";
+import axios from "../api/httpAxios";
 const PostDetail = () => {
   const navigate = useNavigate();
   const customAxios = useAxios();
@@ -48,7 +48,7 @@ const PostDetail = () => {
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/comment/${PI.articlePk}/best`
+        `/api/comment/${PI.articlePk}/best`
       );
       const BestCommentsList = response.data;
       setStateBestComments(BestCommentsList);
@@ -63,7 +63,7 @@ const PostDetail = () => {
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/comment/${PI.articlePk}?lastCommentPk=${lastnum}`
+        `/api/comment/${PI.articlePk}?lastCommentPk=${lastnum}`
       );
       const NomalCommentsList = response.data;
       setStateNormalComments((prevData) => [
@@ -80,11 +80,11 @@ const PostDetail = () => {
   const CallAxios = () => {
     if (PI.kind) {
       AxiosGetapiApiArticleDetailArticlePk(
-        `http://localhost:8080/api/judgement/${PI.judgementPk}`
+        `/api/judgement/${PI.judgementPk}`
       );
     } else {
       AxiosGetapiApiArticleDetailArticlePk(
-        `http://localhost:8080/api/article/detail/${PI.articlePk}`
+        `/api/article/detail/${PI.articlePk}`
       );
     }
   };
@@ -146,7 +146,7 @@ const PostDetail = () => {
       isUp: true,
     });
     const response = await customAxios.post(
-      "http://localhost:8080/api/article/auth/reaction",
+      "/api/article/auth/reaction",
       {
         articlePk: postInfo.articlePk,
         isLike: true,
@@ -158,7 +158,7 @@ const PostDetail = () => {
   };
   const IDisike = async () => {
     const response = await customAxios.post(
-      "http://localhost:8080/api/article/auth/reaction",
+      "/api/article/auth/reaction",
       {
         articlePk: postInfo.articlePk,
         isLike: false,
@@ -170,7 +170,7 @@ const PostDetail = () => {
   };
   const CancelLike = async () => {
     const response = await customAxios.post(
-      "http://localhost:8080/api/article/auth/reaction",
+      "/api/article/auth/reaction",
       {
         articlePk: postInfo.articlePk,
         isLike: true,
@@ -182,7 +182,7 @@ const PostDetail = () => {
   };
   const CancelDisLike = async () => {
     const response = await customAxios.post(
-      "http://localhost:8080/api/article/auth/reaction",
+      "/api/article/auth/reaction",
       {
         articlePk: postInfo.articlePk,
         isLike: false,
@@ -194,7 +194,7 @@ const PostDetail = () => {
   };
   const Agree = async () => {
     const response = await customAxios.post(
-      "http://localhost:8080/api/judgement/auth/reaction",
+      "/api/judgement/auth/reaction",
       {
         judgementPk: postInfo.judgementPk,
         isLike: true,
@@ -206,7 +206,7 @@ const PostDetail = () => {
 
   const Oppose = async () => {
     const response = await customAxios.post(
-      "http://localhost:8080/api/judgement/auth/reaction",
+      "/api/judgement/auth/reaction",
       {
         judgementPk: postInfo.judgementPk,
         isLike: false,
@@ -219,7 +219,7 @@ const PostDetail = () => {
   const onSubmitComment = async (commentContent) => {
     console.log("content: ", commentContent);
     const response = await customAxios.post(
-      "http://localhost:8080/api/comment/auth",
+      "/api/comment/auth",
       {
         articlePk: postInfo.articlePk,
         content: commentContent,
@@ -236,7 +236,7 @@ const PostDetail = () => {
   };
   const commentLike = async (CommentPk) => {
     const response = await customAxios.post(
-      "http://localhost:8080/api/comment/auth/reaction",
+      "/api/comment/auth/reaction",
       {
         commentPk: CommentPk,
         isLike: true,
@@ -249,7 +249,7 @@ const PostDetail = () => {
   };
   const commentDislike = async (CommentPk) => {
     const response = await customAxios.post(
-      "http://localhost:8080/api/comment/auth/reaction",
+      "/api/comment/auth/reaction",
       {
         commentPk: CommentPk,
         isLike: false,
@@ -262,7 +262,7 @@ const PostDetail = () => {
   };
   const commentCancelLike = async (CommentPk) => {
     const response = await customAxios.post(
-      "http://localhost:8080/api/comment/auth/reaction",
+      "/api/comment/auth/reaction",
       {
         commentPk: CommentPk,
         isLike: true,
@@ -275,7 +275,7 @@ const PostDetail = () => {
   };
   const commentCancelDislike = async (CommentPk) => {
     const response = await customAxios.post(
-      "http://localhost:8080/api/comment/auth/reaction",
+      "/api/comment/auth/reaction",
       {
         commentPk: CommentPk,
         isLike: false,

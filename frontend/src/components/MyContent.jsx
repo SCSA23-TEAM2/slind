@@ -3,7 +3,7 @@ import MyContentItem from "./MyContentItem";
 // import axios from "axios";
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import useAxios from "../useAxios";
+import useAxios from "../api/useAxios";
 
 const MyContent = ({ pageNum }) => {
   const axios = useAxios();
@@ -24,20 +24,20 @@ const MyContent = ({ pageNum }) => {
     switch (pageNum) {
       case 3: // 내가 만든 게시판
         return lastId
-          ? `http://localhost:8080/api/member/auth/board/${lastId}`
-          : `http://localhost:8080/api/member/auth/board`;
+          ? `/api/member/auth/board/${lastId}`
+          : `/api/member/auth/board`;
       case 4: // 내가 쓴 글
         return lastId
-          ? `http://localhost:8080/api/member/auth/article/${lastId}`
-          : `http://localhost:8080/api/member/auth/article`;
+          ? `/api/member/auth/article/${lastId}`
+          : `/api/member/auth/article`;
       case 5: // 내가 쓴 댓글
         return lastId
-          ? `http://localhost:8080/api/member/auth/comment/${lastId}`
-          : `http://localhost:8080/api/member/auth/comment`;
+          ? `/api/member/auth/comment/${lastId}`
+          : `/api/member/auth/comment`;
       case 6: // 내가 쓴 댓글
         return lastId
-          ? `http://localhost:8080/api/member/auth/judgement/${lastId}`
-          : `http://localhost:8080/api/member/auth/judgement`;
+          ? `/api/member/auth/judgement/${lastId}`
+          : `/api/member/auth/judgement`;
       default:
         return null;
     }

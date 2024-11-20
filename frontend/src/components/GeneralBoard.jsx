@@ -2,7 +2,8 @@ import "./css/GeneralBoard.css";
 
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import httpAxios from "../api/httpAxios";
+;
 import BoardIcon from "./iconFolder/BoardIcon";
 import Like from "./iconFolder/Like";
 import DisLike from "./iconFolder/DisLike";
@@ -13,6 +14,7 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 
 const GeneralBoard = () => {
+  const axios = httpAxios;
   const navigate = useNavigate();
   const WhichBoard = useLocation();
   const infoBoard = WhichBoard.state;
@@ -27,7 +29,7 @@ const GeneralBoard = () => {
     // console.log("여기다")
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
     try {
-      const response = await axios.get(address);
+      const response = await httpAxios.get(address);
       const { list, ...paginationData } = response.data;
       setLBoardPosts(list);
       setPageData(paginationData);
@@ -43,12 +45,12 @@ const GeneralBoard = () => {
     // console.log(curOption);
     if (infoBoard.kind) {
       AxiosGetapiArticleBoardPkSortPage(
-        `http://localhost:8080/api/judgement/${options[curOption]}/${pagenum}`
+        `/api/judgement/${options[curOption]}/${pagenum}`
       );
     } else {
       console.log("wowow");
       AxiosGetapiArticleBoardPkSortPage(
-        `http://localhost:8080/api/article/${infoBoard.boardPk}/${options[curOption]}/${pagenum}`
+        `/api/article/${infoBoard.boardPk}/${options[curOption]}/${pagenum}`
       );
     }
   };
