@@ -40,7 +40,7 @@ public class CommentController {
             @PathVariable Long commentPk,
             @RequestParam(value = "lastCommentPk") Long lastCommentPk
             ) {
-        return commentService.getRecomment(commentPk, lastCommentPk, 1);
+        return commentService.getRecomment(commentPk, lastCommentPk, 3);
     }
 
     @PostMapping("/auth")
