@@ -85,6 +85,14 @@
         status = 'LOSE'
         WHERE judgement_pk = #{judgementPk}
     </update>
+    <update id="updateLikeCount">
+        UPDATE tbl_judgement SET like_count = like_count + 1
+        WHERE judgement_pk = #{judgementPk}
+    </update>
+    <update id="updateDislikeCount">
+        UPDATE tbl_judgement SET dislike_count = dislike_count + 1
+        WHERE judgement_pk = #{judgementPk}
+    </update>
     <select id="findList" resultMap="judgementMap">
         SELECT *
         FROM (

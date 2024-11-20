@@ -42,4 +42,7 @@ public interface JudgementMapper {
     Long findTotalRecords();
     Optional<Long> findPkByArticlePk(@Param("articlePk") Long articlePk);
 
+    void updateLikeCount(Long judgementPk);
+
+    void updateDislikeCount(Long judgementPk);
 }

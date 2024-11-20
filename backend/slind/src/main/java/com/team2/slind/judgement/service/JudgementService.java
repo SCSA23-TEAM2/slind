@@ -151,8 +151,12 @@ public class JudgementService {
         JudgementReaction judgementReaction = JudgementReaction.builder().memberPk(memberPk)
                 .judgementPk(judgementPk).isLike(judgementReactionRequest.getIsLike()).build();
         judgementReactionMapper.addJudgementReaction(judgementReaction);
+        if (judgementReactionRequest.getIsLike()) {
+            judgementMapper.updateLikeCount(judgementPk);
+        } else {
+            judgementMapper.updateDislikeCount(judgementPk);
+        }
         return ResponseEntity.ok().build();
-
     }
 
     public ResponseEntity<JudgementListResponse> getJudgementList(Integer sort, Integer page) {
