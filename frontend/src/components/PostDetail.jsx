@@ -245,6 +245,7 @@ const PostDetail = () => {
     );
     CallAxios();
     CallBestCommentsAxios();
+    CallNormalCommentsAxios();
   };
   const commentDislike = async (CommentPk) => {
     const response = await customAxios.post(
@@ -257,6 +258,7 @@ const PostDetail = () => {
     );
     CallAxios();
     CallBestCommentsAxios();
+    CallNormalCommentsAxios();
   };
   const commentCancelLike = async (CommentPk) => {
     const response = await customAxios.post(
@@ -269,6 +271,7 @@ const PostDetail = () => {
     );
     CallAxios();
     CallBestCommentsAxios();
+    CallNormalCommentsAxios();
   };
   const commentCancelDislike = async (CommentPk) => {
     const response = await customAxios.post(
@@ -281,6 +284,7 @@ const PostDetail = () => {
     );
     CallAxios();
     CallBestCommentsAxios();
+    CallNormalCommentsAxios();
   };
 
   return (
