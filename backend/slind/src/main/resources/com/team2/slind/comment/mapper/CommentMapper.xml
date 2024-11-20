@@ -42,7 +42,7 @@
         SELECT * FROM tbl_comment c
         JOIN tbl_article a ON c.article_pk = a.article_pk AND a.is_deleted = 0 <!-- a.is_deleted = 0 조건 추가 -->
         JOIN tbl_board b ON a.board_pk = b.board_pk AND b.is_deleted = 0 <!-- b.is_deleted = 0 조건 추가 -->
-        WHERE comment_pk=#{commentPk}
+        WHERE comment_pk=#{commentPk} AND c.is_deleted=0
     </select>
     <select id="getCommentList" resultType="com.team2.slind.comment.dto.response.CommentResponse">
         SELECT * FROM (
@@ -58,7 +58,7 @@
             JOIN tbl_member m ON c.member_pk = m.member_pk
             JOIN tbl_article a ON c.article_pk = a.article_pk AND a.is_deleted = 0 <!-- a.is_deleted = 0 조건 추가 -->
             JOIN tbl_board b ON a.board_pk = b.board_pk AND b.is_deleted = 0 <!-- b.is_deleted = 0 조건 추가 -->
-            WHERE c.article_pk = #{articlePk} AND c.is_deleted = 0
+            WHERE c.article_pk = #{articlePk}
             AND c.comment_pk > #{lastCommentPk}
             ORDER BY c.created_dttm
         )
@@ -78,7 +78,7 @@
             JOIN tbl_article a ON c.article_pk = a.article_pk AND a.is_deleted = 0 <!-- a.is_deleted = 0 조건 추가 -->
             JOIN tbl_board b ON a.board_pk = b.board_pk AND b.is_deleted = 0 <!-- b.is_deleted = 0 조건 추가 -->
             JOIN tbl_member m ON c.member_pk = m.member_pk
-            WHERE c.article_pk = #{articlePk} AND c.is_deleted = 0
+            WHERE c.article_pk = #{articlePk}
             AND c.like_count > 0
             ORDER BY c.like_count DESC
         )
@@ -98,7 +98,7 @@
             JOIN tbl_article a ON c.article_pk = a.article_pk AND a.is_deleted = 0 <!-- a.is_deleted = 0 조건 추가 -->
             JOIN tbl_board b ON a.board_pk = b.board_pk AND b.is_deleted = 0 <!-- b.is_deleted = 0 조건 추가 -->
             JOIN tbl_member m ON c.member_pk = m.member_pk
-            WHERE c.originate_comment = #{originateComment} AND c.is_deleted = 0
+            WHERE c.originate_comment = #{originateComment}
             AND c.comment_pk > #{lastCommentPk}
             ORDER BY c.created_dttm
         )
@@ -111,8 +111,8 @@
         FROM tbl_comment c
         JOIN tbl_article a ON c.article_pk = a.article_pk
         JOIN tbl_board b ON a.board_pk = b.board_pk AND b.is_deleted = 0
-        WHERE c.is_deleted = 0
-        AND c.member_pk = #{memberPk}
+        WHERE
+        c.member_pk = #{memberPk}
         AND a.is_deleted = 0
         ORDER BY c.comment_pk DESC
         FETCH FIRST #{size} + 1 ROWS ONLY
@@ -125,7 +125,6 @@
         JOIN tbl_board b ON a.board_pk = b.board_pk AND b.is_deleted = 0
         WHERE c.comment_pk &lt; #{lastCommentPk}
         AND c.member_pk = #{memberPk}
-        AND c.is_deleted = 0
         AND a.is_deleted = 0
         ORDER BY c.comment_pk DESC
         FETCH FIRST #{size} + 1 ROWS ONLY
