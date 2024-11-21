@@ -10,19 +10,6 @@ const BestComments = ({
   commentCancelLike,
   commentCancelDislike,
 }) => {
-  console.log(item);
-  // const wow = {
-  //   commentPk: 1,
-  //   memberPk: 1,
-  //   nickname: "약간모자란놈",
-  //   content: "ㄹㅇㅋㅋ",
-  //   like: 1000,
-  //   dislike: 10000,
-  //   isDeleted: "bool",
-  //   isLike: "bool",
-  //   isDislike: "bool",
-  //   isMine: "bool",
-  // };
   const nickname = item.nickname;
   const content = item.commentContent;
   const like = item.likeCount;
@@ -51,7 +38,6 @@ const BestComments = ({
   const [stateReplyList, setStateReplyList] = useState([]);
   const [hasMore, setHasMore] = useState(true);
 
-  // const [toggle,setToggle] = useState(item.)
   useEffect(() => {
     setStateIsLike(isLike);
     setStateIsDislike(isDislike);

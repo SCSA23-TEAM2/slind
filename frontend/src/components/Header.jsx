@@ -8,7 +8,6 @@ const Header = () => {
   const { isAuthenticated, logout } = useAuth();
 
   const handleLogout = async () => {
-    console.log("wow");
     // setIsLogined(false);
     await logout(); // Remove tokens from context and localStorage
     // Redirect to login or home page

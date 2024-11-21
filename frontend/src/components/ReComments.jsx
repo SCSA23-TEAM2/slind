@@ -11,7 +11,6 @@ const ReComments = ({
   commentCancelLike,
   commentCancelDislike,
 }) => {
-  // console.log(item);
   const nickname = item.nickname;
   const content = item.commentContent;
   const like = item.likeCount;
