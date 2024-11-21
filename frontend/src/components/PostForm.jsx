@@ -23,9 +23,7 @@ const PostForm = () => {
   };
 
   const contentLengthLimit = 2000;
-  console.log(PostFormInfo.state);
   const onChange = (e) => {
-    console.log(e.target.value);
     setContent(e.target.value);
     setContentLength(e.target.value.length);
     // setContentLength(e.target.length);
@@ -34,13 +32,11 @@ const PostForm = () => {
     setTitle(e.target.value);
   };
   const ImageSave = async (fd) => {
-    console.log(fd);
     const response2 = await axios.post("/api/image/auth", fd, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(response2);
   };
   const SubmitPost = async () => {
     if (PostFormInfo.state.kind == 0) {
@@ -51,7 +47,6 @@ const PostForm = () => {
           articleContent: content,
         });
         const Data = response1.data;
-        console.log(uploadedImages);
         uploadedImages.map((image) => {
           const formData = new FormData();
           formData.append("hi", "yes");
@@ -71,8 +66,6 @@ const PostForm = () => {
         console.error();
       }
     } else if (PostFormInfo.state.kind == 2) {
-      console.log(content);
-      console.log(title);
       try {
         const response = await axios.put("/api/article/auth", {
           articlePk: PostFormInfo.state.pk,
@@ -80,7 +73,6 @@ const PostForm = () => {
           articleContent: content,
         });
         const Data = response.data;
-        console.log(uploadedImages);
         uploadedImages.map((image) => {
           const formData = new FormData();
           formData.append("file", image);
@@ -98,7 +90,6 @@ const PostForm = () => {
         console.error(error);
       }
     } else {
-      console.log(PostFormInfo.state);
       try {
         if (PostFormInfo.state.kind == 1) {
           const response = await axios.post("/api/judgement/auth/article", {
@@ -112,7 +103,6 @@ const PostForm = () => {
             },
           });
         } else {
-          console.log(PostFormInfo.state);
           const response = await axios.post("/api/judgement/auth/board", {
             boardPk: PostFormInfo.state.pk,
             title: title,

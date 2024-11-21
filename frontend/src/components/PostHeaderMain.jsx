@@ -17,7 +17,6 @@ const PostHeaderMain = ({
   gotoSuitForm,
   status,
 }) => {
-  console.log(pi);
   const ismine = isMine;
   const Title = title;
   const Nickname = nickname;
@@ -29,19 +28,7 @@ const PostHeaderMain = ({
   const BoardPk = boardPk;
   const ArticlePk = articlePk;
   const Status = status;
-  console.log(
-    ismine,
-    Title,
-    Nickname,
-    date,
-    BoardName,
-    BoardPk,
-    Content,
-    IsJudgement,
-    kind,
-    "status",
-    Status
-  );
+
   return (
     <>
       <div className="PostDetail-main-Header">

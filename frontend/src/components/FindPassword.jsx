@@ -48,7 +48,6 @@ const FindPassword = () => {
       setOkUserId(true);
       setUserIdWarning("")
     }
-    console.log(e.target.value)
     setUserId(e.target.value)
   };
 

@@ -12,7 +12,6 @@ const InputReComment = ({ postComment }) => {
   const [comment, setComment] = useState("");
 
   const onSubminComment = () => {
-    console.log(comment);
     postComment(comment);
     setComment("");
   };
@@ -28,7 +27,6 @@ const InputReComment = ({ postComment }) => {
             type="text"
             value={comment}
             onChange={(e) => {
-              console.log(e.target.value);
               setComment(e.target.value);
             }}
             placeholder="답글을 입력하세요"

@@ -47,16 +47,12 @@ const MyContent = ({ pageNum }) => {
   const fetchData = async () => {
     if (!hasNext) return;
     const url = fetchUrlByPageNum();
-    console.log("url : ", url);
     if (!url) return;
     // const response = await fetch(`/api/data?page=${page}`);
     // const newData = await response.json();
     try {
       const response = await axios.get(url);
       const { list, hasNext } = response.data;
-      console.log(response.data);
-      console.log("list : ", list);
-      console.log("hasNext : ", hasNext);
       setData((prevData) => [...prevData, ...list]);
       setHasNext(hasNext); //데이터 더 존재하는지 여부
       if (hasNext) {

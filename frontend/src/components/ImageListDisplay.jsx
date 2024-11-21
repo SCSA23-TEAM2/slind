@@ -9,12 +9,10 @@ const ImageListDisplay = ({ aPk }) => {
   //   console.log(aPk);
   const articlePk = aPk;
   const AxiosImage = async () => {
-    console.log("이미지 가자");
     try {
       const response = await axios.get(`/api/image/${articlePk}`);
       const urls = response.data;
       setImageUrls(urls);
-      console.log(urls);
       setIsLoaded(true);
     } catch (err) {
       setError("이미지를 불러오는 데 실패했습니다.");
@@ -34,7 +32,6 @@ const ImageListDisplay = ({ aPk }) => {
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
       {imageUrls.map((url, index) => {
-        console.log(`http://10.10.0.160:8080${url}`);
         return (
           <img
             key={index}

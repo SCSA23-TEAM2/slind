@@ -21,7 +21,6 @@ const PostDetail = () => {
   const customAxios = useAxios();
   const PostLocation = useLocation();
   const PostInfo = PostLocation.state;
-  console.log(PostInfo);
   const [PI, setPI] = useState(PostInfo);
   const [postInfo, setPostInfo] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
@@ -41,7 +40,6 @@ const PostDetail = () => {
       const { ...postDetailData } = response.data;
       setPostInfo(postDetailData);
       setIsLoaded(true);
-      console.log(response.data);
     } catch {
       console.error();
     }
@@ -125,7 +123,6 @@ const PostDetail = () => {
     });
   };
   const gotoSuitForm = () => {
-    console.log(postInfo);
     if (!accessToken) {
       // accessToken이 없으면 로그인 페이지로 이동
       alert("로그인이 필요합니다.");
@@ -153,18 +150,11 @@ const PostDetail = () => {
     }
     CallAxios();
     CallBestCommentsAxios();
-    console.log(PI);
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
   }, [PI, inView, stateNormalComments]);
-  console.log(postInfo);
 
   const ILike = async () => {
-    console.log({
-      articlePk: postInfo.articlePk,
-      isLike: true,
-      isUp: true,
-    });
     const response = await customAxios.post("/api/article/auth/reaction", {
       articlePk: postInfo.articlePk,
       isLike: true,
@@ -225,7 +215,6 @@ const PostDetail = () => {
       navigate("/Login");
       return;
     }
-    console.log("content: ", commentContent);
     const response = await customAxios.post("/api/comment/auth", {
       articlePk: postInfo.articlePk,
       content: commentContent,

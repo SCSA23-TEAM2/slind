@@ -18,23 +18,18 @@ const MainCourtBoard = () => {
   const [courtPosts, setCourtPosts] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const AxiosGetCourtPosts = async () => {
-    // console.log("여기다")
     try {
       const response = await axios.get(
         "/api/judgement/0/1"
       );
       setCourtPosts(response.data.list);
-      console.log(response.data);
       setIsLoaded(true);
     } catch {
       console.error();
     }
   };
   useEffect(() => {
-    // console.log("wow");
     AxiosGetCourtPosts();
-    // setData(prevData => [...prevData, ...newData]);
-    // setHasMore(newData.length > 0);
   }, []);
 
   return (

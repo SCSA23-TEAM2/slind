@@ -14,35 +14,20 @@ const MainLatestBoard = () => {
   const [latestPost, setLatestPost] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const AxiosGetlatestPost = async () => {
-    // console.log("여기다")
     try {
       const response = await axios.get(
         "/api/article/main"
       );
       setLatestPost(response.data);
-      console.log(response.data);
       setIsLoaded(true);
     } catch {
       console.error();
     }
   };
   useEffect(() => {
-    console.log("wow");
     AxiosGetlatestPost();
-    // setData(prevData => [...prevData, ...newData]);
-    // setHasMore(newData.length > 0);
   }, []);
 
-  // {
-  // 	"articlePk" : 1,
-  // 	"boardPk" : 1,
-  // 	"boardTitle" : "런닝크루",
-  // 	"articleTitle": "글 제목",
-  //       "viewCount": 100,
-  //       "likeCount" : 1000,
-  //       "dislikeCount" : 10000,
-  //       "commentCount" : 10
-  // }
   return (
     <div className="mainLatestBoard-wrapper">
       <div className="board-header">
@@ -56,7 +41,6 @@ const MainLatestBoard = () => {
       <div className="board-item-wrapper">
         <ul>
           {latestPost.map((item) => {
-            console.log(item);
             return (
               <li>
                 <div className="board-item-content">
