@@ -2,7 +2,8 @@ import "./css/GeneralBoard.css";
 
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import httpAxios from "../api/httpAxios";
+;
 import BoardIcon from "./iconFolder/BoardIcon";
 import Like from "./iconFolder/Like";
 import DisLike from "./iconFolder/DisLike";
@@ -11,8 +12,13 @@ import View from "./iconFolder/View";
 import Pagenation from "./Pagenation";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import { useAuth } from "../AuthContext"; // AuthContext 추가
+
 
 const GeneralBoard = () => {
+  const axios = httpAxios;
+  const { accessToken } = useAuth(); // JWT 토큰 가져오기
+
   const navigate = useNavigate();
   const WhichBoard = useLocation();
   const infoBoard = WhichBoard.state;
@@ -27,27 +33,28 @@ const GeneralBoard = () => {
     // console.log("여기다")
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
     try {
-      const response = await axios.get(address);
+      const response = await httpAxios.get(address);
       const { list, ...paginationData } = response.data;
       setLBoardPosts(list);
       setPageData(paginationData);
-
       setIsLoaded(true);
+      console.log(list);
     } catch {
       console.error();
     }
   };
   const CallAxios = (pagenum) => {
-    console.log(infoBoard.kind);
-    console.log(pagenum);
-    console.log(curOption);
+    // console.log(infoBoard.kind);
+    // console.log(pagenum);
+    // console.log(curOption);
     if (infoBoard.kind) {
       AxiosGetapiArticleBoardPkSortPage(
-        `http://localhost:8080/api/judgement/${options[curOption]}/${pagenum}`
+        `/api/judgement/${options[curOption]}/${pagenum}`
       );
     } else {
+      console.log("wowow");
       AxiosGetapiArticleBoardPkSortPage(
-        `http://localhost:8080/api/article/${infoBoard.boardPk}/${options[curOption]}/${pagenum}`
+        `/api/article/${infoBoard.boardPk}/${options[curOption]}/${pagenum}`
       );
     }
   };
@@ -56,7 +63,7 @@ const GeneralBoard = () => {
 
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
-  }, [axios]);
+  }, [axios, WhichBoard]);
 
   const SortPage = () => {
     CallAxios(1);
@@ -66,20 +73,37 @@ const GeneralBoard = () => {
 
   // console.log(BoardPosts)
   const gotoPostForm = () => {
+    if (!accessToken) {
+      // JWT 토큰이 없으면 로그인 페이지로 이동
+      alert("로그인이 필요합니다.");
+      navigate("/Login");
+      return;
+    }
     navigate(`/board/${infoBoard.boardName}/write`, {
       state: {
-        boardPk: infoBoard.boardPk,
-        boardName: infoBoard.boardName,
+        pk: infoBoard.boardPk,
+        Name: infoBoard.boardName,
         kind: 0,
+        title: "",
+        articleContent: "",
       },
     });
   };
 
   const gotoSuitForm = () => {
+    if (!accessToken) {
+      // JWT 토큰이 없으면 로그인 페이지로 이동
+      alert("로그인이 필요합니다.");
+      navigate("/Login");
+      return;
+    }
     navigate(`/board/PeopleCourt/write`, {
       state: {
-        boardName: "인민 재판소",
-        kind: 1,
+        pk: infoBoard.boardPk,
+        Name: infoBoard.boardName,
+        kind: 3,
+        title: "",
+        articleContent: "",
       },
     });
   };
@@ -127,14 +151,20 @@ const GeneralBoard = () => {
               return (
                 <li key={idRef.current++}>
                   <div className="board-item-content">
-                    <div className="item-board-name">{item.boardName}</div>
+                    <div className="item-board-name">
+                      {infoBoard.kind == 0
+                        ? item.boardTitle
+                        : item.boardName
+                        ? "게시판"
+                        : "게시글"}
+                    </div>
                     <div className="item-title">
                       <Link
                         to={`/board/${item.boardName}/Post/${item.title}`}
                         state={
                           infoBoard.kind == 0
                             ? {
-                                boardName: item.boardName,
+                                boardName: item.boardTitle,
                                 articlePk: item.articlePk,
 
                                 kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
@@ -145,7 +175,7 @@ const GeneralBoard = () => {
                               }
                         }
                       >
-                        {item.title}
+                        {item.title ? item.title : item.articleTitle}
                       </Link>
                     </div>
                     <div className="item-imoji-wrapper">
@@ -155,20 +185,22 @@ const GeneralBoard = () => {
                       </div>
                       <div className="item-imoji-content">
                         <Like size={20} />
-                        <div className="item-imoji-count">{item.like}</div>
+                        <div className="item-imoji-count">{item.likeCount}</div>
                       </div>
                       <div className="item-imoji-content">
                         <DisLike />
-                        <div className="item-imoji-count">{item.dislike}</div>
+                        <div className="item-imoji-count">
+                          {item.dislikeCount}
+                        </div>
                       </div>
-                      <div className="item-imoji-content">
-                        <Comment />
-                        {infoBoard.kind == 0 && (
+                      {infoBoard.kind == 0 && (
+                        <div className="item-imoji-content">
+                          <Comment />
                           <div className="item-imoji-count">
                             {item.commentCount}
                           </div>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </li>

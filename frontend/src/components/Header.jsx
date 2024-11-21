@@ -1,20 +1,19 @@
 import "./css/Header.css";
 import Logo from "../assets/RealLogoWithoutBackground.png";
-import {useState} from "react";
-import {Link,  useNavigate} from "react-router-dom";
-import { useAuth } from '../AuthContext';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 const Header = () => {
-    const navigate = useNavigate();
-    const { isAuthenticated,logout } = useAuth();
-  
-    const handleLogout = () => {
-      console.log("wow")
-      // setIsLogined(false);
-      logout(); // Remove tokens from context and localStorage
-      // Redirect to login or home page
-      navigate('/Login')
-    };
-  
+  const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
+
+  const handleLogout = async () => {
+    console.log("wow");
+    // setIsLogined(false);
+    await logout(); // Remove tokens from context and localStorage
+    // Redirect to login or home page
+    navigate("/Login");
+  };
 
   // const [isLogined, setIsLogined] = useState(true);
   // console.log("이동")
@@ -30,15 +29,23 @@ const Header = () => {
       </div>
       <div className="header-nav-wrapper">
         <ul className="header-nav-contents">
-          {isAuthenticated ?  (<><li className={"header-nav-list"}>
-            <Link onClick={handleLogout}>로그아웃</Link>
-          </li>
-          <li className="header-nav-list">
-            <Link to="/MyPage" state= {{pageNum: 1}}>마이페이지</Link>
-          </li></>) : (<li className="header-nav-list">
-            <Link to="/Login">로그인</Link>
-          </li>)}
-
+          {isAuthenticated ? (
+            <>
+              <li className={"header-nav-list"}>
+                <Link onClick={handleLogout}>로그아웃</Link>
+              </li>
+              <li className="header-nav-list">
+                <Link to="/MyPage" state={{ pageNum: 1 }}>
+                  마이페이지
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li className="header-nav-list">
+              <Link to="/Login">로그인</Link>
+            </li>
+          )}
+          <li className="header-nav-list"></li>
         </ul>
       </div>
     </div>
