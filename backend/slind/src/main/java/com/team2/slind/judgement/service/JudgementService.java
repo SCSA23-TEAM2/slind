@@ -210,7 +210,7 @@ public class JudgementService {
             String boardName = null;
             if (judgement.getBoardPk() != null) {
                 //여기 이미 삭제된 게시판도 뜨게 하려면 다른 Mapper함수 만들어서 써야함
-                Board board = boardMapper.findByBoardPk(judgement.getBoardPk()).orElseThrow(() ->
+                Board board = boardMapper.findByBoardPkForJudgement(judgement.getBoardPk()).orElseThrow(() ->
                         new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND));
                 boardName = board.getTitle();
             }
@@ -218,7 +218,7 @@ public class JudgementService {
             if (judgement.getArticlePk() != null) {
                 //여기 이미 삭제된 게시판도 뜨게 하려면 다른 Mapper함수 만들어서 써야함
 
-                Article article = articleMapper.findByPk(judgement.getArticlePk()).orElseThrow(() ->
+                Article article = articleMapper.findByPkForJudgement(judgement.getArticlePk()).orElseThrow(() ->
                         new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
                 articleTitle = article.getTitle();
             }

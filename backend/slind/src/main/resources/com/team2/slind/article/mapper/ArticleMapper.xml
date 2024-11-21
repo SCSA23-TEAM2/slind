@@ -79,6 +79,9 @@
     <select id="findByPk" resultMap="ArticleMap" parameterType="Long">
         SELECT a.* FROM tbl_article a LEFT JOIN tbl_board b ON a.board_pk = b.board_pk WHERE a.article_pk=#{pk} and a.is_deleted = 0 AND b.is_deleted=0
     </select>
+    <select id="findByPkForJudgement" resultMap="ArticleMap" parameterType="Long">
+        SELECT a.* FROM tbl_article a LEFT JOIN tbl_board b ON a.board_pk = b.board_pk WHERE a.article_pk=#{pk}
+    </select>
     <select id="findRecentArticles" resultMap="ArticleMap">
         SELECT a.article_pk, a.board_pk, a.title, a.view_count, a.like_count, a.dislike_count,
         b.board_pk AS board_pk, b.title AS board_title, c.comment_pk
