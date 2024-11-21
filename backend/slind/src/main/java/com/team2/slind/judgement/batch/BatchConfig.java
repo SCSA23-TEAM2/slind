@@ -104,7 +104,7 @@ public class BatchConfig extends DefaultBatchConfiguration {
                 int likeCount = judgement.getLikeCount();
                 int dislikeCount = judgement.getDislikeCount();
                 int totalVotes = likeCount + dislikeCount;
-                if (totalVotes >= 1000 && likeCount >= dislikeCount*2) {
+                if (totalVotes >= 10 && likeCount >= dislikeCount*2) {
                     logger.info("Judgement {} marked as 승소", judgement.getJudgementPk());
                     judgementMapper.finishJudgementWin(judgement.getJudgementPk());
                     if (judgement.getArticlePk() != null) {
@@ -113,7 +113,6 @@ public class BatchConfig extends DefaultBatchConfiguration {
                         logger.info("Deleted Article: {}", judgement.getArticlePk());
                     } else if (judgement.getBoardPk() != null) {
                         // Board 삭제
-
                         boardMapper.deleteByBoardPk(judgement.getBoardPk());
                         logger.info("Deleted Board: {}", judgement.getBoardPk());
                     }
