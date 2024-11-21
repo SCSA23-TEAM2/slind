@@ -5,6 +5,8 @@ import com.team2.slind.common.exception.InvalidNicknameLengthException;
 import com.team2.slind.member.dto.mapper.MyJudgementResponse;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
+import com.team2.slind.member.dto.request.PasswordFindRequest;
+import com.team2.slind.member.dto.request.PasswordResetRequest;
 import com.team2.slind.member.dto.response.*;
 import com.team2.slind.member.service.MemberService;
 import com.team2.slind.security.util.SecurityUtil;
@@ -90,5 +92,15 @@ public class MemberController {
             @PathVariable(value = "lastCommentPk", required = false) Long lastCommentPk
     ){
         return memberService.getMyCommentList(SecurityUtil.getMemberPk(true), lastCommentPk);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<MemberPkResponse> findPassword(@RequestBody PasswordFindRequest passwordFindRequest){
+        return memberService.findPassword(passwordFindRequest);
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<Void> ResetPassword(@RequestBody PasswordResetRequest passwordResetRequest){
+        return memberService.resetPassword(passwordResetRequest);
     }
 }
