@@ -11,7 +11,7 @@ import lombok.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MyPageUpdateRequest {
-    @NonNull @Size(min = 4, max = 16)
+    @NonNull @Size(min = 1, max = 16)
     private String nickname;
     @NonNull
     private Long questionPk;

@@ -38,7 +38,8 @@ public class GlobalExceptionHandler {
             InvalidNicknameLengthException.class,
             InvalidMemberIdLengthException.class,
             InvalidRequestException.class,
-            CommentNotFoundException.class
+            CommentNotFoundException.class,
+            MemberNotFoundException.class
     })
     public ResponseEntity<String> handleDuplicateTitleException(Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());
