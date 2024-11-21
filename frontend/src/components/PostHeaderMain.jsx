@@ -58,14 +58,14 @@ const PostHeaderMain = ({
           <div className="PostDetail-main-boardName">
             {kind == 0 ? (
               <Link
-                to={`/board/${boardName}`}
+                to={`/board/${pi.boardName}`}
                 state={{
-                  boardPk: pi.boardPk,
-                  boardName: boardName,
+                  boardPk: BoardPk,
+                  boardName: pi.boardName,
                   kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
                 }}
               >
-                {boardName} 게시판
+                {pi.boardName} 게시판
               </Link>
             ) : ArticlePk == null ? (
               <Link
