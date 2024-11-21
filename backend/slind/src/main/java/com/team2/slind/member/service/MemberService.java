@@ -296,8 +296,10 @@ public class MemberService {
 
     }
 
-    public ResponseEntity<Long> findPassword(PasswordFindRequest passwordFindRequest) {
-
+    public ResponseEntity<MemberPkResponse> findPassword(PasswordFindRequest passwordFindRequest) {
+        logger.info("memberId : {}", passwordFindRequest.getMemberId());
+        logger.info("QuestionPk : {}", passwordFindRequest.getQuestionPk());
+        logger.info("QuestionAnswer : {}", passwordFindRequest.getAnswer());
         if (!verifyPasswordFindInfo(passwordFindRequest)) {
             throw new InvalidMemberInfoException(InvalidMemberInfoException.INVALID_USER_INFO_EXCEPTION);
         }
@@ -306,7 +308,7 @@ public class MemberService {
             throw new MemberNotFoundException(MemberNotFoundException.MEMBER_NOT_FOUND);
         }
         Long memberPk = member.get().getMemberPk();
-        return ResponseEntity.ok(memberPk);
+        return ResponseEntity.ok().body(new MemberPkResponse(memberPk));
     }
 
     public boolean verifyPasswordFindInfo(PasswordFindRequest passwordFindRequest) {
@@ -318,8 +320,10 @@ public class MemberService {
         }
         return false;
     }
-
+    @Transactional
     public ResponseEntity<Void> resetPassword(PasswordResetRequest passwordResetRequest) {
+        logger.info("memberPk : {}", passwordResetRequest.getMemberPk());
+        logger.info("memberPassword : {}", passwordResetRequest.getMemberPassword());
         String memberPassword = passwordEncoder.encode(passwordResetRequest.getMemberPassword());
         memberMapper.updateMemberPassword(passwordResetRequest.getMemberPk(), memberPassword);
         return ResponseEntity.ok().build();
