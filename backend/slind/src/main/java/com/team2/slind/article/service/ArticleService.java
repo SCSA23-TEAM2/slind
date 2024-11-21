@@ -1,13 +1,10 @@
 package com.team2.slind.article.service;
 
 import com.team2.slind.article.dto.mapper.ArticleDetailMapperDTO;
-import com.team2.slind.article.dto.response.ArticleDetailResponse;
+import com.team2.slind.article.dto.response.*;
 import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.article.dto.request.ArticleReactionRequest;
 import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
-import com.team2.slind.article.dto.response.ArticleListResponse;
-import com.team2.slind.article.dto.response.ArticlePkResponse;
-import com.team2.slind.article.dto.response.ArticleMainResponse;
 import com.team2.slind.article.mapper.ArticleMapper;
 import com.team2.slind.article.mapper.ArticleReactionMapper;
 import com.team2.slind.article.vo.Article;
@@ -20,13 +17,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +39,8 @@ public class ArticleService {
     private final BoardMapper boardMapper;
     private final ArticleReactionMapper articleReactionMapper;
     private final JudgementMapper judgementMapper;
+    private final RedisTemplate<String, String> redisTemplate;
+
     private Logger logger = LoggerFactory.getLogger(ArticleService.class);
     private static final int PAGE_LIST_SIZE = 10;
     private static final int ARTICLE_LIST_SIZE = 12;
@@ -115,6 +120,11 @@ public class ArticleService {
         if (result==0L){
             throw new AlreadyDeletedException(AlreadyDeletedException.ALREADY_DELETED_ARTICLE);
         }
+
+        //레디스에서 이 articlePk를 Key로 가진 랭킹 지우기
+        String key = "ranking:" + LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        Long removedCount = redisTemplate.opsForZSet().remove(key, String.valueOf(articlePk));
+        logger.info("Redis에서 Article Key 삭제 완료. Key:{}, RemovedCount:{}", key, removedCount);
         return ResponseEntity.ok().build();
 
     }
@@ -194,6 +204,11 @@ public class ArticleService {
         Integer result = null;
         logger.info("upCount:{}", upCount);
         logger.info("articlePk:{}", articlePk);
+
+        //인기글 점수 산정을 위해 점수 더하기 or 빼기
+        String key = "ranking:" + LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        redisTemplate.opsForZSet().incrementScore(key, String.valueOf(articlePk), upCount);
+        redisTemplate.expire(key, 1, TimeUnit.DAYS);
         if(isLike){
             result = articleMapper.updateLikeCount(upCount, articlePk);
         }else{
@@ -293,5 +308,34 @@ public class ArticleService {
     }
     public void updateViewCount(Long articlePk){
         articleMapper.updateViewCount(articlePk);
+
+        //오늘의 인기글을 위해서 redis에 점수 더하기
+        String key = "ranking:" + LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        redisTemplate.opsForZSet().incrementScore(key, String.valueOf(articlePk), 0.5);
+        redisTemplate.expire(key, 1, TimeUnit.DAYS);
     }
+
+    public ResponseEntity<List<HotArticleResponse>> getHotArticles() {
+        //상위 10개 점수 가져오기
+        String key = "ranking:" + LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        Set<ZSetOperations.TypedTuple<String>> typedTuples =
+                redisTemplate.opsForZSet().reverseRangeWithScores(key, 0, 9);
+        List<HotArticleResponse> responses = Optional.ofNullable(typedTuples)
+                .map(tuples -> tuples.stream().map(tuple -> {
+                    Long articlePk = Long.parseLong(tuple.getValue());
+                    HotArticleResponse item = articleMapper.findHotArticleResponses(articlePk)
+                            .orElseThrow(() -> new ArticleNotFoundException(
+                                    ArticleNotFoundException.ARTICLE_NOT_FOUND));
+                    return item;
+                }).toList()
+                ).orElseGet(ArrayList::new);
+        return ResponseEntity.ok().body(responses);
+
+    }
+
+
+
+
+
+
 }
