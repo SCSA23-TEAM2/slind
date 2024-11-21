@@ -95,7 +95,7 @@ public class MemberController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<Long> findPassword(@RequestBody PasswordFindRequest passwordFindRequest){
+    public ResponseEntity<MemberPkResponse> findPassword(@RequestBody PasswordFindRequest passwordFindRequest){
         return memberService.findPassword(passwordFindRequest);
     }
 

@@ -24,5 +24,5 @@ public interface MemberMapper {
 
     void deleteByMemberPk(Long memberPk);
 
-    void updateMemberPassword(Long memberPk, String memberPassword);
+    void updateMemberPassword(@Param("memberPk") Long memberPk, @Param("memberPassword") String memberPassword);
 }
