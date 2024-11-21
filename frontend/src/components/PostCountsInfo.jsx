@@ -18,15 +18,6 @@ const PostCountsInfo = ({
   Agree,
   Oppose,
 }) => {
-  console.log(
-    commentCount,
-    dislikeCount,
-    isDislike,
-    isLike,
-    isMine,
-    likeCount,
-    viewCnt
-  );
 
   const [stateIsLike, setStateIsLike] = useState(isLike);
   const [stateIsDislike, setStateIsDislike] = useState(isDislike);
@@ -78,7 +69,6 @@ const PostCountsInfo = ({
             className="dislike-button"
             onClick={() => {
               {
-                console.log("DISLIKE");
                 pi.kind
                   ? Oppose()
                   : stateIsDislike

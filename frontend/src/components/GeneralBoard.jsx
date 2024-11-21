@@ -22,7 +22,6 @@ const GeneralBoard = () => {
   const navigate = useNavigate();
   const WhichBoard = useLocation();
   const infoBoard = WhichBoard.state;
-  console.log(infoBoard);
   const options = { 최신순: 0, 조회순: 1, 좋아요순: 2 };
   const [curOption, setCurOption] = useState("최신순");
   const idRef = useRef(0);
@@ -30,7 +29,6 @@ const GeneralBoard = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [pageData, setPageData] = useState({});
   const AxiosGetapiArticleBoardPkSortPage = async (address) => {
-    // console.log("여기다")
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
     try {
       const response = await httpAxios.get(address);
@@ -38,21 +36,16 @@ const GeneralBoard = () => {
       setLBoardPosts(list);
       setPageData(paginationData);
       setIsLoaded(true);
-      console.log(list);
     } catch {
       console.error();
     }
   };
   const CallAxios = (pagenum) => {
-    // console.log(infoBoard.kind);
-    // console.log(pagenum);
-    // console.log(curOption);
     if (infoBoard.kind) {
       AxiosGetapiArticleBoardPkSortPage(
         `/api/judgement/${options[curOption]}/${pagenum}`
       );
     } else {
-      console.log("wowow");
       AxiosGetapiArticleBoardPkSortPage(
         `/api/article/${infoBoard.boardPk}/${options[curOption]}/${pagenum}`
       );
@@ -60,18 +53,12 @@ const GeneralBoard = () => {
   };
   useEffect(() => {
     CallAxios(1);
-
-    // setData(prevData => [...prevData, ...newData]);
-    // setHasMore(newData.length > 0);
   }, [axios, WhichBoard]);
 
   const SortPage = () => {
     CallAxios(1);
   };
-  // console.log(BoardPosts)
-  // console.log(pageData)
 
-  // console.log(BoardPosts)
   const gotoPostForm = () => {
     if (!accessToken) {
       // JWT 토큰이 없으면 로그인 페이지로 이동
@@ -126,7 +113,6 @@ const GeneralBoard = () => {
                 <Dropdown
                   options={Object.keys(options)}
                   onChange={(e) => {
-                    console.log(options[e.value]);
                     setCurOption(e.value);
                   }}
                   value={curOption}

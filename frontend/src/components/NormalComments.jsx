@@ -14,7 +14,6 @@ const NormalComments = ({
   commentCancelDislike,
   axios,
 }) => {
-  console.log(item);
   const nickname = item.nickname;
   const content = item.commentContent;
   const like = item.likeCount;
@@ -58,15 +57,12 @@ const NormalComments = ({
   };
 
   const loadReplies = async (reset = false) => {
-    console.log(reset);
-    console.log(lastReplyPk, item.commentPk);
     try {
       const response = await axios.get(
         `/api/comment/re/${item.commentPk}?lastCommentPk=${lastReplyPk}`
       );
 
       const { list, hasNext } = response.data;
-      console.log(list, hasNext);
       setReplies((prevReplies) =>
         reset && list ? list : [...prevReplies, ...list]
       ); // 초기화 or 추가

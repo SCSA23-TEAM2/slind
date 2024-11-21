@@ -45,7 +45,6 @@ const Pagenation = ({
   };
   const curPageHandler = (n) => {
     CallAxios(n);
-    console.log(n);
   };
 
   return (
