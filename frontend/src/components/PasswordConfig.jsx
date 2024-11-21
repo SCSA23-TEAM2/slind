@@ -3,6 +3,7 @@ import "./css/PasswordConfig.css";
 import PwdConfig from "./PwdConfig";
 import httpAxios from "../api/httpAxios";
 import {Link, useLocation, useNavigate } from "react-router-dom"
+import { useState } from "react";
 
 
 const PasswordConfig = () => {
@@ -28,7 +29,7 @@ const PasswordConfig = () => {
     try {
       const requestBody = {
         memberPk: memberPk,
-        newPassword: pwd1,
+        memberPassword: pwd1,
       };
 
       const response = await axios.put("/api/member/password", requestBody);
@@ -56,7 +57,7 @@ const PasswordConfig = () => {
           <PwdConfig pwd1={pwd1} setPwd1={setPwd1} pwd2={pwd2} setPwd2={setPwd2} />
         </div>
         <div className="PasswordConfig-bottom">
-          <button className="PasswordConfig-reconfig-button">재설정</button>
+          <button className="PasswordConfig-reconfig-button" onClick={handlePasswordChange}>재설정</button>
         </div>
       </div>
     </div>
