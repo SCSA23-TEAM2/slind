@@ -56,4 +56,7 @@
         SELECT b.board_pk, b.title FROM tbl_board b
         JOIN tbl_bookmark bm ON bm.member_pk = #{memberPk} AND bm.board_pk = b.board_pk
     </select>
+    <select id="findByBoardPkForJudgement" resultType="com.team2.slind.board.vo.Board">
+        SELECT * FROM tbl_board WHERE board_pk = #{boardPk}
+    </select>
 </mapper>

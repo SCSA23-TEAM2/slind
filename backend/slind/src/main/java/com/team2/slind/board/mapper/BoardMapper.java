@@ -16,6 +16,7 @@ public interface BoardMapper {
     Long deleteByBoardPk(Long boardPk);
 
     Optional<Board> findByBoardPk(Long boardPk);
+    Optional<Board> findByBoardPkForJudgement(Long boardPk);
 
     int findCountByBoardPk(Long boardPk);
 

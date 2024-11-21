@@ -43,9 +43,9 @@ dependencies {
 	implementation 'com.auth0:java-jwt:4.4.0'
 
 	//Spring Batch / Quartz 스케줄러 추가
-	implementation 'org.springframework.boot:spring-boot-starter-batch'
-	implementation 'org.springframework.boot:spring-boot-starter-quartz'
-	testImplementation 'org.springframework.batch:spring-batch-test'
+//	implementation 'org.springframework.boot:spring-boot-starter-batch'
+//	implementation 'org.springframework.boot:spring-boot-starter-quartz'
+//	testImplementation 'org.springframework.batch:spring-batch-test'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
