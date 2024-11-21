@@ -51,4 +51,6 @@ public interface ArticleMapper {
     void updateViewCount(@Param("articlePk") Long articlePk);
 
     Optional<HotArticleResponse> findHotArticleResponses(@Param("articlePk") Long articlePk);
+
+    Optional<Article> findByPkForJudgement(Long articlePk);
 }
