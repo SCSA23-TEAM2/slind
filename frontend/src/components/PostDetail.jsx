@@ -18,7 +18,6 @@ const PostDetail = () => {
   const navigate = useNavigate();
   const { accessToken } = useAuth(); // accessToken 가져오기
 
-
   const customAxios = useAxios();
   const PostLocation = useLocation();
   const PostInfo = PostLocation.state;
@@ -38,10 +37,11 @@ const PostDetail = () => {
     // console.log("여기다")
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
     try {
-      const response = await axios.get(address);
+      const response = await customAxios.get(address);
       const { ...postDetailData } = response.data;
       setPostInfo(postDetailData);
       setIsLoaded(true);
+      console.log(response.data);
     } catch {
       console.error();
     }
@@ -51,7 +51,9 @@ const PostDetail = () => {
     // console.log("여기다")
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
     try {
-      const response = await axios.get(`/api/comment/${PI.articlePk}/best`);
+      const response = await customAxios.get(
+        `/api/comment/${PI.articlePk}/best`
+      );
       const BestCommentsList = response.data;
       setStateBestComments(BestCommentsList);
       setIsLoaded(true);
@@ -64,15 +66,23 @@ const PostDetail = () => {
     // console.log("여기다")
     // 요청보낼때 일반게시판 (kind=0) 은 infoBoard.pk 이용, 인민재판소는 (kind=1)은 필요없음
     try {
-      const response = await axios.get(
+      const response = await customAxios.get(
         `/api/comment/${PI.articlePk}?lastCommentPk=${lastnum}`
       );
-      const NomalCommentsList = response.data;
-      setStateNormalComments((prevData) => [
-        ...prevData,
-        ...NomalCommentsList.list,
-      ]);
-      setHasMore(NomalCommentsList.hasNext);
+      const NormalCommentsList = response.data;
+      setStateNormalComments((prevComments) => {
+        const updatedComments = [
+          ...prevComments,
+          ...NormalCommentsList.list.filter(
+            (newComment) =>
+              !prevComments.some(
+                (prevComment) => prevComment.commentPk === newComment.commentPk
+              )
+          ),
+        ];
+        return updatedComments;
+      });
+      setHasMore(NormalCommentsList.hasNext);
       setIsLoaded(true);
     } catch {
       console.error();
@@ -91,7 +101,11 @@ const PostDetail = () => {
   const CallBestCommentsAxios = () => {
     AxiosGetapiApiCommentArticlePkBest();
   };
-  const CallNormalCommentsAxios = (lastnum) => {
+  const CallNormalCommentsAxios = (lastnum = 0) => {
+    if (lastnum == -1) {
+      AxiosGetapiApiCommentArticlePklastCommentPk(0);
+      return;
+    }
     if (!hasMore) return;
     AxiosGetapiApiCommentArticlePklastCommentPk(lastnum);
   };
@@ -142,7 +156,7 @@ const PostDetail = () => {
     console.log(PI);
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
-  }, [PI, inView]);
+  }, [PI, inView, stateNormalComments]);
   console.log(postInfo);
 
   const ILike = async () => {
@@ -217,13 +231,14 @@ const PostDetail = () => {
       content: commentContent,
     });
 
-    const newComment = {
-      articlePk: postInfo.articlePk,
-      content: commentContent,
-    };
+    // const newComment = {
+    //   articlePk: postInfo.articlePk,
+    //   content: commentContent,
+    // };
     // setStateNormalComments((prevComments) => [newComment, ...prevComments]);
     // CallAxios();
     // CallBestCommentsAxios();
+    AxiosGetapiApiCommentArticlePklastCommentPk(0);
   };
   const commentLike = async (CommentPk) => {
     const response = await customAxios.post("/api/comment/auth/reaction", {
@@ -233,7 +248,7 @@ const PostDetail = () => {
     });
     CallAxios();
     CallBestCommentsAxios();
-    CallNormalCommentsAxios();
+    // CallNormalCommentsAxios(-1);
   };
   const commentDislike = async (CommentPk) => {
     const response = await customAxios.post("/api/comment/auth/reaction", {
@@ -243,7 +258,7 @@ const PostDetail = () => {
     });
     CallAxios();
     CallBestCommentsAxios();
-    CallNormalCommentsAxios();
+    // CallNormalCommentsAxios(-1);
   };
   const commentCancelLike = async (CommentPk) => {
     const response = await customAxios.post("/api/comment/auth/reaction", {
@@ -253,7 +268,7 @@ const PostDetail = () => {
     });
     CallAxios();
     CallBestCommentsAxios();
-    CallNormalCommentsAxios();
+    // CallNormalCommentsAxios(-1);
   };
   const commentCancelDislike = async (CommentPk) => {
     const response = await customAxios.post("/api/comment/auth/reaction", {
@@ -263,7 +278,7 @@ const PostDetail = () => {
     });
     CallAxios();
     CallBestCommentsAxios();
-    CallNormalCommentsAxios();
+    // CallNormalCommentsAxios(-1);
   };
 
   return (
@@ -293,7 +308,6 @@ const PostDetail = () => {
       {!PI.kind && (
         <>
           {/* 게시글 하단에 댓글쓰기,댓글 들 컴포넌트화 */}
-          <InputComment postComment={onSubmitComment} />
           {stateBestComments.map((item) => {
             return (
               <BestComments
@@ -302,7 +316,7 @@ const PostDetail = () => {
                 commentDislike={commentDislike}
                 commentCancelLike={commentCancelLike}
                 commentCancelDislike={commentCancelDislike}
-                axios={axios}
+                axios={customAxios}
               />
             );
           })}
@@ -316,13 +330,14 @@ const PostDetail = () => {
                     commentDislike={commentDislike}
                     commentCancelLike={commentCancelLike}
                     commentCancelDislike={commentCancelDislike}
-                    axios={axios}
+                    axios={customAxios}
                   />
                 );
               })}
               <div ref={ref} style={{ height: "1px" }}></div>
             </ul>
           </div>
+          <InputComment postComment={onSubmitComment} />
           {/* <BestComments /> */}
           {/* <NormalComments /> */}{" "}
         </>

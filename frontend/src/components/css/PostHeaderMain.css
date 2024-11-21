@@ -44,7 +44,7 @@
 }
 .PostDetail-main-content-wrapper {
   border-top: 3px solid #f6f6f6;
-  border-bottom: 3px solid #f6f6f6;
+  /* border-bottom: 3px solid #f6f6f6; */
   padding: 15px;
   margin-top: 30px;
 }
@@ -53,5 +53,4 @@
 }
 .inCourt {
   background-color: gray;
-
 }
