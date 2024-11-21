@@ -1,11 +1,12 @@
 // import React from "react";
-import httpAxios from "../../api/httpAxios";
+// import httpAxios from "../../api/httpAxios";
+import useAxios from "../../api/useAxios";
 import "../css/CreateBoardModal.css";
 import { useAuth } from "../../AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Modal = (props) => {
-  const axios = httpAxios;
+  const axios = useAxios();
   const navigate = useNavigate();
   const { accessToken } = useAuth(); // JWT 토큰을 가져옴
   const createBoard = async () => {
@@ -28,36 +29,34 @@ const Modal = (props) => {
       return;
     }
 
-
-      try {
-        const create_response = await axios.post(
-        "/api/board/auth",
-        {
-          title: document.querySelector("input").value,
-        });
-        if (create_response.status == 200) {
-          // created board
-          alert("게시판이 생성되었습니다.");
-          close();
-        }
-      } catch (error) {
-        if (error.response.status == 400) {
-          alert("게시판 이름은 15자 이하로 입력해주세요.");
-          document.querySelector("input").value = "";
-          document.querySelector("input").focus();
-        } else if (error.response.status == 409) {
-          alert("이미 존재하는 게시판 이름입니다.");
-          document.querySelector("input").value = "";
-          document.querySelector("input").focus();
-        } else if (status === 401) {
-          alert("아직 게시판을 생성할 수 없습니다.");
-        } 
+    try {
+      const create_response = await axios.post("/api/board/auth", {
+        title: document.querySelector("input").value,
+      });
+      if (create_response.status == 200) {
+        // created board
+        alert("게시판이 생성되었습니다.");
+        reload();
+        close();
       }
-    };
-  
+    } catch (error) {
+      if (error.response.status == 400) {
+        alert("게시판 이름은 15자 이하로 입력해주세요.");
+        document.querySelector("input").value = "";
+        document.querySelector("input").focus();
+      } else if (error.response.status == 409) {
+        alert("이미 존재하는 게시판 이름입니다.");
+        document.querySelector("input").value = "";
+        document.querySelector("input").focus();
+      } else if (error.response.status === 404) {
+        alert("어딜 감히... 넌 추방이다.");
+        close();
+      }
+    }
+  };
 
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
-  const { open, close, header } = props;
+  const { open, close, header, reload } = props;
 
   return (
     // 모달이 열릴때 openModal 클래스가 생성된다.

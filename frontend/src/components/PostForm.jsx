@@ -23,7 +23,7 @@ const PostForm = () => {
   };
 
   const contentLengthLimit = 2000;
-  // console.log(PostFormInfo.state);
+  console.log(PostFormInfo.state);
   const onChange = (e) => {
     console.log(e.target.value);
     setContent(e.target.value);
@@ -57,12 +57,6 @@ const PostForm = () => {
           formData.append("hi", "yes");
           formData.append("file", image);
           formData.append("articlePk", Data.articlePk);
-          console.log(image);
-          console.log(Data.articlePk);
-          console.log("FormData entries:");
-          for (const [key, value] of formData.entries()) {
-            console.log(key, value);
-          }
           ImageSave(formData);
         });
 
@@ -85,9 +79,17 @@ const PostForm = () => {
           title: title,
           articleContent: content,
         });
+        const Data = response.data;
+        console.log(uploadedImages);
+        uploadedImages.map((image) => {
+          const formData = new FormData();
+          formData.append("file", image);
+          formData.append("articlePk", Data.articlePk);
+          ImageSave(formData);
+        });
         navigate(`/board/${board}/Post/${title}`, {
           state: {
-            articlePk: response.data.articlePk,
+            articlePk: PostFormInfo.state.pk,
             boardName: board,
             kind: 0,
           },
