@@ -1,0 +1,75 @@
+.ReComments-super-wrapper {
+    padding: 10px;
+    border: 1px solid #f6f6f6;
+    display: flex;
+
+}
+.Re-icon-wrapper {
+    flex:0.05
+}
+.ReComments-wrapper {
+    flex:0.95;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.ReComments-header {
+    width: 100%;
+    display: flex;
+}
+.ReComments-header-left {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.ReComments-author {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.ReComments-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.ReComments-leftbutton-wrapper {
+    display: flex;
+    gap: 10px
+}
+.ReComments-preference-button-wrapper {
+    display: flex;
+    gap: 15px
+}
+.ReComments-preference-button-wrapper button {
+    background-color: white;
+}
+.ReComments-preference-button-wrapper button:hover {
+    color:  #00B890;
+}
+.ReComments-reply-button-wrapper button {
+    cursor: pointer;
+    padding: 5px;
+    height: 30px;
+    width: 60px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-color: #00b890;
+}
+.ReComments-Modify-button-wrapper button {
+    cursor: pointer;
+    padding: 5px;
+    height: 30px;
+    width: 60px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-color: #00b890;
+}
+.ReComments-like-wrapper, .ReComments-dislike-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    gap: 10px;
+}

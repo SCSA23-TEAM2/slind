@@ -1,12 +1,9 @@
 package com.team2.slind.article.controller;
 
-import com.team2.slind.article.dto.response.ArticleDetailResponse;
+import com.team2.slind.article.dto.response.*;
 import com.team2.slind.common.dto.request.BoardPkCreateUpdateRequest;
 import com.team2.slind.article.dto.request.ArticleReactionRequest;
 import com.team2.slind.common.dto.request.ArticlePkCreateUpdateRequest;
-import com.team2.slind.article.dto.response.ArticleListResponse;
-import com.team2.slind.article.dto.response.ArticlePkResponse;
-import com.team2.slind.article.dto.response.ArticleMainResponse;
 import com.team2.slind.article.service.ArticleService;
 import com.team2.slind.common.exception.InvalidRequestException;
 import com.team2.slind.member.login.service.CustomMemberDetails;
@@ -71,5 +68,10 @@ public class ArticleController {
             throw new InvalidRequestException(InvalidRequestException.WRONG_REQUEST);
         }
         return articleService.getArticleList(boardPk, sort, page);
+    }
+
+    @GetMapping("/hot")
+    public ResponseEntity<List<HotArticleResponse>> getHotArticles(){
+        return articleService.getHotArticles();
     }
 }

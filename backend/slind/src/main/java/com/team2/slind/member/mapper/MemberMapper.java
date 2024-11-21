@@ -23,4 +23,6 @@ public interface MemberMapper {
     int findCountByPk(@Param("memberPk") Long memberPk);
 
     void deleteByMemberPk(Long memberPk);
+
+    void updateMemberPassword(@Param("memberPk") Long memberPk, @Param("memberPassword") String memberPassword);
 }

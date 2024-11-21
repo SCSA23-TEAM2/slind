@@ -9,7 +9,8 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionAnswerUpdateRequest {
-    private Long questionPk;
-    private String answer;
+public class PasswordResetRequest {
+    private Long memberPk;
+    @NonNull @Size(min = 8, max = 20)
+    private String memberPassword;
 }

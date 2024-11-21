@@ -38,21 +38,22 @@ public class GlobalExceptionHandler {
             InvalidNicknameLengthException.class,
             InvalidMemberIdLengthException.class,
             InvalidRequestException.class,
-            CommentNotFoundException.class
+            CommentNotFoundException.class,
+            MemberNotFoundException.class
     })
     public ResponseEntity<String> handleDuplicateTitleException(Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     //404 Error
-    @ExceptionHandler({BoardNotFoundException.class, ArticleNotFoundException.class})
+    @ExceptionHandler({BoardNotFoundException.class, ArticleNotFoundException.class,
+            LastMonthCreationException.class})
     public ResponseEntity<String> handleNotFoundException(Exception e) {
         return ResponseEntity.status(404).body(e.getMessage());
     }
 
     //401 Error
-    @ExceptionHandler({UnauthorizedException.class,
-            LastMonthCreationException.class})
+    @ExceptionHandler({UnauthorizedException.class})
     public ResponseEntity<String> handleUnauthorizedException(Exception e) {
         return ResponseEntity.status(401).body(e.getMessage());
     }

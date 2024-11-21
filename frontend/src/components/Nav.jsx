@@ -1,6 +1,8 @@
 import "./css/Nav.css";
 import { useState, useRef, useEffect } from "react";
-import useAxios from "../useAxios";
+import axios from "axios";
+import httpAxios from "../api/httpAxios";
+import useAxios from "../api/useAxios";
 // import BookMark from "./icon/BookMark";
 import Modal from "./Modal/CreateBoardModal";
 import { Link } from "react-router-dom";
@@ -30,8 +32,7 @@ import { Link } from "react-router-dom";
 // wholeMock.push(mockitem3);
 // wholeMock.push(mockitem4);
 const Nav = () => {
-  console.log("123");
-  const axios = useAxios();
+  const customAxiosaxios = useAxios();
   const idRef = useRef(0);
 
   const [originalBoardList, setOriginalBoardList] = useState([]);
@@ -39,11 +40,11 @@ const Nav = () => {
   const [viewBoard, setViewBoard] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const AxiosGetApiBoard = async () => {
-    // console.log("여기다")
+    console.log("여기다");
     try {
-      const response = await axios.get("http://localhost:8080/api/board");
+      const response = await httpAxios.get("/api/board");
       setOriginalBoardList(response.data);
-      // console.log(response.data)
+      console.log(response.data);
       setViewBoard(response.data);
       setIsLoaded(true);
     } catch {
@@ -51,12 +52,14 @@ const Nav = () => {
     }
   };
   useEffect(() => {
-    // console.log("wow");
+    console.log("wow");
     AxiosGetApiBoard();
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
-  }, [axios]);
-
+  }, []);
+  const ReLoadBoards = () => {
+    AxiosGetApiBoard();
+  };
   const onChange = (e) => {
     if (e.target.value === "") setViewBoard(originalBoardList);
     else {
@@ -103,7 +106,12 @@ const Nav = () => {
       <div className="Nav-header second-header">
         <h2 className="board-title">게시판</h2>
         <button onClick={openModal}>새로 만들기</button>
-        <Modal open={modalOpen} close={closeModal} header="게시판 생성"></Modal>
+        <Modal
+          open={modalOpen}
+          close={closeModal}
+          header="게시판 생성"
+          reload={ReLoadBoards}
+        ></Modal>
       </div>
       <div className="Nav-search">
         <input
@@ -121,7 +129,7 @@ const Nav = () => {
               className="Nav-board-item"
               to={`/board/${item.boardTitle}`}
               state={{
-                boardPk: 1,
+                boardPk: item.boardPk,
                 boardName: item.boardTitle,
                 kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
               }}

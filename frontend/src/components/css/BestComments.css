@@ -1,0 +1,81 @@
+.BestComments-wrapper {
+    padding: 10px;
+    display: flex;
+    border: 1px solid #f6f6f6;
+    flex-direction: column;
+    gap: 15px;
+}
+.BestComments-header {
+    width: 100%;
+    display: flex;
+}
+.BestComments-header-left {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.BestComments-author {
+    font-size: 20px;
+    font-weight: bold;
+}
+.BestComments-date {
+    color: gray;
+}
+.BestComments-header-right {
+    flex: 0.2;
+    display: flex;
+    justify-content: end;
+    align-items: start;
+}
+
+.Best-wrapper {
+    padding: 5px;
+    background-color: red;
+    color: white;
+}
+.BestComments-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.BestComments-leftbutton-wrapper {
+    display: flex;
+    gap: 10px
+}
+.preference-button-wrapper {
+    display: flex;
+    gap: 15px
+}
+.preference-button-wrapper button {
+    background-color: white;
+}
+.preference-button-wrapper button:hover {
+    color:  #00B890;
+}
+.reply-button-wrapper button {
+    cursor: pointer;
+    padding: 5px;
+    height: 30px;
+    width: 60px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-color: #00b890;
+}
+.Modify-button-wrapper button {
+    cursor: pointer;
+    padding: 5px;
+    height: 30px;
+    width: 60px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background-color: #00b890;
+}
+.like-wrapper, .dislike-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    gap: 10px;
+}

@@ -1,3 +1,24 @@
 .PostCountsInfo-wrapper {
-  height: 50px;
+  /* height: 50px; */
+  border-top: 2px solid #f6f6f6;
+  padding-top: 20px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.PostCountsInfo-toggle-wrapper {
+  display: flex;
+  gap: 20px;
+}
+.PostCountsInfo-like,
+.PostCountsInfo-dislike {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.like-button,
+.dislike-button {
+  background-color: white;
 }

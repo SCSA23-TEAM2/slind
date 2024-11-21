@@ -1,5 +1,5 @@
-import axios from "axios";
-import { useAuth } from "./AuthContext";
+import httpAxios from "./httpAxios";
+import { useAuth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 const useAxios = () => {
   const navigate = useNavigate();
@@ -7,8 +7,9 @@ const useAxios = () => {
     useAuth();
 
   // Create an Axios instance with default headers
-  const axiosInstance = axios.create({
-    baseURL: "http://localhost:8080", // Replace with your API base URL
+  const axiosInstance = httpAxios.create({
+    baseURL: "http://10.10.0.160:8080",
+    //baseURL : "http://localhost:8080/", // Replace with your API base URL
     headers: {
       "Content-Type": "application/json",
     },
@@ -34,8 +35,8 @@ const useAxios = () => {
       // If the access token has expired (e.g., 401 error), use the refresh token
       if (error.response && error.response.status === 401 && refreshToken) {
         try {
-          const refreshResponse = await axios.post(
-            "http://your-api-url.com/refresh", // Your refresh token API endpoint
+          const refreshResponse = await httpAxios.post(
+            "http://10.10.0.160:8080/", // Your refresh token API endpoint
             { refresh_token: refreshToken }
           );
 
