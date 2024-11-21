@@ -46,14 +46,14 @@ public class GlobalExceptionHandler {
     }
 
     //404 Error
-    @ExceptionHandler({BoardNotFoundException.class, ArticleNotFoundException.class})
+    @ExceptionHandler({BoardNotFoundException.class, ArticleNotFoundException.class,
+            LastMonthCreationException.class})
     public ResponseEntity<String> handleNotFoundException(Exception e) {
         return ResponseEntity.status(404).body(e.getMessage());
     }
 
     //401 Error
-    @ExceptionHandler({UnauthorizedException.class,
-            LastMonthCreationException.class})
+    @ExceptionHandler({UnauthorizedException.class})
     public ResponseEntity<String> handleUnauthorizedException(Exception e) {
         return ResponseEntity.status(401).body(e.getMessage());
     }
