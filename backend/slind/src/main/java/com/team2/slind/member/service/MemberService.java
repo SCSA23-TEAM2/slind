@@ -12,6 +12,8 @@ import com.team2.slind.judgement.mapper.JudgementMapper;
 import com.team2.slind.member.dto.mapper.MyJudgementResponse;
 import com.team2.slind.member.dto.request.MemberSignupRequest;
 import com.team2.slind.member.dto.request.MyPageUpdateRequest;
+import com.team2.slind.member.dto.request.PasswordFindRequest;
+import com.team2.slind.member.dto.request.PasswordResetRequest;
 import com.team2.slind.member.dto.response.*;
 import com.team2.slind.member.login.service.CustomMemberDetails;
 import com.team2.slind.member.mapper.MemberMapper;
@@ -71,6 +73,7 @@ public class MemberService {
         memberMapper.addMember(member);
         return ResponseEntity.ok().build();
     }
+
     public ResponseEntity<Void> logout() {
         // 현재 인증된 사용자의 토큰 정보를 SecurityContextHolder에서 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -82,7 +85,8 @@ public class MemberService {
         }
         return ResponseEntity.ok().build();
     }
-    public ResponseEntity<Void> checkDuplicateMemberId(String memberId){
+
+    public ResponseEntity<Void> checkDuplicateMemberId(String memberId) {
         if (isMemberIdDuplicated(memberId)) {
             throw new DuplicateMemberIdException(DuplicateMemberIdException.DUPLICATE_MEMBERID);
         }
@@ -115,7 +119,7 @@ public class MemberService {
         CustomMemberDetails memberDetails = (CustomMemberDetails) authentication.getPrincipal();
         Long memberPk = memberDetails.getMemberPk();
 
-        Member member = memberMapper.findByMemberPk(memberPk).orElseThrow(()->
+        Member member = memberMapper.findByMemberPk(memberPk).orElseThrow(() ->
                 new MemberNotFoundException(MemberNotFoundException.MEMBER_NOT_FOUND));
 
         memberMapper.deleteByMemberPk(memberPk);
@@ -127,6 +131,7 @@ public class MemberService {
 
         return ResponseEntity.ok().build();
     }
+
     public ResponseEntity<MyPageInfoResponse> getMyPageInfo(Long memberPk) {
         Member member = memberMapper.findByMemberPk(memberPk).orElse(null);
         if (member == null || member.getIsDeleted() == 1) {
@@ -145,7 +150,7 @@ public class MemberService {
     public ResponseEntity<Void> updateMypageInfo(Long memberPk, MyPageUpdateRequest myPageUpdateRequest) {
 
         memberMapper.updateMemberInfo(myPageUpdateRequest.getNickname(), myPageUpdateRequest.getQuestionPk(),
-                        myPageUpdateRequest.getAnswer(), memberPk);
+                myPageUpdateRequest.getAnswer(), memberPk);
         return ResponseEntity.ok().build();
     }
 
@@ -157,14 +162,14 @@ public class MemberService {
         List<MyJudgementResponse> list;
 
 
-        if (lastJudgementPk == null){
+        if (lastJudgementPk == null) {
             list = judgementMapper.findListByMemberPkFirst(memberPk, size);
-        }else {
+        } else {
             list = judgementMapper.findListByMemberPk(memberPk, lastJudgementPk, size);
         }
 
         Boolean hasNext = list.size() > size;
-        if (hasNext){
+        if (hasNext) {
             list = list.subList(0, size);
         }
         logger.info("End : Get My Judgement List ");
@@ -261,9 +266,9 @@ public class MemberService {
         // 반환 DTO 생성
         List<CommentGetResponse> responseList = comments.stream()
                 .map(comment -> {
-                    logger.info("Comment : " , comment.getCommentPk());
-                    logger.info("articlePk: {}" , comment.getArticlePk());
-                    Article article = articleMapper.findByPk(comment.getArticlePk()).orElseThrow(()->
+                    logger.info("Comment : ", comment.getCommentPk());
+                    logger.info("articlePk: {}", comment.getArticlePk());
+                    Article article = articleMapper.findByPk(comment.getArticlePk()).orElseThrow(() ->
                             new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
                     return CommentGetResponse.builder()
                             .boardPk(article.getArticleBoard().getBoardPk())
@@ -289,5 +294,34 @@ public class MemberService {
                 .hasNext(hasNext)
                 .build());
 
+    }
+
+    public ResponseEntity<Long> findPassword(PasswordFindRequest passwordFindRequest) {
+
+        if (!verifyPasswordFindInfo(passwordFindRequest)) {
+            throw new InvalidMemberInfoException(InvalidMemberInfoException.INVALID_USER_INFO_EXCEPTION);
+        }
+        Optional<Member> member = memberMapper.findByMemberId(passwordFindRequest.getMemberId());
+        if (member.isEmpty()){
+            throw new MemberNotFoundException(MemberNotFoundException.MEMBER_NOT_FOUND);
+        }
+        Long memberPk = member.get().getMemberPk();
+        return ResponseEntity.ok(memberPk);
+    }
+
+    public boolean verifyPasswordFindInfo(PasswordFindRequest passwordFindRequest) {
+        Optional<Member> optionalMember = memberMapper.findByMemberId(passwordFindRequest.getMemberId());
+        if (optionalMember.isPresent()) {
+            Member member = optionalMember.get();
+            return member.getQuestionPk().equals(passwordFindRequest.getQuestionPk()) &&
+                    member.getAnswer().equals(passwordFindRequest.getAnswer());
+        }
+        return false;
+    }
+
+    public ResponseEntity<Void> resetPassword(PasswordResetRequest passwordResetRequest) {
+        String memberPassword = passwordEncoder.encode(passwordResetRequest.getMemberPassword());
+        memberMapper.updateMemberPassword(passwordResetRequest.getMemberPk(), memberPassword);
+        return ResponseEntity.ok().build();
     }
 }

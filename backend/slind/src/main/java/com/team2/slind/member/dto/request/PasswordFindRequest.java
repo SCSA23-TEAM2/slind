@@ -9,7 +9,10 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionAnswerUpdateRequest {
+public class PasswordFindRequest {
+    @NonNull @Size(min = 4, max = 16)
+    private String memberId;
     private Long questionPk;
+    @NonNull @Size(max = 64)
     private String answer;
 }
