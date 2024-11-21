@@ -40,15 +40,23 @@ const ReComments = ({
   const changelike = () => {
     if (stateIsLike) {
       commentCancelLike(item.commentPk);
+      setStateIsLike(false);
+      setStateLikeCount(stateLikeCount - 1);
     } else {
       commentLike(item.commentPk);
+      setStateIsLike(true);
+      setStateLikeCount(stateLikeCount + 1);
     }
   };
   const changedislike = () => {
     if (stateIsDislike) {
       commentCancelDislike(item.commentPk);
+      setStateIsDislike(false);
+      setStateDislikeCount(stateDislikeCount - 1);
     } else {
       commentDislike(item.commentPk);
+      setStateIsDislike(true);
+      setStateDislikeCount(stateDislikeCount + 1);
     }
   };
 

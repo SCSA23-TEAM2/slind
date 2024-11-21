@@ -35,17 +35,19 @@ const ImageListDisplay = ({ aPk }) => {
     <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
       {imageUrls.map((url, index) => {
         console.log(`http://10.10.0.160:8080${url}`);
-        <img
-          key={index}
-          src={`http://10.10.0.160:8080${url}`}
-          alt={`Fetched ${index + 1}`}
-          style={{
-            maxWidth: "400px",
-            maxHeight: "400px",
-            objectFit: "contain",
-            border: "1px solid #ccc",
-          }}
-        />;
+        return (
+          <img
+            key={index}
+            src={`http://10.10.0.160:8080${url}`}
+            alt={`Fetched ${index + 1}`}
+            style={{
+              maxWidth: "400px",
+              maxHeight: "400px",
+              objectFit: "contain",
+              border: "1px solid #ccc",
+            }}
+          />
+        );
       })}
     </div>
   );

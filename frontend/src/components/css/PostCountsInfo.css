@@ -1,5 +1,10 @@
 .PostCountsInfo-wrapper {
   /* height: 50px; */
+  border-top: 2px solid #f6f6f6;
+  padding-top: 20px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .PostCountsInfo-toggle-wrapper {

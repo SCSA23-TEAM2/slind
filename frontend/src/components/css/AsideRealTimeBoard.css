@@ -48,7 +48,10 @@
   color: gray;
   display: flex;
   align-items: center;
+  font-size: 11px;
+  line-height: 15px;
 }
+
 .realtimeboard-bottom div {
   margin-left: 10px;
 }

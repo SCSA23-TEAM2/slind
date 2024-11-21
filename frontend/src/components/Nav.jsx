@@ -57,7 +57,9 @@ const Nav = () => {
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
   }, []);
-
+  const ReLoadBoards = () => {
+    AxiosGetApiBoard();
+  };
   const onChange = (e) => {
     if (e.target.value === "") setViewBoard(originalBoardList);
     else {
@@ -104,7 +106,12 @@ const Nav = () => {
       <div className="Nav-header second-header">
         <h2 className="board-title">게시판</h2>
         <button onClick={openModal}>새로 만들기</button>
-        <Modal open={modalOpen} close={closeModal} header="게시판 생성"></Modal>
+        <Modal
+          open={modalOpen}
+          close={closeModal}
+          header="게시판 생성"
+          reload={ReLoadBoards}
+        ></Modal>
       </div>
       <div className="Nav-search">
         <input

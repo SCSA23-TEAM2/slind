@@ -2,14 +2,13 @@ import "./css/BestComments.css";
 import Like from "./iconFolder/Like";
 import DisLike from "./iconFolder/DisLike";
 import { useState, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+
 const BestComments = ({
   item,
   commentLike,
   commentDislike,
   commentCancelLike,
   commentCancelDislike,
-  axios,
 }) => {
   console.log(item);
   // const wow = {
@@ -106,11 +105,11 @@ const BestComments = ({
       <div className="BestComments-bottom">
         <div className="BestComments-leftbutton-wrapper">
           <div className="reply-button-wrapper">
-            <button onClick={onSwitchToggle}>답글</button>
+            {/* <button onClick={onSwitchToggle}>답글</button> */}
           </div>
           {isMine && !stateIsDeleted && (
             <div className="Modify-button-wrapper">
-              <button>수정</button>
+              {/* <button>수정</button> */}
             </div>
           )}
         </div>

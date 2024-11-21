@@ -11,7 +11,7 @@ const HomePage = () => {
       <Nav />
       <MainCourtBoard />
       <MainLatestBoard />
-      {/* <AsideRealTimeBoard/> */}
+      <AsideRealTimeBoard />
     </>
   );
 };

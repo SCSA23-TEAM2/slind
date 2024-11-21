@@ -5,15 +5,16 @@ import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import InputReComment from "./InputReComment";
 import ReComments from "./ReComments";
-import axios from "axios";
+// import axios from "axios";
 const NormalComments = ({
   item,
   commentLike,
   commentDislike,
   commentCancelLike,
   commentCancelDislike,
-  customAxios,
+  axios,
 }) => {
+  console.log(item);
   const nickname = item.nickname;
   const content = item.commentContent;
   const like = item.likeCount;
@@ -79,17 +80,25 @@ const NormalComments = ({
   };
 
   const changelike = () => {
-    if (isLike) {
+    if (stateIsLike) {
       commentCancelLike(item.commentPk);
+      setStateIsLike(false);
+      setStateLikeCount(stateLikeCount - 1);
     } else {
       commentLike(item.commentPk);
+      setStateIsLike(true);
+      setStateLikeCount(stateLikeCount + 1);
     }
   };
   const changedislike = () => {
-    if (isDislike) {
+    if (stateIsDislike) {
       commentCancelDislike(item.commentPk);
+      setStateIsDislike(false);
+      setStateDislikeCount(stateDislikeCount - 1);
     } else {
       commentDislike(item.commentPk);
+      setStateIsDislike(true);
+      setStateDislikeCount(stateDislikeCount + 1);
     }
   };
 
@@ -97,19 +106,11 @@ const NormalComments = ({
     if (reComment.trim() === "") return alert("대댓글 내용을 입력해주세요.");
 
     try {
-      const response = await customAxios.post(
-        `/api/comment/auth/re`,
-        {
-          originateComment: item.commentPk,
-          content: reComment,
-        }
-      );
-      console.log(response);
-      const newReplyData = {
+      const response = await axios.post(`/api/comment/auth/re`, {
         originateComment: item.commentPk,
         content: reComment,
-      }; // 새 대댓글 데이터
-      setReplies((prevReplies) => [...prevReplies, newReplyData]); // 새 대댓글 추가
+      });
+      loadReplies();
       setNewReply(""); // 입력 칸 초기화
     } catch (error) {
       console.error(error);
@@ -145,7 +146,7 @@ const NormalComments = ({
           </div>
           {isMine && !stateIsDeleted && (
             <div className="NormalComments-Modify-button-wrapper">
-              <button>수정</button>
+              {/* <button>수정</button> */}
             </div>
           )}
         </div>
@@ -175,7 +176,6 @@ const NormalComments = ({
                 commentDislike={commentDislike}
                 commentCancelLike={commentCancelLike}
                 commentCancelDislike={commentCancelDislike}
-                customAxios={customAxios}
               />
             );
           })}

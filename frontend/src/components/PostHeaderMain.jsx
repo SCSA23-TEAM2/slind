@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const PostHeaderMain = ({
   boardPk,
+  boardName,
   articlePk,
   isMine,
   title,
@@ -21,7 +22,7 @@ const PostHeaderMain = ({
   const Title = title;
   const Nickname = nickname;
   const date = createdDttm;
-  const boardName = pi?.boardName||null;
+  const BoardName = boardName;
   const Content = articleContent;
   const IsJudgement = isJudgement;
   const kind = pi.kind;
@@ -33,7 +34,8 @@ const PostHeaderMain = ({
     Title,
     Nickname,
     date,
-    boardName,
+    BoardName,
+    BoardPk,
     Content,
     IsJudgement,
     kind,
@@ -70,11 +72,12 @@ const PostHeaderMain = ({
                 to={`/board/${boardName}`}
                 state={{
                   boardPk: BoardPk,
-                  boardName: boardName,
+                  boardName: BoardName,
                   kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
                 }}
               >
                 피고 : 게시판
+                {/* <div>피고 : 게시판</div> */}
               </Link>
             ) : (
               <Link
