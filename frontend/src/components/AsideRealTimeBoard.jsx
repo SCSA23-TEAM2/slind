@@ -36,7 +36,7 @@ const AsideRealTimeBoard = () => {
       </div>
       <div className="realtimeboard-content">
         {currentTop10.length == 0 ? (
-          <div>아직 인기있는 게시글이 없습니다!</div>
+          <div className="NoPost">아직 인기있는 게시글이 없습니다!</div>
         ) : (
           <ul className="board-content-wrapper">
             {/* {currentTop10.map((item, index) => (

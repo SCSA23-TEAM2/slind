@@ -55,18 +55,22 @@ const PostHeaderMain = ({
                 {pi.boardName} 게시판
               </Link>
             ) : ArticlePk == null ? (
-              <Link
-                to={`/board/${boardName}`}
-                state={{
-                  boardPk: BoardPk,
-                  boardName: BoardName,
-                  kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
-                }}
-              >
-                피고 : 게시판
-                {/* <div>피고 : 게시판</div> */}
-              </Link>
-            ) : (
+              Status != "WIN" ? (
+                <Link
+                  to={`/board/${boardName}`}
+                  state={{
+                    boardPk: BoardPk,
+                    boardName: BoardName,
+                    kind: 0, //kind: 0 -> 일반 게시판, kind: 1 -> 재판게시판
+                  }}
+                >
+                  피고 : 게시판
+                </Link>
+              ) : (
+                <div>피고 : 게시판</div>
+              )
+            ) : // {/* <div>피고 : 게시판</div> */}
+            Status != "WIN" ? (
               <Link
                 to={`/board/${boardName}/Post/${title}`}
                 onClick={() => {
@@ -79,6 +83,8 @@ const PostHeaderMain = ({
               >
                 피고 : 게시글
               </Link>
+            ) : (
+              <div>피고 : 게시글</div>
             )}
           </div>
           <div className="PostDetail-main-author">{nickname}</div>
