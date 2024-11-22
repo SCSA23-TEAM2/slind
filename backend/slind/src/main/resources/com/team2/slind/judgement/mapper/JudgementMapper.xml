@@ -72,6 +72,7 @@
         FROM tbl_judgement
         WHERE status = 'ON'
         AND is_deleted = 0
+        AND created_dttm &lt;= SYSDATE - INTERVAL '1' MINUTE
     </select>
 
     <update id="finishJudgementWin" parameterType="Long">
@@ -107,11 +108,7 @@
                 LEFT JOIN tbl_article a ON j.article_pk = a.article_pk
                 LEFT JOIN tbl_board b ON j.board_pk = b.board_pk
                 WHERE
-                    j.is_deleted = 0 AND
-                    (
-                        a.is_deleted = 0 OR
-                        b.is_deleted = 0
-                    )
+                    j.is_deleted = 0
                 ORDER BY j.created_dttm DESC, j.judgement_pk DESC
             ) subquery
             WHERE ROWNUM &lt;= #{offset} + #{judgementListSize}
@@ -163,11 +160,7 @@
         LEFT JOIN tbl_article a ON j.article_pk = a.article_pk
         LEFT JOIN tbl_board b ON j.board_pk = b.board_pk
         WHERE
-            j.is_deleted = 0 AND
-            (
-                a.is_deleted = 0 OR
-                b.is_deleted = 0
-            )
+            j.is_deleted = 0
     </select>
 
     <select id="findPkByArticlePk" parameterType="Long" resultType="Long">

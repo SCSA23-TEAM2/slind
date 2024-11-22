@@ -100,7 +100,7 @@ public class JudgementService {
         Article articleOpt = null;
         String articleTitle = null;
         if (judgement.getArticlePk() != null) {
-            articleOpt = articleMapper.findByPk(judgement.getArticlePk()).orElseThrow(() ->
+            articleOpt = articleMapper.findByPkForJudgement(judgement.getArticlePk()).orElseThrow(() ->
                     new ArticleNotFoundException(ArticleNotFoundException.ARTICLE_NOT_FOUND));
             articleTitle = articleOpt.getTitle();
         }
@@ -108,7 +108,7 @@ public class JudgementService {
         Board boardOpt = null;
         String boardName = null;
         if (judgement.getBoardPk() != null) {
-            boardOpt = boardMapper.findByBoardPk(judgement.getBoardPk()).orElseThrow(() ->
+            boardOpt = boardMapper.findByBoardPkForJudgement(judgement.getBoardPk()).orElseThrow(() ->
                     new BoardNotFoundException(BoardNotFoundException.BOARD_NOT_FOUND));
             boardName = boardOpt.getTitle();
         }
