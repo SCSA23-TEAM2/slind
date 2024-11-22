@@ -4,12 +4,13 @@ import useAxios from "../api/useAxios";
 import { useState } from "react";
 
 const MyContentItem = ({ pageNum, index, item, onDelete }) => {
+  const axios = useAxios();
+
   // 날짜 포맷 함수
   const formatDate = (dateString) => {
     if (!dateString) return "Invalid Date";
 
     const date = new Date(dateString);
-    const axios = useAxios();
 
     // 년, 월, 일, 시간, 분 추출
     const year = date.getFullYear();
@@ -52,8 +53,8 @@ const MyContentItem = ({ pageNum, index, item, onDelete }) => {
       onDelete(item); // 삭제 성공 후 부모 컴포넌트에 삭제된 항목 전달
     } catch (error) {
       // 에러 처리
-      if (error.response) {
-        switch (error.response.status) {
+      if (error.status) {
+        switch (error.status) {
           case 400:
             alert(pageNum === 4 ? "존재하지 않는 게시글입니다." : "잘못된 요청입니다.");
             break;
@@ -79,6 +80,7 @@ const MyContentItem = ({ pageNum, index, item, onDelete }) => {
             alert("오류가 발생했습니다. 다시 시도해주세요.");
         }
       } else {
+        console.error(response.error)
         console.error("Error: ", error);
         alert("네트워크 오류가 발생했습니다.");
       }
