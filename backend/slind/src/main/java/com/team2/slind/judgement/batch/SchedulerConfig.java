@@ -28,7 +28,7 @@ public class SchedulerConfig {
     private final BoardMapper boardMapper;
 
     @Transactional
-    @Scheduled(cron = "0 * * * * ?") // 매분마다 실행
+    @Scheduled(cron = "0 */3 * * * ?") // 3분마다 실행
     public void runJudgementJob() {
         List<Judgement> judgements = null;
         if (judgements == null) {
