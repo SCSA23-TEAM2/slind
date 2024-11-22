@@ -40,11 +40,9 @@ const Nav = () => {
   const [viewBoard, setViewBoard] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const AxiosGetApiBoard = async () => {
-    console.log("여기다");
     try {
       const response = await httpAxios.get("/api/board");
       setOriginalBoardList(response.data);
-      console.log(response.data);
       setViewBoard(response.data);
       setIsLoaded(true);
     } catch {
@@ -52,7 +50,6 @@ const Nav = () => {
     }
   };
   useEffect(() => {
-    console.log("wow");
     AxiosGetApiBoard();
     // setData(prevData => [...prevData, ...newData]);
     // setHasMore(newData.length > 0);
