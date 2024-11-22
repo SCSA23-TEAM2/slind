@@ -11,6 +11,9 @@
   margin-top: 0;
   font-weight: bold;
 }
+.NoPost {
+  margin-top: 30px;
+}
 .board-content-wrapper {
   list-style: none;
   padding-left: 0;
